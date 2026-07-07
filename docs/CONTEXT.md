@@ -2,30 +2,65 @@
 
 ## Назначение проекта
 
-Этот репозиторий — шаблон короткой атмосферной хоррор-игры на Godot 4.7+.
+Этот репозиторий теперь развивается как конкретная короткая хоррор-игра на Godot 4.7+:
 
-Шаблон должен быть понятен человеку и ИИ-агенту. Он не является готовой игрой, но содержит минимальный playable example и структуру, которую можно расширять.
+```text
+AI Routine: Last Commit
+```
+
+Исходный шаблон остаётся внутри проекта как база: first-person player, фонарик, interaction raycast, двери, записки, выключатель света, HUD, ObjectiveManager и HorrorEventManager.
 
 ## Жанровая цель
 
-Шаблон подходит для игр в духе:
+Короткий first-person psychological horror про разработчика, вечернюю рабочую рутину, монитор, странные сообщения и квартиру, которая постепенно становится тревожной.
 
-- короткий first-person psychological horror;
-- VHS/PSX/retro horror;
-- walking simulator;
-- liminal horror;
-- бытовой хоррор с тревожной атмосферой;
-- scripted events вместо сложного AI-врага.
+Ключевой тон:
+
+- бытовой хоррор;
+- тревожное ожидание;
+- редкая сухая ирония;
+- scripted events вместо сложного AI-врага;
+- маленький playable slice вместо большой незавершённой игры.
 
 ## Главный принцип
 
 Игрок должен почти всегда понимать бытовую цель:
 
 ```text
-найти записку → открыть дверь → включить свет → проверить кабинет → выйти
+прочитать стикер → открыть монитор → проверить лампу → проверить дверь → вернуться к рабочему месту
 ```
 
 Но атмосфера должна создавать ощущение, что простая задача закончится не так, как ожидается.
+
+## Текущая основная сцена
+
+```text
+game/scenes/Main.tscn
+```
+
+Загружает:
+
+```text
+game/scenes/levels/DeveloperApartment.tscn
+game/scenes/ui/HUD.tscn
+```
+
+## Текущая игровая локация
+
+```text
+game/scenes/levels/DeveloperApartment.tscn
+```
+
+В сцене есть:
+
+- закрытая квартира;
+- игрок;
+- рабочий стол;
+- монитор/терминал;
+- стикер с задачами;
+- выключатель света;
+- закрытая входная дверь;
+- кровать, полка, стул, колонка как окружение.
 
 ## Текущие системы
 
@@ -108,7 +143,7 @@ game/scripts/core/HorrorEventManager.gd
 Пример:
 
 ```gdscript
-HorrorEventManager.play_once("first_note_read", Callable(self, "_play_event"))
+HorrorEventManager.play_once("first_event", Callable(self, "_play_event"))
 ```
 
 ### GameState
@@ -127,28 +162,21 @@ game/scripts/core/GameState.gd
 - пауза;
 - input map.
 
-## Текущая демо-сцена
+### ComputerTerminal
+
+Файлы:
 
 ```text
-game/scenes/Main.tscn
+game/scenes/objects/ComputerTerminal.tscn
+game/scripts/objects/ComputerTerminal.gd
 ```
 
-Загружает:
+Отвечает за:
 
-```text
-game/scenes/levels/TemplateLevel.tscn
-game/scenes/ui/HUD.tscn
-```
-
-В демо есть:
-
-- закрытая комната;
-- игрок;
-- фонарик;
-- дверь;
-- записка;
-- выключатель;
-- учебная цель.
+- интерактивный монитор;
+- показ текстового сообщения;
+- смену задачи после первого использования;
+- запуск первого scripted event через `HorrorEventManager`.
 
 ## Правила развития проекта
 
@@ -158,15 +186,13 @@ game/scenes/ui/HUD.tscn
 4. Любой scripted event должен иметь уникальный `event_id`.
 5. Нельзя добавлять внешние ассеты без записи в `docs/CREDITS.md`.
 6. Нельзя добавлять внешние зависимости без записи в `docs/DECISIONS.md`.
-7. Нельзя менять жанр шаблона без отдельного решения.
+7. Нельзя менять жанр без отдельного решения.
+8. Не подключать реальные внешние сервисы в MVP.
 
-## Опциональные интеграции
+## Документы проекта
 
-Шаблон специально не содержит сторонних зависимостей. Их можно подключить позже:
-
-- COGITO — как источник идей для interaction/immersive sim систем.
-- GodotRetro — для VHS/CRT/PSX эффектов.
-- Maaack Game Template — для расширенного меню и настроек.
-- Horror FPS Template — как reference для locked doors, inventory, camcorder.
-
-Перед переносом кода или ассетов обязательно проверить лицензию.
+- `docs/SCENARIO.md` — сценарий игры.
+- `docs/GAME_DESIGN.md` — дизайн-правила.
+- `docs/ASSET_SOURCES.md` — источники ассетов и лицензии.
+- `docs/TASKS.md` — план итераций.
+- `docs/DECISIONS.md` — журнал решений.

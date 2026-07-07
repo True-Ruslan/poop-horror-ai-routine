@@ -1,0 +1,303 @@
+[gd_scene load_steps=35 format=3]
+
+[ext_resource type="PackedScene" path="res://game/scenes/player/Player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://game/scenes/objects/InteractableDoor.tscn" id="2_door"]
+[ext_resource type="PackedScene" path="res://game/scenes/objects/InteractableNote.tscn" id="3_note"]
+[ext_resource type="PackedScene" path="res://game/scenes/objects/LightSwitch.tscn" id="4_switch"]
+[ext_resource type="PackedScene" path="res://game/scenes/objects/ComputerTerminal.tscn" id="5_terminal"]
+
+[sub_resource type="Environment" id="Environment_apartment"]
+background_mode = 1
+background_color = Color(0.008, 0.009, 0.012, 1)
+ambient_light_source = 1
+ambient_light_color = Color(0.04, 0.042, 0.05, 1)
+ambient_light_energy = 0.16
+
+[sub_resource type="StandardMaterial3D" id="Mat_floor"]
+albedo_color = Color(0.16, 0.13, 0.1, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_wall"]
+albedo_color = Color(0.18, 0.18, 0.2, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_ceiling"]
+albedo_color = Color(0.08, 0.085, 0.09, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_wood"]
+albedo_color = Color(0.23, 0.15, 0.09, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_dark"]
+albedo_color = Color(0.018, 0.018, 0.022, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_bed"]
+albedo_color = Color(0.1, 0.11, 0.16, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_floor"]
+size = Vector3(12, 0.2, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape_floor"]
+size = Vector3(12, 0.2, 10)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_long"]
+size = Vector3(12, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="BoxShape_wall_long"]
+size = Vector3(12, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_short"]
+size = Vector3(0.25, 3, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape_wall_short"]
+size = Vector3(0.25, 3, 10)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ceiling"]
+size = Vector3(12, 0.2, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape_ceiling"]
+size = Vector3(12, 0.2, 10)
+
+[sub_resource type="BoxMesh" id="BoxMesh_desk"]
+size = Vector3(2.6, 0.18, 0.95)
+
+[sub_resource type="BoxShape3D" id="BoxShape_desk"]
+size = Vector3(2.6, 0.18, 0.95)
+
+[sub_resource type="BoxMesh" id="BoxMesh_desk_leg"]
+size = Vector3(0.12, 0.82, 0.12)
+
+[sub_resource type="BoxShape3D" id="BoxShape_desk_leg"]
+size = Vector3(0.12, 0.82, 0.12)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bed"]
+size = Vector3(2.1, 0.45, 3.0)
+
+[sub_resource type="BoxShape3D" id="BoxShape_bed"]
+size = Vector3(2.1, 0.45, 3.0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_shelf"]
+size = Vector3(2.4, 0.25, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape_shelf"]
+size = Vector3(2.4, 0.25, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_chair"]
+size = Vector3(0.85, 0.22, 0.85)
+
+[sub_resource type="BoxShape3D" id="BoxShape_chair"]
+size = Vector3(0.85, 0.22, 0.85)
+
+[sub_resource type="BoxMesh" id="BoxMesh_keyboard"]
+size = Vector3(0.95, 0.06, 0.28)
+
+[sub_resource type="BoxShape3D" id="BoxShape_keyboard"]
+size = Vector3(0.95, 0.06, 0.28)
+
+[sub_resource type="BoxMesh" id="BoxMesh_smart_device"]
+size = Vector3(0.35, 0.35, 0.35)
+
+[sub_resource type="BoxShape3D" id="BoxShape_smart_device"]
+size = Vector3(0.35, 0.35, 0.35)
+
+[node name="DeveloperApartment" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_apartment")
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector3(0, 0.1, 3.8)
+
+[node name="DeskLamp" type="OmniLight3D" parent="."]
+position = Vector3(0.35, 2.25, -2.85)
+light_energy = 1.05
+light_color = Color(0.95, 0.84, 0.62, 1)
+omni_range = 7.0
+shadow_enabled = true
+
+[node name="MonitorGlow" type="OmniLight3D" parent="."]
+position = Vector3(0, 1.35, -3.05)
+light_energy = 0.45
+light_color = Color(0.2, 0.95, 0.55, 1)
+omni_range = 3.8
+shadow_enabled = false
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("BoxMesh_floor")
+surface_material_override/0 = SubResource("Mat_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("BoxShape_floor")
+
+[node name="Ceiling" type="StaticBody3D" parent="."]
+position = Vector3(0, 3.0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ceiling"]
+mesh = SubResource("BoxMesh_ceiling")
+surface_material_override/0 = SubResource("Mat_ceiling")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceiling"]
+shape = SubResource("BoxShape_ceiling")
+
+[node name="Wall_Back" type="StaticBody3D" parent="."]
+position = Vector3(0, 1.5, -5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall_Back"]
+mesh = SubResource("BoxMesh_wall_long")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall_Back"]
+shape = SubResource("BoxShape_wall_long")
+
+[node name="Wall_Front" type="StaticBody3D" parent="."]
+position = Vector3(0, 1.5, 5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall_Front"]
+mesh = SubResource("BoxMesh_wall_long")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall_Front"]
+shape = SubResource("BoxShape_wall_long")
+
+[node name="Wall_Left" type="StaticBody3D" parent="."]
+position = Vector3(-6, 1.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall_Left"]
+mesh = SubResource("BoxMesh_wall_short")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall_Left"]
+shape = SubResource("BoxShape_wall_short")
+
+[node name="Wall_Right" type="StaticBody3D" parent="."]
+position = Vector3(6, 1.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall_Right"]
+mesh = SubResource("BoxMesh_wall_short")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall_Right"]
+shape = SubResource("BoxShape_wall_short")
+
+[node name="Desk" type="StaticBody3D" parent="."]
+position = Vector3(0, 0.82, -3.35)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Desk"]
+mesh = SubResource("BoxMesh_desk")
+surface_material_override/0 = SubResource("Mat_wood")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Desk"]
+shape = SubResource("BoxShape_desk")
+
+[node name="DeskLeg_1" type="StaticBody3D" parent="."]
+position = Vector3(-1.15, 0.4, -3.72)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DeskLeg_1"]
+mesh = SubResource("BoxMesh_desk_leg")
+surface_material_override/0 = SubResource("Mat_wood")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DeskLeg_1"]
+shape = SubResource("BoxShape_desk_leg")
+
+[node name="DeskLeg_2" type="StaticBody3D" parent="."]
+position = Vector3(1.15, 0.4, -3.72)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DeskLeg_2"]
+mesh = SubResource("BoxMesh_desk_leg")
+surface_material_override/0 = SubResource("Mat_wood")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DeskLeg_2"]
+shape = SubResource("BoxShape_desk_leg")
+
+[node name="DeskLeg_3" type="StaticBody3D" parent="."]
+position = Vector3(-1.15, 0.4, -2.98)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DeskLeg_3"]
+mesh = SubResource("BoxMesh_desk_leg")
+surface_material_override/0 = SubResource("Mat_wood")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DeskLeg_3"]
+shape = SubResource("BoxShape_desk_leg")
+
+[node name="DeskLeg_4" type="StaticBody3D" parent="."]
+position = Vector3(1.15, 0.4, -2.98)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DeskLeg_4"]
+mesh = SubResource("BoxMesh_desk_leg")
+surface_material_override/0 = SubResource("Mat_wood")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DeskLeg_4"]
+shape = SubResource("BoxShape_desk_leg")
+
+[node name="ComputerTerminal" parent="." instance=ExtResource("5_terminal")]
+position = Vector3(0, 1.35, -3.78)
+rotation = Vector3(0, 3.14159, 0)
+
+[node name="Keyboard" type="StaticBody3D" parent="."]
+position = Vector3(0, 0.96, -3.05)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Keyboard"]
+mesh = SubResource("BoxMesh_keyboard")
+surface_material_override/0 = SubResource("Mat_dark")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Keyboard"]
+shape = SubResource("BoxShape_keyboard")
+
+[node name="Note_TaskList" parent="." instance=ExtResource("3_note")]
+position = Vector3(-0.95, 0.96, -3.02)
+rotation = Vector3(0, -0.45, 0)
+note_title = "Стикер на столе"
+note_body = "Пятница. 23:41.\n\n1. Починить баг с авторизацией.\n2. Прогнать тесты.\n3. Не открывать новые задачи после полуночи.\n4. Не доверять ответу, если он слишком уверенный.\n\nПоследняя строка написана не твоим почерком."
+objective_after_read = "Открыть рабочий терминал."
+horror_event_id_after_read = "task_sticker_read"
+
+[node name="Door_Entrance" parent="." instance=ExtResource("2_door")]
+position = Vector3(0, 0, -4.83)
+is_locked = true
+locked_text = "Смарт-замок не отвечает. На панели двери мерцает зелёная точка, хотя интернет отключён."
+objective_after_open = "Выйти из квартиры."
+
+[node name="LightSwitch_Workplace" parent="." instance=ExtResource("4_switch")]
+position = Vector3(-5.82, 1.35, 2.7)
+rotation = Vector3(0, 1.5708, 0)
+target_light_path = NodePath("../DeskLamp")
+objective_after_use = "Свет щёлкнул сам. Вернись к монитору."
+
+[node name="Bed" type="StaticBody3D" parent="."]
+position = Vector3(4.2, 0.25, 1.55)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Bed"]
+mesh = SubResource("BoxMesh_bed")
+surface_material_override/0 = SubResource("Mat_bed")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bed"]
+shape = SubResource("BoxShape_bed")
+
+[node name="Shelf" type="StaticBody3D" parent="."]
+position = Vector3(-4.4, 1.55, -4.72)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Shelf"]
+mesh = SubResource("BoxMesh_shelf")
+surface_material_override/0 = SubResource("Mat_wood")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shelf"]
+shape = SubResource("BoxShape_shelf")
+
+[node name="Chair" type="StaticBody3D" parent="."]
+position = Vector3(0, 0.52, -1.9)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Chair"]
+mesh = SubResource("BoxMesh_chair")
+surface_material_override/0 = SubResource("Mat_dark")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Chair"]
+shape = SubResource("BoxShape_chair")
+
+[node name="SmartSpeaker" type="StaticBody3D" parent="."]
+position = Vector3(4.95, 0.82, -3.8)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SmartSpeaker"]
+mesh = SubResource("BoxMesh_smart_device")
+surface_material_override/0 = SubResource("Mat_dark")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SmartSpeaker"]
+shape = SubResource("BoxShape_smart_device")
