@@ -2,6 +2,18 @@
 
 Формат основан на Keep a Changelog.
 
+## [0.3.0] — 2026-07-07
+
+### Added
+
+- Добавлен `ApartmentEventController.gd` для событий уровня квартиры.
+- `DeveloperApartment.tscn` теперь подключает event controller.
+- Первый странный ответ терминала `terminal_first_ai_reply` запускает мигание `DeskLamp`.
+
+### Changed
+
+- `docs/TASKS.md` и `docs/PROJECT_STATE.md` обновлены под завершение Beat 2 → Beat 3.
+
 ## [0.2.4] — 2026-07-07
 
 ### Added

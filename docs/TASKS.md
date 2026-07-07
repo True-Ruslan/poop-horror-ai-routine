@@ -72,14 +72,14 @@ Definition of Done:
 
 Цель: сделать первый заметный scripted event, который меняет свет или объект в комнате.
 
-- [ ] Прочитать `docs/SCENE_BEATS.md`, Beat 2 и Beat 3.
-- [ ] Прочитать `docs/INTERACTION_MECHANICS.md`, раздел про лампу.
-- [ ] Создать `ApartmentEventController.gd` или минимальный event-компонент уровня.
-- [ ] После первого взаимодействия с монитором мигнуть `DeskLamp`.
-- [ ] Событие должно срабатывать один раз.
-- [ ] Событие должно иметь `event_id`.
-- [ ] Событие должно быть описано в `docs/SCENARIO.md`.
-- [ ] Обновить `docs/CHANGELOG.md`.
+- [x] Прочитать `docs/SCENE_BEATS.md`, Beat 2 и Beat 3.
+- [x] Прочитать `docs/INTERACTION_MECHANICS.md`, раздел про лампу.
+- [x] Создать `ApartmentEventController.gd` или минимальный event-компонент уровня.
+- [x] После первого взаимодействия с монитором мигнуть `DeskLamp`.
+- [x] Событие должно срабатывать один раз.
+- [x] Событие должно иметь `event_id`.
+- [x] Событие должно быть описано в `docs/SCENARIO.md`.
+- [x] Обновить `docs/CHANGELOG.md`.
 
 Definition of Done:
 
@@ -87,6 +87,8 @@ Definition of Done:
 - Свет меняется один раз.
 - Повторное взаимодействие не дублирует событие.
 - Проект запускается без ошибок.
+
+Проверка: требуется локально открыть проект в Godot и пройти Beat 2 → Beat 3.
 
 ## Iteration 2.5 — First Sound Pass
 
