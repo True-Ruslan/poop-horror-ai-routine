@@ -2,6 +2,13 @@
 
 Формат основан на Keep a Changelog.
 
+## [0.2.2] — 2026-07-07
+
+### Added
+
+- Добавлен `docs/UPSTREAM_TEMPLATE_SYNC.md` для периодической сверки с `True-Ruslan/godot-simple-tamplate`.
+- Зафиксирована последняя проверка upstream-шаблона: commit `9cf6dbdd674048fdbacaefcde1808f6d58362c7e`.
+
 ## [0.2.1] — 2026-07-07
 
 ### Added
