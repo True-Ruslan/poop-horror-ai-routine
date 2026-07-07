@@ -17,13 +17,13 @@ func _on_horror_event_started(event_id: String) -> void:
         return
 
     _lamp_event_started = true
-    _blink_desk_lamp.call_deferred()
+    call_deferred("_blink_desk_lamp")
 
 func _blink_desk_lamp() -> void:
     await get_tree().create_timer(delay_before_blink_seconds).timeout
 
     var lamp := get_node_or_null(desk_lamp_path)
-    if not lamp is Light3D:
+    if not (lamp is Light3D):
         return
 
     var light := lamp as Light3D
