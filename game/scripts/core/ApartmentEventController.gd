@@ -2,9 +2,11 @@ extends Node3D
 
 const SAMPLE_RATE: int = 22050
 const TAU_VALUE: float = PI * 2.0
+const SMART_SPEAKER_SCRIPT: String = "res://game/scripts/objects/SmartSpeaker.gd"
 
 @export var terminal_path: NodePath = NodePath("ComputerTerminal")
 @export var desk_lamp_path: NodePath = NodePath("DeskLamp")
+@export var smart_speaker_path: NodePath = NodePath("SmartSpeaker")
 @export var lamp_blink_event_id: String = "terminal_first_ai_reply"
 @export var objective_after_lamp_event: String = "Проверить, почему лампа щёлкнула сама."
 @export var blink_count: int = 3
@@ -20,7 +22,17 @@ var _lamp_click_stream: AudioStreamWAV
 func _ready() -> void:
     _terminal_notification_stream = _make_terminal_notification_stream()
     _lamp_click_stream = _make_lamp_click_stream()
+    _setup_smart_speaker()
     HorrorEventManager.horror_event_started.connect(_on_horror_event_started)
+
+func _setup_smart_speaker() -> void:
+    var smart_speaker := get_node_or_null(smart_speaker_path)
+    if smart_speaker == null or smart_speaker.has_method("interact"):
+        return
+
+    var speaker_script := load(SMART_SPEAKER_SCRIPT)
+    if speaker_script != null:
+        smart_speaker.set_script(speaker_script)
 
 func _on_horror_event_started(event_id: String) -> void:
     if event_id != lamp_blink_event_id or _lamp_event_started:
