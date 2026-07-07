@@ -37,17 +37,17 @@
 
 ### MVP pack
 
-| ID | Назначение | Длина | Приоритет | Комментарий |
+| ID | Назначение | Длина | Приоритет | Статус |
 |---|---|---:|---|---|
-| ui_notification_soft | обычное уведомление | 0.2–0.8 сек | high | должно звучать почти нормально |
-| ui_notification_wrong | странное уведомление | 0.2–0.8 сек | high | ниже по тону или обрезано |
-| desk_lamp_click | щелчок лампы | 0.1–0.4 сек | high | сухой бытовой звук |
-| keyboard_single | одиночная клавиша | 0.05–0.2 сек | high | для самопечати |
-| keyboard_burst | короткий набор | 0.5–1.5 сек | medium | не длинный |
-| monitor_electric_hum | слабый гул монитора | loop | medium | очень тихо |
-| door_lock_error | смарт-замок отказ | 0.3–1.0 сек | medium | электронный/механический |
-| speaker_wake | колонка проснулась | 0.3–1.0 сек | medium | сначала нейтрально |
-| power_drop | просадка питания | 0.5–2.0 сек | medium | для финала/глитча |
+| ui_notification_soft | обычное уведомление | 0.2–0.8 сек | high | procedural placeholder |
+| ui_notification_wrong | странное уведомление | 0.2–0.8 сек | high | planned |
+| desk_lamp_click | щелчок лампы | 0.1–0.4 сек | high | procedural placeholder |
+| keyboard_single | одиночная клавиша | 0.05–0.2 сек | high | planned |
+| keyboard_burst | короткий набор | 0.5–1.5 сек | medium | planned |
+| monitor_electric_hum | слабый гул монитора | loop | medium | planned |
+| door_lock_error | смарт-замок отказ | 0.3–1.0 сек | medium | planned |
+| speaker_wake | колонка проснулась | 0.3–1.0 сек | medium | planned |
+| power_drop | просадка питания | 0.5–2.0 сек | medium | planned |
 
 ### Later pack
 
@@ -64,24 +64,43 @@
 
 | Event ID | Trigger | Sound | Поведение |
 |---|---|---|---|
-| terminal_first_ai_reply | первое открытие терминала | ui_notification_soft | звучит из монитора |
-| desk_lamp_self_toggle | терминал упомянул комнату | desk_lamp_click | звучит от лампы с задержкой |
+| terminal_first_ai_reply | первое открытие терминала | ui_notification_soft | procedural sound near monitor |
+| terminal_first_ai_reply | лампа отвечает на терминал | desk_lamp_click | procedural sound near lamp before blink |
 | keyboard_without_hands | текст печатается сам | keyboard_single / keyboard_burst | звук рядом с клавиатурой |
 | smart_lock_denied | игрок проверяет дверь | door_lock_error | звук у двери, не в HUD |
 | speaker_wrong_name | игрок подходит к колонке | speaker_wake + TTS | колонка отвечает слишком поздно |
 | hud_objective_corrupt | цель меняется странно | ui_notification_wrong | звук ниже обычного |
 | final_power_drop | финальный force close | power_drop | room tone обрывается |
 
+## Procedural placeholders
+
+Первый sound pass использует runtime-generated звуки в `ApartmentEventController.gd`.
+
+Причина:
+
+- нет внешних файлов;
+- нет лицензионного риска;
+- можно быстро проверить timing и громкость;
+- позже procedural placeholders можно заменить на CC0/CC BY ассеты.
+
+Текущие procedural sounds:
+
+| ID | Генерация | Где играет |
+|---|---|---|
+| ui_notification_soft | короткий sine tone с envelope | рядом с `ComputerTerminal` |
+| desk_lamp_click | короткий dry pulse/noise-like click | рядом с `DeskLamp` |
+
 ## Источники звуков
 
 ### Preferred
 
 1. Собственная запись.
-2. Сгенерированный звук с понятными правами.
-3. Freesound с лицензией CC0.
-4. Freesound с лицензией CC BY, если корректно указать автора.
-5. OpenGameArt с CC0/CC BY, если лицензия подходит.
-6. Pixabay, если конкретный файл подходит под Content License и не содержит рисков торговых марок/людей.
+2. Procedural runtime generation in project code.
+3. Сгенерированный звук с понятными правами.
+4. Freesound с лицензией CC0.
+5. Freesound с лицензией CC BY, если корректно указать автора.
+6. OpenGameArt с CC0/CC BY, если лицензия подходит.
+7. Pixabay, если конкретный файл подходит под Content License и не содержит рисков торговых марок/людей.
 
 ### Avoid by default
 
@@ -163,6 +182,7 @@
 ### Форматы
 
 - Для коротких эффектов: `.ogg` или `.wav`.
+- Для procedural placeholders: `AudioStreamWAV`, созданный из кода.
 - Для loop ambience: `.ogg`.
 - Для исходников: можно хранить отдельно позже, если нужен pipeline.
 
@@ -203,5 +223,6 @@ amb_room_tone_night_01.ogg
 - лицензия указана в `docs/CREDITS.md`;
 - если звук CC BY, автор указан явно;
 - если звук сгенерирован, указан сервис и условия;
+- если звук procedural, указан файл генерации;
 - если звук из Pixabay, проверены ограничения Content License;
 - если звук из Freesound, проверена конкретная лицензия конкретного файла.

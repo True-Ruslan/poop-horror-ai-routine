@@ -14,7 +14,8 @@
 - есть базовые интерактивные объекты;
 - есть сценарий и план развития;
 - есть первый реальный scripted event со светом;
-- нет полноценного звука и финала.
+- есть первые procedural sounds для терминала и лампы;
+- нет полноценного финала.
 
 ## Рабочее название
 
@@ -52,6 +53,7 @@ game/scenes/ui/HUD.tscn
 - HorrorEventManager.
 - GameState.
 - ApartmentEventController.
+- Runtime procedural SFX внутри `ApartmentEventController`.
 
 ### Объекты
 
@@ -69,11 +71,12 @@ game/scenes/ui/HUD.tscn
 
 - `task_sticker_read` — чтение стикера.
 - `terminal_first_ai_reply` — первый странный ответ терминала.
-- `terminal_first_ai_reply` теперь запускает мигание `DeskLamp` через `ApartmentEventController`.
+- `terminal_first_ai_reply` запускает procedural notification sound и мигание `DeskLamp` через `ApartmentEventController`.
+- Перед миганием лампы проигрывается procedural `desk_lamp_click`.
 
 ## Что ещё не реализовано
 
-- Звуковые эффекты для терминала и лампы.
+- Локальная проверка громкости procedural sounds в Godot.
 - Интерактивная колонка или телефон.
 - Главное меню.
 - Финальный выбор эпизода.
@@ -85,15 +88,15 @@ game/scenes/ui/HUD.tscn
 Следующий PR:
 
 ```text
-Добавить first sound pass: уведомление терминала и щелчок лампы.
+Добавить Smart Speaker или Phone как второй бытовой объект.
 ```
 
 Минимальные файлы для следующей задачи:
 
-- `docs/SOUND_DESIGN.md`;
-- `docs/CREDITS.md`;
-- `game/scripts/objects/ComputerTerminal.gd`;
-- `game/scripts/core/ApartmentEventController.gd`;
+- `docs/SCENE_BEATS.md`;
+- `docs/INTERACTION_MECHANICS.md`;
+- `game/scenes/objects/`;
+- `game/scripts/objects/`;
 - `game/scenes/levels/DeveloperApartment.tscn`;
 - `docs/TASKS.md`;
 - `docs/CHANGELOG.md`;
@@ -102,6 +105,6 @@ game/scenes/ui/HUD.tscn
 ## Риски
 
 - Текущие сцены нужно проверить в Godot локально.
+- Procedural sounds могут потребовать настройки громкости.
 - Внешние ассеты пока не добавлялись.
-- Звуки пока не добавлялись.
 - Документация не должна расходиться с фактической реализацией.

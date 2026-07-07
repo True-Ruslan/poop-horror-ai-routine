@@ -100,6 +100,7 @@ size = Vector3(0.35, 0.35, 0.35)
 
 [node name="DeveloperApartment" type="Node3D"]
 script = ExtResource("6_event_controller")
+terminal_path = NodePath("ComputerTerminal")
 desk_lamp_path = NodePath("DeskLamp")
 lamp_blink_event_id = "terminal_first_ai_reply"
 objective_after_lamp_event = "Проверить лампу у рабочего места."
