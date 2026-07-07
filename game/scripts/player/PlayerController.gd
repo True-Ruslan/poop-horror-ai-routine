@@ -13,7 +13,7 @@ extends CharacterBody3D
 
 var look_x: float = 0.0
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
     if GameState.is_reading_message or get_tree().paused:
         return
 
