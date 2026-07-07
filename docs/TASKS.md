@@ -164,11 +164,33 @@ Definition of Done:
 
 Цель: сделать дверь полноценным horror object с фазовыми сообщениями.
 
-- [ ] Прочитать `docs/SCENE_BEATS.md`, Beat 4.
-- [ ] Добавить `smart_lock_denied` event.
-- [ ] Сделать несколько фаз locked_text.
-- [ ] После проверки двери вести игрока к Smart Speaker.
-- [ ] Подключить или запланировать `door_lock_error` sound.
+- [x] Прочитать `docs/SCENE_BEATS.md`, Beat 4.
+- [x] Добавить `smart_lock_denied` event.
+- [x] Сделать несколько фаз locked_text.
+- [x] После проверки двери вести игрока к Smart Speaker.
+- [x] Запланировать `door_lock_error` sound для Audio Expansion.
+- [x] Исправить objective flow после лампы: лампа ведёт к двери.
+- [x] Обновить документацию.
+
+Definition of Done:
+
+- После `terminal_first_ai_reply` и события лампы цель ведёт к входной двери.
+- При первой проверке запертой двери показывается бытовой отказ смарт-замка.
+- При повторных проверках дверь показывает более странные фразы.
+- Event `smart_lock_denied` срабатывает один раз.
+- После первой проверки двери цель ведёт к Smart Speaker.
+- Новый агент видит актуальную цепочку в `docs/AGENT_HANDOFF.md`.
+
+Проверка: требуется локально открыть проект в Godot и пройти Beat 2 → Beat 3 → Beat 4 → Beat 5.
+
+## Iteration 3.75 — Terminal Device List
+
+Цель: после Smart Speaker вернуть игрока к терминалу и показать, что терминал видит устройства квартиры.
+
+- [ ] Прочитать `docs/SCENE_BEATS.md`, Beat 6.
+- [ ] Сделать следующую фазу `ComputerTerminal` после `speaker_wrong_name`.
+- [ ] Показать список устройств: lamp, smart_lock, speaker.
+- [ ] Запустить или запланировать `keyboard_without_hands`.
 - [ ] Обновить документацию.
 
 ## Iteration 4 — Audio Expansion

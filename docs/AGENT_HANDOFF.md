@@ -155,7 +155,24 @@ terminal_first_ai_reply
 - играет procedural terminal notification;
 - играет procedural lamp click;
 - `DeskLamp` мигает;
-- цель обновляется.
+- цель обновляется на проверку входной двери.
+
+#### Beat 4 — Door refuses
+
+`InteractableDoor` в locked-состоянии теперь работает как фазовый horror object.
+
+Первое взаимодействие:
+
+- показывает бытовой отказ смарт-замка;
+- запускает event `smart_lock_denied`;
+- переводит цель на Smart Speaker.
+
+Повторные взаимодействия показывают более странные фразы:
+
+```text
+Ошибка: пользователь находится внутри.
+Выход не требуется до завершения сборки.
+```
 
 #### Beat 5 — Smart Speaker wakes up
 
@@ -193,6 +210,7 @@ HorrorEventManager.play_once("terminal_first_ai_reply", callback)
 - procedural notification sound;
 - procedural lamp click;
 - мигание лампы;
+- normalization objective flow после лампы;
 - runtime-подключение `SmartSpeaker.gd` к объекту SmartSpeaker в сцене.
 
 ## Текущие event IDs
@@ -200,16 +218,28 @@ HorrorEventManager.play_once("terminal_first_ai_reply", callback)
 ```text
 task_sticker_read
 terminal_first_ai_reply
+smart_lock_denied
 speaker_wrong_name
 ```
 
 Планируемые:
 
 ```text
-smart_lock_denied
 keyboard_without_hands
 hud_objective_corrupt
 final_power_drop
+```
+
+## Текущая цепочка первого slice
+
+```text
+стикер → терминал → лампа → дверь → Smart Speaker → терминал
+```
+
+Следующий логичный gameplay step:
+
+```text
+после Smart Speaker терминал показывает список устройств квартиры
 ```
 
 ## Стиль разработки
@@ -290,6 +320,14 @@ desk_lamp_click
 
 Внешние звуки можно добавлять только после проверки лицензии и записи в `docs/CREDITS.md`.
 
+Следующие звуки-кандидаты:
+
+```text
+door_lock_error
+speaker_wake
+keyboard_burst
+```
+
 ## Что не делать
 
 - Не добавлять реальные AI API в MVP.
@@ -302,18 +340,19 @@ desk_lamp_click
 
 ## Ближайшие задачи
 
-Текущий следующий шаг после Smart Speaker:
+Текущий следующий шаг после Door Refusal:
 
 ```text
-Beat 4 / Door refuses или Audio Expansion для Smart Speaker.
+Beat 6 — Terminal sees the apartment
 ```
 
 Приоритеты:
 
-1. Проверить Smart Speaker в Godot.
-2. Добавить door refusal phases и event `smart_lock_denied`.
-3. Добавить звук `speaker_wake` или `door_lock_error`.
-4. Начать замену первого greybox prop: стул или стол/монитор.
+1. Проверить Door Refusal и Smart Speaker в Godot.
+2. Сделать следующую фазу `ComputerTerminal` после `speaker_wrong_name`.
+3. Показать список устройств: `desk_lamp`, `smart_lock`, `speaker`.
+4. Запланировать или добавить `keyboard_burst`.
+5. Начать замену первого greybox prop: стул или стол/монитор.
 
 ## Manual check после текущей итерации
 
@@ -321,8 +360,10 @@ Beat 4 / Door refuses или Audio Expansion для Smart Speaker.
 2. Прочитать стикер.
 3. Открыть терминал.
 4. Убедиться, что лампа мигает.
-5. Подойти к Smart Speaker на полке.
-6. Нажать `E`.
-7. Проверить, что после терминального event колонка выдаёт странный текст.
-8. Повторно нажать `E` и проверить repeat-текст.
-9. Проверить, что objective ведёт обратно к терминалу.
+5. Проверить, что цель ведёт к входной двери.
+6. Подойти к двери и нажать `E`.
+7. Проверить, что появляется первый locked-текст и цель ведёт к Smart Speaker.
+8. Нажать `E` на двери повторно и проверить следующую locked-фазу.
+9. Подойти к Smart Speaker на полке.
+10. Нажать `E` и проверить strange-текст.
+11. Проверить, что objective ведёт обратно к терминалу.
