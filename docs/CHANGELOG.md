@@ -2,6 +2,18 @@
 
 Формат основан на Keep a Changelog.
 
+## [0.3.6] — 2026-07-07
+
+### Added
+
+- `HUD.gd` теперь слушает `terminal_device_list`.
+- Добавлен event `hud_objective_corrupt`.
+- После закрытия сообщения терминала HUD через короткую задержку меняет цель на тревожную формулировку.
+
+### Changed
+
+- `docs/TASKS.md`, `docs/SCENE_BEATS.md` и `docs/INTERACTION_MECHANICS.md` обновлены под Beat 7.
+
 ## [0.3.5] — 2026-07-07
 
 ### Added
