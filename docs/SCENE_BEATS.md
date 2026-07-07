@@ -24,8 +24,8 @@
 | 4 | Door refuses | implemented |
 | 5 | Speaker wakes up | implemented |
 | 6 | Terminal sees the apartment | implemented |
-| 7 | HUD corruption | planned next |
-| 8 | Final prompt | planned |
+| 7 | HUD objective glitch | implemented |
+| 8 | Final prompt | planned next |
 
 ## Beat 0 — Late night setup
 
@@ -319,7 +319,7 @@ terminal_device_list
 Звук:
 
 - пока нет отдельного keyboard burst;
-- добавить в Audio Expansion или в следующем HUD step.
+- добавить в Audio Expansion.
 
 Следующий шаг:
 
@@ -327,9 +327,9 @@ terminal_device_list
 Завершить работу за терминалом.
 ```
 
-## Beat 7 — HUD corruption
+## Beat 7 — HUD objective glitch
 
-Статус: planned next.
+Статус: implemented.
 
 Цель игрока:
 
@@ -339,33 +339,31 @@ terminal_device_list
 
 Нормальное объяснение:
 
-UI глючит.
+UI может обновить цель после чтения терминала.
 
 Нарушение:
 
-HUD меняет формулировку цели.
+HUD меняет формулировку цели не сразу, а после закрытия сообщения терминала.
 
-Пример:
+Реализация:
 
-```text
-Завершить работу за терминалом.
-```
+- скрипт: `game/scripts/ui/HUD.gd`;
+- HUD слушает event `terminal_device_list`;
+- если сообщение ещё открыто, HUD ждёт `GameState.message_closed`;
+- через короткую задержку запускается `hud_objective_corrupt`;
+- цель меняется на `Дождаться подтверждения.`;
+- событие не повторяется бесконечно.
 
-становится:
-
-```text
-Не завершать работу.
-```
-
-или:
+Event:
 
 ```text
-Дождаться подтверждения.
+hud_objective_corrupt
 ```
 
 Звук:
 
-- неправильное уведомление ниже обычного.
+- пока без отдельного звука;
+- добавить низкое уведомление в Audio Expansion.
 
 Следующий шаг:
 
@@ -375,10 +373,12 @@ HUD меняет формулировку цели.
 
 ## Beat 8 — Final prompt
 
+Статус: planned next.
+
 Цель игрока:
 
 ```text
-Выбрать: MERGE, REVERT или OFF.
+Выбрать финальное действие в терминале.
 ```
 
 Варианты:
@@ -387,11 +387,10 @@ HUD меняет формулировку цели.
 |---|---|---|
 | MERGE | принять изменения | дверь открывается, но за ней слышны уведомления |
 | REVERT | откатить изменения | квартира почти нормальна, но в логах остаётся след |
-| OFF | погасить рабочую сцену | свет и звук резко пропадают |
+| BLACKOUT | погасить рабочую сцену | свет и звук резко пропадают |
 
 ## Очередь реализации
 
-1. Beat 7: HUD corruption.
-2. Beat 8: финальный prompt без сложной концовки.
-3. Audio Expansion: `door_lock_error`, `speaker_wake`, `keyboard_burst`.
-4. Asset pass: заменить стул, стол/монитор и дверь на совместимые lo-fi / PSX props.
+1. Beat 8: финальный prompt без сложной концовки.
+2. Audio Expansion: `door_lock_error`, `speaker_wake`, `keyboard_burst`.
+3. Asset pass: заменить стул, стол/монитор и дверь на совместимые lo-fi / PSX props.
