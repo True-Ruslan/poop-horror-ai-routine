@@ -13,6 +13,20 @@
 - ключевой звук;
 - следующий шаг.
 
+## Статусы реализации
+
+| Beat | Название | Статус |
+|---:|---|---|
+| 0 | Late night setup | greybox |
+| 1 | Task sticker | implemented |
+| 2 | First terminal reply | implemented |
+| 3 | Lamp answers terminal | implemented |
+| 4 | Door refuses | planned next |
+| 5 | Speaker wakes up | implemented |
+| 6 | Terminal sees the apartment | planned |
+| 7 | HUD corruption | planned |
+| 8 | Final prompt | planned |
+
 ## Beat 0 — Late night setup
 
 Цель игрока:
@@ -29,6 +43,7 @@
 - на столе есть стикер;
 - лампа рядом с монитором;
 - входная дверь видна, но пока не главная цель;
+- Smart Speaker стоит на полке отдельно от рабочего места;
 - HUD показывает первую рабочую задачу.
 
 Звук:
@@ -37,6 +52,8 @@
 - слабый гул монитора или ПК.
 
 ## Beat 1 — Task sticker
+
+Статус: implemented.
 
 Цель игрока:
 
@@ -66,6 +83,8 @@
 
 ## Beat 2 — First terminal reply
 
+Статус: implemented.
+
 Цель игрока:
 
 ```text
@@ -92,8 +111,8 @@ warning: user accepted generated code without reading.
 
 Звук:
 
-- обычное уведомление;
-- короткий keyboard tick.
+- procedural `ui_notification_soft` рядом с терминалом;
+- позже добавить короткий keyboard tick.
 
 Следующий шаг:
 
@@ -102,6 +121,8 @@ warning: user accepted generated code without reading.
 ```
 
 ## Beat 3 — Lamp answers terminal
+
+Статус: implemented.
 
 Цель игрока:
 
@@ -119,15 +140,17 @@ warning: user accepted generated code without reading.
 
 Событие:
 
-1. Терминал пишет фразу про комнату.
-2. Пауза 0.5–1.0 секунды.
-3. Лампа щёлкает.
-4. Свет мигает 2–3 раза.
+1. Терминал показывает личное предупреждение.
+2. Срабатывает event `terminal_first_ai_reply`.
+3. Играет короткое уведомление рядом с терминалом.
+4. Пауза около 0.7 секунды.
+5. Лампа щёлкает.
+6. Свет мигает 2–3 раза.
 
 Звук:
 
-- сухой щелчок лампы;
-- слабый электрический писк.
+- procedural `desk_lamp_click` рядом с лампой;
+- позже добавить слабый электрический писк.
 
 Следующий шаг:
 
@@ -136,6 +159,8 @@ warning: user accepted generated code without reading.
 ```
 
 ## Beat 4 — Door refuses
+
+Статус: planned next.
 
 Цель игрока:
 
@@ -177,6 +202,8 @@ warning: user accepted generated code without reading.
 
 ## Beat 5 — Speaker wakes up
 
+Статус: implemented.
+
 Цель игрока:
 
 ```text
@@ -185,17 +212,19 @@ warning: user accepted generated code without reading.
 
 Нормальное объяснение:
 
-Колонка услышала команду случайно.
+Колонка услышала команду случайно или не распознала шум.
 
-Нарушение:
-
-Колонка повторяет смысл терминала или отвечает не на вопрос.
-
-Фразы:
+Нормальное состояние до `terminal_first_ai_reply`:
 
 ```text
 Команда не распознана.
 ```
+
+Нарушение после `terminal_first_ai_reply`:
+
+Колонка отвечает так, будто приняла решение за игрока.
+
+Фразы:
 
 ```text
 Распознана команда: продолжать.
@@ -205,11 +234,24 @@ warning: user accepted generated code without reading.
 Режим сна отклонён.
 ```
 
+Event:
+
+```text
+speaker_wrong_name
+```
+
+Реализация:
+
+- `SmartSpeaker.gd` подключается к существующему объекту `SmartSpeaker` через `ApartmentEventController`;
+- до `terminal_first_ai_reply` показывает normal body;
+- после `terminal_first_ai_reply` показывает strange body;
+- повторное взаимодействие показывает repeat body;
+- после первого странного ответа цель меняется на возврат к терминалу.
+
 Звук:
 
-- speaker wake;
-- тихий синтетический голос;
-- короткая пауза после фразы.
+- пока нет отдельного `speaker_wake`;
+- позже добавить тихий synthetic wake sound.
 
 Следующий шаг:
 
@@ -315,9 +357,8 @@ HUD меняет формулировку цели.
 
 ## Очередь реализации
 
-1. Beat 2 + Beat 3: терминал вызывает мигание лампы.
-2. Beat 4: дверь получает фазовые сообщения.
-3. Beat 5: добавить колонку с одним сообщением.
-4. Beat 6: терминал показывает список устройств.
-5. Beat 7: HUD corruption.
-6. Beat 8: финальный prompt без сложной концовки.
+1. Beat 4: дверь получает фазовые сообщения.
+2. Beat 6: терминал показывает список устройств.
+3. Beat 7: HUD corruption.
+4. Beat 8: финальный prompt без сложной концовки.
+5. Asset pass: заменить стул, стол/монитор и дверь на совместимые lo-fi / PSX props.

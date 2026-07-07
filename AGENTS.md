@@ -13,11 +13,14 @@
 Перед любой задачей прочитай:
 
 ```text
+docs/AGENT_HANDOFF.md
 README.md
 docs/PROJECT_STATE.md
 docs/TASKS.md
 docs/CONTEXT.md
 docs/SCENARIO.md
+docs/SCENE_BEATS.md
+docs/INTERACTION_MECHANICS.md
 docs/GAME_DESIGN.md
 docs/DOCUMENTATION_RULES.md
 docs/DECISIONS.md
@@ -27,8 +30,16 @@ docs/DECISIONS.md
 
 ```text
 docs/ASSET_SOURCES.md
+docs/ASSET_TRANSITION_PLAN.md
 docs/CREDITS.md
 docs/LICENSE_CHECKLIST.md
+```
+
+Если задача связана со звуком, также прочитай:
+
+```text
+docs/SOUND_DESIGN.md
+docs/CREDITS.md
 ```
 
 Если задача связана с экспортом, также прочитай:
@@ -44,15 +55,15 @@ docs/EXPORT_GUIDE.md
 3. После каждой задачи проект должен запускаться.
 4. Не добавляй внешние зависимости без записи в `docs/CREDITS.md` и `docs/DECISIONS.md`.
 5. Не добавляй GPL/AGPL/LGPL-код или ассеты без явного решения человека.
-6. Не добавляй тяжёлые системы раньше, чем они реально нужны.
-7. Не добавляй боевую систему, оружие или AI-врага, если задача этого прямо не требует.
-8. Любая новая механика должна иметь минимальный тестовый пример в основной сцене или отдельной test-сцене.
-9. Все новые файлы должны находиться в существующей структуре `game/` или `docs/`.
-10. Если меняешь архитектуру, добавь запись в `docs/DECISIONS.md`.
-11. Если меняешь поведение проекта, добавь запись в `docs/CHANGELOG.md`.
-12. Если выполняешь задачу, обнови `docs/TASKS.md`.
-13. После каждой итерации обнови `docs/PROJECT_STATE.md`.
-14. Если меняешь сценарий, цели игрока или события, обнови `docs/SCENARIO.md`.
+6. Не добавляй боевую систему, оружие или AI-врага, если задача этого прямо не требует.
+7. Любая новая механика должна иметь минимальный тестовый пример в основной сцене или отдельной test-сцене.
+8. Все новые файлы должны находиться в существующей структуре `game/` или `docs/`.
+9. Если меняешь архитектуру, добавь запись в `docs/DECISIONS.md`.
+10. Если меняешь поведение проекта, добавь запись в `docs/CHANGELOG.md`.
+11. Если выполняешь задачу, обнови `docs/TASKS.md`.
+12. После каждой итерации обнови `docs/PROJECT_STATE.md`.
+13. Если меняешь сценарий, цели игрока или события, обнови `docs/SCENARIO.md` или `docs/SCENE_BEATS.md`.
+14. Если меняешь механику взаимодействия, обнови `docs/INTERACTION_MECHANICS.md`.
 15. Если меняешь процесс документации, обнови `docs/DOCUMENTATION_RULES.md`.
 
 ## Документационный минимум для PR
@@ -67,7 +78,8 @@ docs/PROJECT_STATE.md
 
 Дополнительно:
 
-- меняется сценарий → `docs/SCENARIO.md`;
+- меняется сценарий → `docs/SCENARIO.md` или `docs/SCENE_BEATS.md`;
+- меняется механика → `docs/INTERACTION_MECHANICS.md`;
 - меняется архитектура → `docs/DECISIONS.md`;
 - добавлен ассет → `docs/CREDITS.md`;
 - меняется запуск или управление → `README.md`;
@@ -78,7 +90,7 @@ docs/PROJECT_STATE.md
 - Язык: GDScript.
 - Godot: 4.7+.
 - Имена файлов: `PascalCase.gd` для классов/объектов, `snake_case` допустим только для данных.
-- Узлы сцен должны иметь понятные имена: `Player`, `InteractionRaycast`, `ObjectiveManager`, `Door_Entrance`.
+- Узлы сцен должны иметь понятные имена: `Player`, `InteractionRaycast`, `ObjectiveManager`, `Door_Entrance`, `SmartSpeaker`.
 - Не использовать магические строки без необходимости.
 - Сигналы должны называться глаголами или событиями: `objective_changed`, `message_requested`, `interaction_prompt_changed`.
 - Экспортируемые параметры помечать `@export`.
@@ -119,30 +131,8 @@ docs/ITERATION_REPORT_TEMPLATE.md
 
 Минимальный отчёт:
 
-```md
-## Что сделано
-
-- ...
-
-## Какие файлы изменены
-
-- ...
-
-## Как проверить
-
-1. ...
-2. ...
-3. ...
-
-## Документация
-
-- ...
-
-## Риски / что проверить вручную
-
-- ...
-
-## Что делать дальше
-
-- ...
-```
+- что сделано;
+- какие файлы изменены;
+- как проверить;
+- что осталось следующим шагом;
+- какие риски есть.

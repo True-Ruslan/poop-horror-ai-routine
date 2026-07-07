@@ -16,6 +16,8 @@
 - есть первый реальный scripted event со светом;
 - есть первые procedural sounds для терминала и лампы;
 - рабочая зона перенесена от двери в отдельный угол комнаты;
+- есть интерактивный Smart Speaker;
+- есть handoff-документ для нового чата/агента;
 - есть план перехода от greybox к lo-fi / PSX ассетам;
 - нет полноценного финала.
 
@@ -27,7 +29,7 @@ AI Routine: Last Commit
 
 ## Главная идея
 
-Короткий хоррор про разработчика, который пытается закрыть вечернюю задачу. Рабочий стол, монитор, стикер, лампа и дверь постепенно становятся источниками тревоги.
+Короткий хоррор про разработчика, который пытается закрыть вечернюю задачу. Рабочий стол, монитор, стикер, лампа, дверь и умная колонка постепенно становятся источниками тревоги.
 
 ## Текущая основная сцена
 
@@ -56,6 +58,7 @@ game/scenes/ui/HUD.tscn
 - GameState.
 - ApartmentEventController.
 - Runtime procedural SFX внутри `ApartmentEventController`.
+- Runtime-подключение `SmartSpeaker.gd` к объекту `SmartSpeaker` в сцене.
 
 ### Объекты
 
@@ -63,6 +66,7 @@ game/scenes/ui/HUD.tscn
 - `InteractableNote`.
 - `LightSwitch`.
 - `ComputerTerminal`.
+- `SmartSpeaker`.
 
 ### Локации
 
@@ -75,6 +79,7 @@ game/scenes/ui/HUD.tscn
 - `terminal_first_ai_reply` — первый странный ответ терминала.
 - `terminal_first_ai_reply` запускает procedural notification sound и мигание `DeskLamp` через `ApartmentEventController`.
 - Перед миганием лампы проигрывается procedural `desk_lamp_click`.
+- `speaker_wrong_name` — Smart Speaker странно отвечает после первого терминального event.
 
 ### Layout
 
@@ -84,11 +89,22 @@ game/scenes/ui/HUD.tscn
 - Лампа, клавиатура и стикер находятся в рабочей зоне.
 - Smart Speaker вынесен на полку в другой части комнаты.
 
+### Handoff-документация
+
+Для нового пустого чата или код-агента создан документ:
+
+```text
+docs/AGENT_HANDOFF.md
+```
+
+С него можно начать работу, чтобы понять проект, статус, ближайшие задачи и правила документации.
+
 ## Что ещё не реализовано
 
 - Локальная проверка новой планировки в Godot.
 - Локальная проверка громкости procedural sounds в Godot.
-- Интерактивная колонка или телефон.
+- Локальная проверка Smart Speaker в Godot.
+- Фазовые сообщения входной двери.
 - Нормальные внешние/собственные lo-fi ассеты вместо greybox-примитивов.
 - Главное меню.
 - Финальный выбор эпизода.
@@ -99,15 +115,15 @@ game/scenes/ui/HUD.tscn
 Следующий PR:
 
 ```text
-Добавить Smart Speaker или Phone как второй бытовой объект.
+Добавить Door Refusal: фазовые сообщения двери и event smart_lock_denied.
 ```
 
 Минимальные файлы для следующей задачи:
 
+- `docs/AGENT_HANDOFF.md`;
 - `docs/SCENE_BEATS.md`;
 - `docs/INTERACTION_MECHANICS.md`;
-- `game/scenes/objects/`;
-- `game/scripts/objects/`;
+- `game/scripts/objects/InteractableDoor.gd`;
 - `game/scenes/levels/DeveloperApartment.tscn`;
 - `docs/TASKS.md`;
 - `docs/CHANGELOG.md`;
@@ -132,6 +148,7 @@ docs/ASSET_TRANSITION_PLAN.md
 
 - Текущие сцены нужно проверить в Godot локально.
 - Procedural sounds могут потребовать настройки громкости.
+- Smart Speaker подключается к существующему node через `ApartmentEventController`, это нужно проверить в Godot.
 - Внешние ассеты пока не добавлялись.
 - Новые asset packs нельзя добавлять без проверки лицензии и записи в `docs/CREDITS.md`.
 - Документация не должна расходиться с фактической реализацией.

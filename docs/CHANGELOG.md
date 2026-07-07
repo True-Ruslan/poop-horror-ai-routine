@@ -2,6 +2,20 @@
 
 Формат основан на Keep a Changelog.
 
+## [0.3.3] — 2026-07-07
+
+### Added
+
+- Добавлен `game/scripts/objects/SmartSpeaker.gd`.
+- Smart Speaker теперь имеет нормальное и странное состояние.
+- После `terminal_first_ai_reply` Smart Speaker запускает event `speaker_wrong_name`.
+- Добавлен `docs/AGENT_HANDOFF.md` для быстрого старта нового чата или код-агента.
+
+### Changed
+
+- `ApartmentEventController.gd` теперь подключает `SmartSpeaker.gd` к существующему объекту `SmartSpeaker` в сцене.
+- `docs/TASKS.md`, `docs/PROJECT_STATE.md`, `docs/SCENE_BEATS.md` и `docs/INTERACTION_MECHANICS.md` обновлены под Beat 5.
+
 ## [0.3.2] — 2026-07-07
 
 ### Added
