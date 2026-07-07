@@ -23,8 +23,8 @@
 | 3 | Lamp answers terminal | implemented |
 | 4 | Door refuses | implemented |
 | 5 | Speaker wakes up | implemented |
-| 6 | Terminal sees the apartment | planned next |
-| 7 | HUD corruption | planned |
+| 6 | Terminal sees the apartment | implemented |
+| 7 | HUD corruption | planned next |
 | 8 | Final prompt | planned |
 
 ## Beat 0 — Late night setup
@@ -277,7 +277,7 @@ speaker_wrong_name
 
 ## Beat 6 — Terminal sees the apartment
 
-Статус: planned next.
+Статус: implemented.
 
 Цель игрока:
 
@@ -291,7 +291,15 @@ speaker_wrong_name
 
 Нарушение:
 
-Терминал перечисляет предметы, которые игрок только что проверял.
+Терминал перечисляет объекты, которые игрок только что проверял.
+
+Реализация:
+
+- скрипт: `game/scripts/objects/ComputerTerminal.gd`;
+- после `speaker_wrong_name` подсказка меняется на проверку списка объектов;
+- первое взаимодействие показывает post-speaker список;
+- запускается event `terminal_device_list`;
+- повторное взаимодействие показывает короткий repeat-текст.
 
 Пример:
 
@@ -302,23 +310,31 @@ Detected devices:
 - speaker: listening
 ```
 
+Event:
+
+```text
+terminal_device_list
+```
+
 Звук:
 
-- короткий keyboard burst без видимого ввода;
-- мониторный гул на секунду громче.
+- пока нет отдельного keyboard burst;
+- добавить в Audio Expansion или в следующем HUD step.
 
 Следующий шаг:
 
 ```text
-Отключить рабочий компьютер.
+Завершить работу за терминалом.
 ```
 
 ## Beat 7 — HUD corruption
 
+Статус: planned next.
+
 Цель игрока:
 
 ```text
-Отключить рабочий компьютер.
+Завершить работу за терминалом.
 ```
 
 Нормальное объяснение:
@@ -332,13 +348,13 @@ HUD меняет формулировку цели.
 Пример:
 
 ```text
-Отключить рабочий компьютер.
+Завершить работу за терминалом.
 ```
 
 становится:
 
 ```text
-Не отключать рабочий компьютер.
+Не завершать работу.
 ```
 
 или:
@@ -371,12 +387,11 @@ HUD меняет формулировку цели.
 |---|---|---|
 | MERGE | принять изменения | дверь открывается, но за ней слышны уведомления |
 | REVERT | откатить изменения | квартира почти нормальна, но в логах остаётся след |
-| OFF | выключить питание | свет и звук резко пропадают |
+| OFF | погасить рабочую сцену | свет и звук резко пропадают |
 
 ## Очередь реализации
 
-1. Beat 6: терминал показывает список устройств.
-2. Beat 7: HUD corruption.
-3. Beat 8: финальный prompt без сложной концовки.
-4. Audio Expansion: `door_lock_error`, `speaker_wake`, `keyboard_burst`.
-5. Asset pass: заменить стул, стол/монитор и дверь на совместимые lo-fi / PSX props.
+1. Beat 7: HUD corruption.
+2. Beat 8: финальный prompt без сложной концовки.
+3. Audio Expansion: `door_lock_error`, `speaker_wake`, `keyboard_burst`.
+4. Asset pass: заменить стул, стол/монитор и дверь на совместимые lo-fi / PSX props.
