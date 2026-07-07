@@ -2,6 +2,19 @@
 
 Формат основан на Keep a Changelog.
 
+## [0.3.1] — 2026-07-07
+
+### Added
+
+- Добавлены первые procedural sounds без внешних аудиофайлов.
+- `terminal_first_ai_reply` теперь проигрывает короткое уведомление терминала.
+- Перед миганием `DeskLamp` теперь проигрывается короткий щелчок лампы.
+- В `docs/CREDITS.md` добавлена запись о runtime-generated SFX.
+
+### Changed
+
+- `docs/TASKS.md` и `docs/PROJECT_STATE.md` обновлены под First Sound Pass.
+
 ## [0.3.0] — 2026-07-07
 
 ### Added
