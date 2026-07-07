@@ -2,6 +2,19 @@
 
 Формат основан на Keep a Changelog.
 
+## [0.3.4] — 2026-07-07
+
+### Added
+
+- `InteractableDoor.gd` теперь поддерживает фазовые locked-сообщения.
+- Добавлен event `smart_lock_denied` при первой проверке запертой двери.
+- Дверь теперь ведёт игрока к Smart Speaker после первого отказа.
+
+### Changed
+
+- `ApartmentEventController.gd` теперь направляет objective flow после события лампы к входной двери.
+- `docs/TASKS.md`, `docs/PROJECT_STATE.md`, `docs/SCENE_BEATS.md`, `docs/INTERACTION_MECHANICS.md` и `docs/AGENT_HANDOFF.md` обновлены под Beat 4.
+
 ## [0.3.3] — 2026-07-07
 
 ### Added
