@@ -21,9 +21,9 @@
 | 1 | Task sticker | implemented |
 | 2 | First terminal reply | implemented |
 | 3 | Lamp answers terminal | implemented |
-| 4 | Door refuses | planned next |
+| 4 | Door refuses | implemented |
 | 5 | Speaker wakes up | implemented |
-| 6 | Terminal sees the apartment | planned |
+| 6 | Terminal sees the apartment | planned next |
 | 7 | HUD corruption | planned |
 | 8 | Final prompt | planned |
 
@@ -146,6 +146,7 @@ warning: user accepted generated code without reading.
 4. Пауза около 0.7 секунды.
 5. Лампа щёлкает.
 6. Свет мигает 2–3 раза.
+7. Цель меняется на проверку входной двери.
 
 Звук:
 
@@ -160,7 +161,7 @@ warning: user accepted generated code without reading.
 
 ## Beat 4 — Door refuses
 
-Статус: planned next.
+Статус: implemented.
 
 Цель игрока:
 
@@ -176,6 +177,14 @@ warning: user accepted generated code without reading.
 
 Текст ошибки выглядит не как обычная ошибка устройства.
 
+Реализация:
+
+- скрипт: `game/scripts/objects/InteractableDoor.gd`;
+- дверь хранит счётчик `locked_interaction_count`;
+- первое взаимодействие запускает `smart_lock_denied`;
+- первое взаимодействие меняет цель на Smart Speaker;
+- повторные взаимодействия показывают более странные locked-фазы.
+
 Фразы по фазам:
 
 ```text
@@ -190,9 +199,16 @@ warning: user accepted generated code without reading.
 Выход не требуется до завершения сборки.
 ```
 
+Event:
+
+```text
+smart_lock_denied
+```
+
 Звук:
 
-- короткий electronic reject от двери.
+- пока нет отдельного `door_lock_error`;
+- добавить в Audio Expansion.
 
 Следующий шаг:
 
@@ -260,6 +276,8 @@ speaker_wrong_name
 ```
 
 ## Beat 6 — Terminal sees the apartment
+
+Статус: planned next.
 
 Цель игрока:
 
@@ -357,8 +375,8 @@ HUD меняет формулировку цели.
 
 ## Очередь реализации
 
-1. Beat 4: дверь получает фазовые сообщения.
-2. Beat 6: терминал показывает список устройств.
-3. Beat 7: HUD corruption.
-4. Beat 8: финальный prompt без сложной концовки.
+1. Beat 6: терминал показывает список устройств.
+2. Beat 7: HUD corruption.
+3. Beat 8: финальный prompt без сложной концовки.
+4. Audio Expansion: `door_lock_error`, `speaker_wake`, `keyboard_burst`.
 5. Asset pass: заменить стул, стол/монитор и дверь на совместимые lo-fi / PSX props.
