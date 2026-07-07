@@ -133,17 +133,43 @@ Definition of Done:
 
 Проверка: требуется локально открыть проект в Godot и пройти от старта к столу, двери и Smart Speaker.
 
-## Iteration 3 — Smart Speaker or Phone
+## Iteration 3 — Smart Speaker
 
-Цель: добавить второй бытовой объект, который сначала кажется забавным, а потом тревожным.
+Цель: добавить второй бытовой объект, который сначала кажется нормальным, а потом тревожным.
 
-- [ ] Прочитать `docs/SCENE_BEATS.md`, Beat 5.
-- [ ] Выбрать объект: телефон или колонка.
-- [ ] Создать отдельную сцену в `game/scenes/objects/`.
-- [ ] Создать скрипт в `game/scripts/objects/`.
-- [ ] Добавить 2 состояния: нормальное и странное.
-- [ ] Связать объект с задачами игрока.
-- [ ] Добавить объект в `DeveloperApartment.tscn`.
+- [x] Прочитать `docs/SCENE_BEATS.md`, Beat 5.
+- [x] Выбрать объект: Smart Speaker.
+- [x] Создать `game/scripts/objects/SmartSpeaker.gd`.
+- [x] Дать объекту 2 состояния: нормальное до `terminal_first_ai_reply` и странное после него.
+- [x] Связать объект с задачами игрока.
+- [x] Подключить объект к текущей сцене через `ApartmentEventController`.
+- [x] Создать `docs/AGENT_HANDOFF.md` для нового чата/агента.
+- [x] Обновить `docs/SCENE_BEATS.md`.
+- [x] Обновить `docs/INTERACTION_MECHANICS.md`.
+- [x] Обновить `docs/PROJECT_STATE.md`.
+- [x] Обновить `docs/CHANGELOG.md`.
+
+Definition of Done:
+
+- До терминального event колонка отвечает обычной фразой.
+- После `terminal_first_ai_reply` колонка показывает странную фразу.
+- Событие `speaker_wrong_name` срабатывает один раз.
+- Повторное взаимодействие показывает repeat-текст.
+- Цель игрока ведёт обратно к терминалу.
+- Новый агент может начать работу с `docs/AGENT_HANDOFF.md`.
+
+Проверка: требуется локально открыть проект в Godot и пройти Beat 2 → Beat 3 → Beat 5.
+
+## Iteration 3.5 — Door Refusal
+
+Цель: сделать дверь полноценным horror object с фазовыми сообщениями.
+
+- [ ] Прочитать `docs/SCENE_BEATS.md`, Beat 4.
+- [ ] Добавить `smart_lock_denied` event.
+- [ ] Сделать несколько фаз locked_text.
+- [ ] После проверки двери вести игрока к Smart Speaker.
+- [ ] Подключить или запланировать `door_lock_error` sound.
+- [ ] Обновить документацию.
 
 ## Iteration 4 — Audio Expansion
 
@@ -151,6 +177,7 @@ Definition of Done:
 
 - [ ] Добавить `keyboard_single` или `keyboard_burst`.
 - [ ] Добавить `door_lock_error`.
+- [ ] Добавить `speaker_wake`.
 - [ ] Добавить записи в `docs/CREDITS.md`.
 - [ ] Подключить звук к одному событию.
 - [ ] Проверить громкость в игре.
