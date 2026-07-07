@@ -2,6 +2,20 @@
 
 Формат основан на Keep a Changelog.
 
+## [0.2.1] — 2026-07-07
+
+### Added
+
+- Добавлен документ `docs/DOCUMENTATION_RULES.md`.
+- Добавлен документ `docs/PROJECT_STATE.md`.
+- Добавлен документ `docs/ROADMAP.md`.
+- Добавлен шаблон отчёта `docs/ITERATION_REPORT_TEMPLATE.md`.
+
+### Changed
+
+- Обновлены правила работы код-агента в `AGENTS.md`.
+- В `README.md` добавлена карта документации.
+
 ## [0.2.0] — 2026-07-07
 
 ### Added
