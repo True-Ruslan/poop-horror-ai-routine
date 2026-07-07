@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="Godot Atmospheric Horror Template"
-config/description="A clean first-person atmospheric horror template for Godot 4.7+."
+config/name="AI Routine: Last Commit"
+config/description="A short first-person psychological horror about a developer, AI coding agents, broken builds, and a smart home that starts answering back."
 run/main_scene="res://game/scenes/Main.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
