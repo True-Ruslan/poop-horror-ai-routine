@@ -54,10 +54,15 @@
 - `docs/DOCUMENTATION_RULES.md` — правила ведения документации.
 - `docs/ROADMAP.md` — дорожная карта.
 - `docs/ITERATION_REPORT_TEMPLATE.md` — шаблон отчёта по задаче.
+- `docs/UPSTREAM_TEMPLATE_SYNC.md` — сверка с исходным шаблоном.
 - `docs/ASSET_SOURCES.md` — источники ассетов и лицензии.
 - `docs/DECISIONS.md` — журнал решений.
 - `docs/CHANGELOG.md` — история изменений.
 - `docs/CREDITS.md` — ассеты, авторы и лицензии.
+
+## Upstream-шаблон
+
+Проект периодически нужно сверять с `True-Ruslan/godot-simple-tamplate`. Правила сверки описаны в `docs/UPSTREAM_TEMPLATE_SYNC.md`.
 
 ## Правило для каждой итерации
 
