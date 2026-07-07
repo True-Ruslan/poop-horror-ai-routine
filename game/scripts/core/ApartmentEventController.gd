@@ -69,7 +69,8 @@ func _play_sound_at(stream: AudioStream, source_path: NodePath, volume_db: float
 
     var source := get_node_or_null(source_path)
     if source is Node3D:
-        player.global_position = (source as Node3D).global_position
+        var source_3d := source as Node3D
+        player.global_position = source_3d.global_position
     else:
         player.global_position = global_position
 
