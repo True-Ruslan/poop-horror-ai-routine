@@ -4,7 +4,7 @@
 
 ## Текущий статус
 
-Проект находится на стадии первого игрового фундамента.
+Проект находится на стадии первого playable slice по сценарию.
 
 Это ранний playable slice:
 
@@ -13,7 +13,8 @@
 - есть первая квартира разработчика;
 - есть базовые интерактивные объекты;
 - есть сценарий и план развития;
-- нет полноценного звука, финала и событий со светом.
+- есть первый реальный scripted event со светом;
+- нет полноценного звука и финала.
 
 ## Рабочее название
 
@@ -50,6 +51,7 @@ game/scenes/ui/HUD.tscn
 - ObjectiveManager.
 - HorrorEventManager.
 - GameState.
+- ApartmentEventController.
 
 ### Объекты
 
@@ -63,14 +65,19 @@ game/scenes/ui/HUD.tscn
 - `TemplateLevel.tscn` — старый шаблонный уровень.
 - `DeveloperApartment.tscn` — первая основная локация игры.
 
+### Сценарные events
+
+- `task_sticker_read` — чтение стикера.
+- `terminal_first_ai_reply` — первый странный ответ терминала.
+- `terminal_first_ai_reply` теперь запускает мигание `DeskLamp` через `ApartmentEventController`.
+
 ## Что ещё не реализовано
 
-- Реальное мигание света как scripted event.
+- Звуковые эффекты для терминала и лампы.
 - Интерактивная колонка или телефон.
-- Звуковые эффекты.
 - Главное меню.
 - Финальный выбор эпизода.
-- Экспортный профиль для Windows.
+- Export preset для Windows.
 - Локальная проверка проекта в Godot после текущего PR.
 
 ## Ближайшая задача
@@ -78,14 +85,16 @@ game/scenes/ui/HUD.tscn
 Следующий PR:
 
 ```text
-После первого взаимодействия с монитором лампа мигает или меняет состояние один раз.
+Добавить first sound pass: уведомление терминала и щелчок лампы.
 ```
 
 Минимальные файлы для следующей задачи:
 
+- `docs/SOUND_DESIGN.md`;
+- `docs/CREDITS.md`;
 - `game/scripts/objects/ComputerTerminal.gd`;
+- `game/scripts/core/ApartmentEventController.gd`;
 - `game/scenes/levels/DeveloperApartment.tscn`;
-- возможно новый `game/scripts/core/ApartmentEventController.gd`;
 - `docs/TASKS.md`;
 - `docs/CHANGELOG.md`;
 - `docs/PROJECT_STATE.md`.
@@ -94,4 +103,5 @@ game/scenes/ui/HUD.tscn
 
 - Текущие сцены нужно проверить в Godot локально.
 - Внешние ассеты пока не добавлялись.
+- Звуки пока не добавлялись.
 - Документация не должна расходиться с фактической реализацией.
