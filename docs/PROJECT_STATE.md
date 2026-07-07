@@ -16,6 +16,7 @@
 - есть первый реальный scripted event со светом;
 - есть первые procedural sounds для терминала и лампы;
 - рабочая зона перенесена от двери в отдельный угол комнаты;
+- есть фазовый Door Refusal для входной двери;
 - есть интерактивный Smart Speaker;
 - есть handoff-документ для нового чата/агента;
 - есть план перехода от greybox к lo-fi / PSX ассетам;
@@ -62,7 +63,7 @@ game/scenes/ui/HUD.tscn
 
 ### Объекты
 
-- `InteractableDoor`.
+- `InteractableDoor` с фазовыми locked-сообщениями.
 - `InteractableNote`.
 - `LightSwitch`.
 - `ComputerTerminal`.
@@ -79,7 +80,18 @@ game/scenes/ui/HUD.tscn
 - `terminal_first_ai_reply` — первый странный ответ терминала.
 - `terminal_first_ai_reply` запускает procedural notification sound и мигание `DeskLamp` через `ApartmentEventController`.
 - Перед миганием лампы проигрывается procedural `desk_lamp_click`.
+- `smart_lock_denied` — входная дверь отказывает и переводит игрока к Smart Speaker.
 - `speaker_wrong_name` — Smart Speaker странно отвечает после первого терминального event.
+
+### Objective flow
+
+Текущая цепочка первого playable slice:
+
+```text
+стикер → терминал → лампа → дверь → Smart Speaker → терминал
+```
+
+После события лампы цель ведёт к входной двери. После первой проверки запертой двери цель ведёт к Smart Speaker.
 
 ### Layout
 
@@ -103,8 +115,9 @@ docs/AGENT_HANDOFF.md
 
 - Локальная проверка новой планировки в Godot.
 - Локальная проверка громкости procedural sounds в Godot.
+- Локальная проверка Door Refusal в Godot.
 - Локальная проверка Smart Speaker в Godot.
-- Фазовые сообщения входной двери.
+- Звуки `door_lock_error` и `speaker_wake`.
 - Нормальные внешние/собственные lo-fi ассеты вместо greybox-примитивов.
 - Главное меню.
 - Финальный выбор эпизода.
@@ -115,7 +128,7 @@ docs/AGENT_HANDOFF.md
 Следующий PR:
 
 ```text
-Добавить Door Refusal: фазовые сообщения двери и event smart_lock_denied.
+Добавить Terminal Device List: терминал перечисляет устройства квартиры после Smart Speaker.
 ```
 
 Минимальные файлы для следующей задачи:
@@ -123,8 +136,7 @@ docs/AGENT_HANDOFF.md
 - `docs/AGENT_HANDOFF.md`;
 - `docs/SCENE_BEATS.md`;
 - `docs/INTERACTION_MECHANICS.md`;
-- `game/scripts/objects/InteractableDoor.gd`;
-- `game/scenes/levels/DeveloperApartment.tscn`;
+- `game/scripts/objects/ComputerTerminal.gd`;
 - `docs/TASKS.md`;
 - `docs/CHANGELOG.md`;
 - `docs/PROJECT_STATE.md`.
@@ -148,6 +160,7 @@ docs/ASSET_TRANSITION_PLAN.md
 
 - Текущие сцены нужно проверить в Godot локально.
 - Procedural sounds могут потребовать настройки громкости.
+- Door Refusal нужно проверить в Godot: фазы, objective flow и одноразовый `smart_lock_denied`.
 - Smart Speaker подключается к существующему node через `ApartmentEventController`, это нужно проверить в Godot.
 - Внешние ассеты пока не добавлялись.
 - Новые asset packs нельзя добавлять без проверки лицензии и записи в `docs/CREDITS.md`.
