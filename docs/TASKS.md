@@ -187,10 +187,31 @@ Definition of Done:
 
 Цель: после Smart Speaker вернуть игрока к терминалу и показать, что терминал видит устройства квартиры.
 
-- [ ] Прочитать `docs/SCENE_BEATS.md`, Beat 6.
-- [ ] Сделать следующую фазу `ComputerTerminal` после `speaker_wrong_name`.
-- [ ] Показать список устройств: lamp, smart_lock, speaker.
-- [ ] Запустить или запланировать `keyboard_without_hands`.
+- [x] Прочитать `docs/SCENE_BEATS.md`, Beat 6.
+- [x] Сделать следующую фазу `ComputerTerminal` после `speaker_wrong_name`.
+- [x] Показать список устройств: `desk_lamp`, `smart_lock`, `speaker`.
+- [x] Добавить event `terminal_device_list`.
+- [x] Запланировать `keyboard_without_hands` для следующего шага.
+- [x] Обновить документацию.
+
+Definition of Done:
+
+- После `speaker_wrong_name` подсказка терминала меняется на проверку списка устройств.
+- Первое взаимодействие показывает список устройств квартиры.
+- Event `terminal_device_list` срабатывает один раз.
+- Цель игрока меняется на отключение рабочего компьютера.
+- Повторное взаимодействие показывает короткий repeat-список.
+
+Проверка: требуется локально открыть проект в Godot и пройти Beat 2 → Beat 3 → Beat 4 → Beat 5 → Beat 6.
+
+## Iteration 3.9 — HUD Corruption
+
+Цель: после `terminal_device_list` начать ломать доверие к HUD и цели игрока.
+
+- [ ] Прочитать `docs/SCENE_BEATS.md`, Beat 7.
+- [ ] Добавить event `hud_objective_corrupt`.
+- [ ] Сделать краткое искажение текущей цели.
+- [ ] Сохранить прохождение понятным.
 - [ ] Обновить документацию.
 
 ## Iteration 4 — Audio Expansion
