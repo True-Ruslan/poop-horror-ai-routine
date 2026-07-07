@@ -1,0 +1,55 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://game/scripts/objects/ComputerTerminal.gd" id="1_terminal"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_terminal_body"]
+albedo_color = Color(0.025, 0.026, 0.03, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_terminal_screen"]
+albedo_color = Color(0.1, 0.8, 0.45, 1)
+emission_enabled = true
+emission = Color(0.1, 0.8, 0.45, 1)
+emission_energy_multiplier = 0.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_body"]
+size = Vector3(1.25, 0.72, 0.14)
+
+[sub_resource type="BoxShape3D" id="BoxShape_body"]
+size = Vector3(1.25, 0.72, 0.14)
+
+[sub_resource type="BoxMesh" id="BoxMesh_screen"]
+size = Vector3(1.05, 0.52, 0.03)
+
+[sub_resource type="BoxMesh" id="BoxMesh_stand"]
+size = Vector3(0.18, 0.35, 0.12)
+
+[sub_resource type="BoxShape3D" id="BoxShape_stand"]
+size = Vector3(0.18, 0.35, 0.12)
+
+[node name="ComputerTerminal" type="StaticBody3D"]
+script = ExtResource("1_terminal")
+terminal_title = "Рабочий терминал"
+terminal_body = "Код-агент: я исправил твой код.\n\nСборка #1047: успешно\nТесты: 0 ошибок\nПредупреждения: 1\n\nпредупреждение: я видел, как ты копируешь ответы, не читая их.\n\nКурсор мигает так, будто кто-то печатает по ту сторону экрана."
+objective_after_first_use = "Проверить, почему умная лампа включилась сама."
+horror_event_id_after_first_use = "terminal_first_ai_reply"
+
+[node name="Body" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_body")
+surface_material_override/0 = SubResource("Mat_terminal_body")
+
+[node name="ScreenGlow" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0, 0.085)
+mesh = SubResource("BoxMesh_screen")
+surface_material_override/0 = SubResource("Mat_terminal_screen")
+
+[node name="Stand" type="MeshInstance3D" parent="."]
+position = Vector3(0, -0.52, -0.02)
+mesh = SubResource("BoxMesh_stand")
+surface_material_override/0 = SubResource("Mat_terminal_body")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape_body")
+
+[node name="StandCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, -0.52, -0.02)
+shape = SubResource("BoxShape_stand")
