@@ -3,12 +3,14 @@ extends Node3D
 const SAMPLE_RATE: int = 22050
 const TAU_VALUE: float = PI * 2.0
 const SMART_SPEAKER_SCRIPT: String = "res://game/scripts/objects/SmartSpeaker.gd"
+const LEGACY_LAMP_OBJECTIVE: String = "Проверить лампу у рабочего места."
+const DOOR_OBJECTIVE_AFTER_LAMP: String = "Проверить входную дверь."
 
 @export var terminal_path: NodePath = NodePath("ComputerTerminal")
 @export var desk_lamp_path: NodePath = NodePath("DeskLamp")
 @export var smart_speaker_path: NodePath = NodePath("SmartSpeaker")
 @export var lamp_blink_event_id: String = "terminal_first_ai_reply"
-@export var objective_after_lamp_event: String = "Проверить, почему лампа щёлкнула сама."
+@export var objective_after_lamp_event: String = DOOR_OBJECTIVE_AFTER_LAMP
 @export var blink_count: int = 3
 @export var blink_interval_seconds: float = 0.18
 @export var delay_before_blink_seconds: float = 0.7
@@ -66,8 +68,14 @@ func _blink_desk_lamp() -> void:
     light.visible = original_visible
     light.light_energy = original_energy
 
-    if objective_after_lamp_event.strip_edges() != "":
-        ObjectiveManager.complete_current_objective(objective_after_lamp_event)
+    var next_objective := _get_objective_after_lamp_event()
+    if next_objective.strip_edges() != "":
+        ObjectiveManager.complete_current_objective(next_objective)
+
+func _get_objective_after_lamp_event() -> String:
+    if objective_after_lamp_event == LEGACY_LAMP_OBJECTIVE:
+        return DOOR_OBJECTIVE_AFTER_LAMP
+    return objective_after_lamp_event
 
 func _play_sound_at(stream: AudioStream, source_path: NodePath, volume_db: float) -> void:
     if stream == null:
