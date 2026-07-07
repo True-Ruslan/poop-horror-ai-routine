@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://game/scripts/objects/InteractableDoor.gd" id="1_door"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_door"]
+size = Vector3(1.0, 2.1, 0.12)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_door"]
+size = Vector3(1.0, 2.1, 0.12)
+
+[node name="InteractableDoor" type="StaticBody3D"]
+script = ExtResource("1_door")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.05, 0)
+mesh = SubResource("BoxMesh_door")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1.05, 0)
+shape = SubResource("BoxShape3D_door")

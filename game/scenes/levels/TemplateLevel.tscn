@@ -1,0 +1,180 @@
+[gd_scene load_steps=18 format=3]
+
+[ext_resource type="PackedScene" path="res://game/scenes/player/Player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://game/scenes/objects/InteractableDoor.tscn" id="2_door"]
+[ext_resource type="PackedScene" path="res://game/scenes/objects/InteractableNote.tscn" id="3_note"]
+[ext_resource type="PackedScene" path="res://game/scenes/objects/LightSwitch.tscn" id="4_switch"]
+
+[sub_resource type="Environment" id="Environment_template"]
+background_mode = 1
+background_color = Color(0.015, 0.015, 0.018, 1)
+ambient_light_source = 1
+ambient_light_color = Color(0.08, 0.075, 0.065, 1)
+ambient_light_energy = 0.25
+
+[sub_resource type="BoxMesh" id="BoxMesh_floor"]
+size = Vector3(16, 0.2, 16)
+
+[sub_resource type="BoxShape3D" id="BoxShape_floor"]
+size = Vector3(16, 0.2, 16)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_long"]
+size = Vector3(16, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="BoxShape_wall_long"]
+size = Vector3(16, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_short"]
+size = Vector3(0.25, 3, 16)
+
+[sub_resource type="BoxShape3D" id="BoxShape_wall_short"]
+size = Vector3(0.25, 3, 16)
+
+[sub_resource type="BoxMesh" id="BoxMesh_table"]
+size = Vector3(1.8, 0.18, 0.9)
+
+[sub_resource type="BoxShape3D" id="BoxShape_table"]
+size = Vector3(1.8, 0.18, 0.9)
+
+[sub_resource type="BoxMesh" id="BoxMesh_table_leg"]
+size = Vector3(0.12, 0.8, 0.12)
+
+[sub_resource type="BoxShape3D" id="BoxShape_table_leg"]
+size = Vector3(0.12, 0.8, 0.12)
+
+[sub_resource type="BoxMesh" id="BoxMesh_blackboard"]
+size = Vector3(3.0, 1.2, 0.08)
+
+[sub_resource type="BoxShape3D" id="BoxShape_blackboard"]
+size = Vector3(3.0, 1.2, 0.08)
+
+[node name="TemplateLevel" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_template")
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector3(0, 0.1, 4.8)
+
+[node name="SchoolLamp" type="OmniLight3D" parent="."]
+position = Vector3(0, 2.65, 0)
+light_energy = 1.4
+light_color = Color(1, 0.86, 0.58, 1)
+omni_range = 12.0
+shadow_enabled = true
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("BoxMesh_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("BoxShape_floor")
+
+[node name="Wall_Back" type="StaticBody3D" parent="."]
+position = Vector3(0, 1.5, -8)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall_Back"]
+mesh = SubResource("BoxMesh_wall_long")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall_Back"]
+shape = SubResource("BoxShape_wall_long")
+
+[node name="Wall_Front" type="StaticBody3D" parent="."]
+position = Vector3(0, 1.5, 8)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall_Front"]
+mesh = SubResource("BoxMesh_wall_long")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall_Front"]
+shape = SubResource("BoxShape_wall_long")
+
+[node name="Wall_Left" type="StaticBody3D" parent="."]
+position = Vector3(-8, 1.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall_Left"]
+mesh = SubResource("BoxMesh_wall_short")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall_Left"]
+shape = SubResource("BoxShape_wall_short")
+
+[node name="Wall_Right" type="StaticBody3D" parent="."]
+position = Vector3(8, 1.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall_Right"]
+mesh = SubResource("BoxMesh_wall_short")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall_Right"]
+shape = SubResource("BoxShape_wall_short")
+
+[node name="Door_Exit" parent="." instance=ExtResource("2_door")]
+position = Vector3(0, 0, -7.83)
+locked_text = "Дверь не поддаётся. Сначала нужно понять, что здесь произошло."
+objective_after_open = "Выйти из помещения."
+
+[node name="TeacherTable" type="StaticBody3D" parent="."]
+position = Vector3(0, 0.8, -3.8)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TeacherTable"]
+mesh = SubResource("BoxMesh_table")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TeacherTable"]
+shape = SubResource("BoxShape_table")
+
+[node name="TableLeg_1" type="StaticBody3D" parent="."]
+position = Vector3(-0.75, 0.4, -4.15)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TableLeg_1"]
+mesh = SubResource("BoxMesh_table_leg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TableLeg_1"]
+shape = SubResource("BoxShape_table_leg")
+
+[node name="TableLeg_2" type="StaticBody3D" parent="."]
+position = Vector3(0.75, 0.4, -4.15)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TableLeg_2"]
+mesh = SubResource("BoxMesh_table_leg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TableLeg_2"]
+shape = SubResource("BoxShape_table_leg")
+
+[node name="TableLeg_3" type="StaticBody3D" parent="."]
+position = Vector3(-0.75, 0.4, -3.45)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TableLeg_3"]
+mesh = SubResource("BoxMesh_table_leg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TableLeg_3"]
+shape = SubResource("BoxShape_table_leg")
+
+[node name="TableLeg_4" type="StaticBody3D" parent="."]
+position = Vector3(0.75, 0.4, -3.45)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TableLeg_4"]
+mesh = SubResource("BoxMesh_table_leg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TableLeg_4"]
+shape = SubResource("BoxShape_table_leg")
+
+[node name="Blackboard" type="StaticBody3D" parent="."]
+position = Vector3(0, 1.65, -7.65)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Blackboard"]
+mesh = SubResource("BoxMesh_blackboard")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Blackboard"]
+shape = SubResource("BoxShape_blackboard")
+
+[node name="Note_First" parent="." instance=ExtResource("3_note")]
+position = Vector3(0, 0.95, -3.8)
+rotation = Vector3(0, 0.2, 0)
+note_title = "Записка на учительском столе"
+note_body = "Дежурный должен закрыть кабинет после звонка.\n\nКлюч больше не оставлять под журналом.\n\nВнизу мелом приписано: «Ты снова не готов»."
+objective_after_read = "Проверить дверь в конце класса."
+
+[node name="LightSwitch_Main" parent="." instance=ExtResource("4_switch")]
+position = Vector3(-7.82, 1.35, 3.8)
+rotation = Vector3(0, 1.5708, 0)
+target_light_path = NodePath("../SchoolLamp")
+objective_after_use = "Свет изменился. Проверь записку на столе."

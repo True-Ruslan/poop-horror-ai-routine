@@ -1,0 +1,79 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://game/scripts/ui/HUD.gd" id="1_hud"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_hud")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ObjectiveLabel" type="Label" parent="Root"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 20.0
+offset_right = 820.0
+offset_bottom = 52.0
+text = "Задача:"
+
+[node name="BatteryLabel" type="Label" parent="Root"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 56.0
+offset_right = 240.0
+offset_bottom = 88.0
+text = "Фонарик: 100%"
+
+[node name="PromptLabel" type="Label" parent="Root"]
+layout_mode = 0
+offset_left = 420.0
+offset_top = 640.0
+offset_right = 860.0
+offset_bottom = 690.0
+horizontal_alignment = 1
+text = ""
+
+[node name="PauseLabel" type="Label" parent="Root"]
+layout_mode = 0
+offset_left = 520.0
+offset_top = 280.0
+offset_right = 760.0
+offset_bottom = 330.0
+horizontal_alignment = 1
+text = "ПАУЗА"
+
+[node name="MessagePanel" type="Panel" parent="Root"]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 160.0
+offset_right = 980.0
+offset_bottom = 560.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Root/MessagePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = -24.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Root/MessagePanel/MarginContainer"]
+layout_mode = 2
+
+[node name="MessageTitle" type="Label" parent="Root/MessagePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Заголовок"
+
+[node name="MessageBody" type="RichTextLabel" parent="Root/MessagePanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+bbcode_enabled = true
+text = "Текст"
+fit_content = true

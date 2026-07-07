@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://game/scripts/player/PlayerController.gd" id="1_player"]
+[ext_resource type="Script" path="res://game/scripts/interaction/InteractionRaycast.gd" id="2_raycast"]
+[ext_resource type="Script" path="res://game/scripts/player/FlashlightController.gd" id="3_flashlight"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
+radius = 0.35
+height = 1.7
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.85, 0)
+shape = SubResource("CapsuleShape3D_player")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+position = Vector3(0, 1.6, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+current = true
+fov = 75.0
+
+[node name="InteractionRaycast" type="RayCast3D" parent="CameraPivot/Camera3D"]
+enabled = true
+target_position = Vector3(0, 0, -3)
+script = ExtResource("2_raycast")
+
+[node name="Flashlight" type="SpotLight3D" parent="CameraPivot/Camera3D"]
+light_energy = 2.3
+spot_range = 14.0
+spot_angle = 38.0
+shadow_enabled = true
+script = ExtResource("3_flashlight")
