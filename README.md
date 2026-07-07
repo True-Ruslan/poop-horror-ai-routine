@@ -49,6 +49,13 @@
 6. `docs/GAME_DESIGN.md` — дизайн-правила.
 7. `AGENTS.md` — правила для код-агента.
 
+Дизайн-документы:
+
+- `docs/NARRATIVE_DESIGN.md` — вайб, темп, классы хоррор-моментов.
+- `docs/INTERACTION_MECHANICS.md` — механики компьютера, комнаты, HUD и звука.
+- `docs/SOUND_DESIGN.md` — звук, лицензии, источники и sound backlog.
+- `docs/SCENE_BEATS.md` — сцены первого эпизода по beat-структуре.
+
 Дополнительные документы:
 
 - `docs/DOCUMENTATION_RULES.md` — правила ведения документации.

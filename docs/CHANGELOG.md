@@ -2,6 +2,19 @@
 
 Формат основан на Keep a Changelog.
 
+## [0.2.4] — 2026-07-07
+
+### Added
+
+- Добавлен `docs/NARRATIVE_DESIGN.md` с правилами вайба, темпа и микродеталей.
+- Добавлен `docs/INTERACTION_MECHANICS.md` с каталогом механик компьютера, комнаты, HUD и звука.
+- Добавлен `docs/SOUND_DESIGN.md` с правилами звука, источниками, лицензиями и sound backlog.
+- Добавлен `docs/SCENE_BEATS.md` с beat map первого эпизода.
+
+### Changed
+
+- Обновлены `README.md`, `docs/GAME_DESIGN.md`, `docs/ASSET_SOURCES.md`, `docs/TASKS.md` и `docs/ROADMAP.md` под новый design-first процесс.
+
 ## [0.2.3] — 2026-07-07
 
 ### Fixed
