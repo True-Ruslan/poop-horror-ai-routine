@@ -185,13 +185,44 @@ Definition of Done:
 
 ## Iteration 3.75 — Terminal Device List
 
-Цель: после Smart Speaker вернуть игрока к терминалу и показать, что терминал видит устройства квартиры.
+Цель: после Smart Speaker вернуть игрока к терминалу и показать, что терминал видит объекты квартиры.
 
-- [ ] Прочитать `docs/SCENE_BEATS.md`, Beat 6.
-- [ ] Сделать следующую фазу `ComputerTerminal` после `speaker_wrong_name`.
-- [ ] Показать список устройств: lamp, smart_lock, speaker.
-- [ ] Запустить или запланировать `keyboard_without_hands`.
-- [ ] Обновить документацию.
+- [x] Прочитать `docs/SCENE_BEATS.md`, Beat 6.
+- [x] Сделать следующую фазу `ComputerTerminal` после `speaker_wrong_name`.
+- [x] Показать список объектов: `desk_lamp`, `smart_lock`, `speaker`.
+- [x] Добавить event `terminal_device_list`.
+- [x] Запланировать `keyboard_without_hands` для следующего шага.
+- [x] Обновить документацию.
+
+Definition of Done:
+
+- После `speaker_wrong_name` подсказка терминала меняется на проверку списка объектов.
+- Первое взаимодействие показывает список объектов квартиры.
+- Event `terminal_device_list` срабатывает один раз.
+- Цель игрока меняется на следующее действие у рабочего места.
+- Повторное взаимодействие показывает короткий repeat-список.
+
+Проверка: требуется локально открыть проект в Godot и пройти Beat 2 → Beat 3 → Beat 4 → Beat 5 → Beat 6.
+
+## Iteration 3.9 — HUD Objective Glitch
+
+Цель: после `terminal_device_list` начать ломать доверие к HUD и цели игрока.
+
+- [x] Прочитать `docs/SCENE_BEATS.md`, Beat 7.
+- [x] Добавить event `hud_objective_corrupt`.
+- [x] Связать HUD с `terminal_device_list`.
+- [x] Сделать краткое искажение текущей цели после закрытия сообщения.
+- [x] Сохранить прохождение понятным.
+- [x] Обновить документацию.
+
+Definition of Done:
+
+- После `terminal_device_list` HUD ждёт закрытия сообщения.
+- Через короткую задержку срабатывает `hud_objective_corrupt`.
+- Цель меняется на тревожную, но понятную формулировку.
+- Событие не повторяется бесконечно.
+
+Проверка: требуется локально открыть проект в Godot и пройти Beat 2 → Beat 3 → Beat 4 → Beat 5 → Beat 6 → Beat 7.
 
 ## Iteration 4 — Audio Expansion
 
@@ -227,8 +258,8 @@ Definition of Done:
 
 - [ ] Многофазный `ComputerTerminal`.
 - [ ] Самопечатающийся текст в терминале.
-- [ ] Короткий command input: `RUN`, `MERGE`, `REVERT`, `OFF`.
-- [ ] HUD objective corruption.
+- [ ] Короткий command input: `RUN`, `MERGE`, `REVERT`.
+- [ ] HUD objective glitch variants.
 - [ ] Пространственный звук от двери/колонки.
 - [ ] Роутер как интерактивная деталь.
 - [ ] VHS/PSX post-processing.

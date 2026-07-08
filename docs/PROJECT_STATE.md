@@ -18,6 +18,8 @@
 - рабочая зона перенесена от двери в отдельный угол комнаты;
 - есть фазовый Door Refusal для входной двери;
 - есть интерактивный Smart Speaker;
+- есть post-speaker фаза терминала;
+- есть HUD objective glitch после post-speaker фазы;
 - есть handoff-документ для нового чата/агента;
 - есть план перехода от greybox к lo-fi / PSX ассетам;
 - нет полноценного финала.
@@ -60,13 +62,14 @@ game/scenes/ui/HUD.tscn
 - ApartmentEventController.
 - Runtime procedural SFX внутри `ApartmentEventController`.
 - Runtime-подключение `SmartSpeaker.gd` к объекту `SmartSpeaker` в сцене.
+- HUD reaction на `terminal_device_list`.
 
 ### Объекты
 
 - `InteractableDoor` с фазовыми locked-сообщениями.
 - `InteractableNote`.
 - `LightSwitch`.
-- `ComputerTerminal`.
+- `ComputerTerminal` с post-speaker фазой.
 - `SmartSpeaker`.
 
 ### Локации
@@ -82,16 +85,18 @@ game/scenes/ui/HUD.tscn
 - Перед миганием лампы проигрывается procedural `desk_lamp_click`.
 - `smart_lock_denied` — входная дверь отказывает и переводит игрока к Smart Speaker.
 - `speaker_wrong_name` — Smart Speaker странно отвечает после первого терминального event.
+- `terminal_device_list` — терминал после Smart Speaker показывает список объектов квартиры.
+- `hud_objective_corrupt` — HUD меняет формулировку цели после post-speaker фазы терминала.
 
 ### Objective flow
 
 Текущая цепочка первого playable slice:
 
 ```text
-стикер → терминал → лампа → дверь → Smart Speaker → терминал
+стикер → терминал → лампа → дверь → Smart Speaker → терминал → HUD objective glitch
 ```
 
-После события лампы цель ведёт к входной двери. После первой проверки запертой двери цель ведёт к Smart Speaker.
+После события лампы цель ведёт к входной двери. После первой проверки запертой двери цель ведёт к Smart Speaker. После Smart Speaker терминал показывает список объектов, а HUD затем меняет формулировку цели.
 
 ### Layout
 
@@ -117,10 +122,12 @@ docs/AGENT_HANDOFF.md
 - Локальная проверка громкости procedural sounds в Godot.
 - Локальная проверка Door Refusal в Godot.
 - Локальная проверка Smart Speaker в Godot.
-- Звуки `door_lock_error` и `speaker_wake`.
+- Локальная проверка post-speaker фазы терминала в Godot.
+- Локальная проверка HUD objective glitch в Godot.
+- Звуки `door_lock_error`, `speaker_wake` и `keyboard_burst`.
+- Финальный prompt первого эпизода.
 - Нормальные внешние/собственные lo-fi ассеты вместо greybox-примитивов.
 - Главное меню.
-- Финальный выбор эпизода.
 - Export preset для Windows.
 
 ## Ближайшая задача
@@ -128,7 +135,7 @@ docs/AGENT_HANDOFF.md
 Следующий PR:
 
 ```text
-Добавить Terminal Device List: терминал перечисляет устройства квартиры после Smart Speaker.
+Добавить Final Prompt первого эпизода.
 ```
 
 Минимальные файлы для следующей задачи:
@@ -162,6 +169,8 @@ docs/ASSET_TRANSITION_PLAN.md
 - Procedural sounds могут потребовать настройки громкости.
 - Door Refusal нужно проверить в Godot: фазы, objective flow и одноразовый `smart_lock_denied`.
 - Smart Speaker подключается к существующему node через `ApartmentEventController`, это нужно проверить в Godot.
+- Post-speaker фаза терминала зависит от `speaker_wrong_name`.
+- HUD objective glitch зависит от `terminal_device_list` и закрытия сообщения.
 - Внешние ассеты пока не добавлялись.
 - Новые asset packs нельзя добавлять без проверки лицензии и записи в `docs/CREDITS.md`.
 - Документация не должна расходиться с фактической реализацией.
