@@ -59,7 +59,7 @@ Prototype остаётся regression route во время production rebuild.
 
 Quality gate:
 
-- письменный spec подтверждён;
+- written spec подтверждён;
 - нет `TBD`, противоречий и скрытого расширения scope;
 - implementation ещё не начат.
 
@@ -106,7 +106,7 @@ Quality gate:
 - один маршрут демонстрирует целевой quality bar;
 - no progression blockers;
 - 1080p performance измерена;
-- нет зависимости от legacy objective chaining внутри новых объектов.
+- новые объекты не зависят от legacy objective chaining.
 
 ## P3 — Environment Production
 
@@ -144,7 +144,7 @@ Quality gate:
 Quality gate:
 
 - игрок понимает квартиру и цели без объяснений разработчика;
-- невозможные spatial events ещё не появляются;
+- impossible spatial events ещё не появляются;
 - Act I восстанавливается из checkpoint.
 
 ## P5 — Act II: Observation
@@ -181,7 +181,7 @@ Quality gate:
 - все финалы достижимы;
 - checkpoint позволяет повторить выбор;
 - ending conditions покрыты tests;
-- ни один финал не требует полного повторного прохождения.
+- ни один обычный альтернативный финал не требует полного replay.
 
 ## P7 — Content Complete
 
@@ -222,15 +222,16 @@ Quality gate:
 
 ## Версионирование production-линейки
 
+Исторический prototype занимает версии `0.1.0`–`0.3.6`.
+
 ```text
-0.1.x — production architecture foundation
-0.2.x — apartment vertical slice
-0.3.x — Act I
-0.4.x — Act II
-0.5.x — Act III and endings
-0.8.x — content complete
+0.4.x — P1 Foundation Rebuild
+0.5.x — P2 Apartment Vertical Slice
+0.6.x — P3 Environment + P4 Act I
+0.7.x — P5 Act II
+0.8.x — P6 Act III and content complete
 0.9.x — release candidates
 1.0.0 — public release
 ```
 
-Исторические prototype-версии остаются в `docs/CHANGELOG.md`.
+История сохраняется в `docs/CHANGELOG.md`.
