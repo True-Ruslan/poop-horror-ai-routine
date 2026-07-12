@@ -6,270 +6,196 @@
 - `[~]` — в работе.
 - `[x]` — завершено.
 
-## Iteration 0 — Base Template
+## История prototype-итераций
 
-Цель: проект открывается и запускается, есть минимальная демо-комната.
+Завершённые итерации сохранены в git history и `docs/CHANGELOG.md`.
 
-- [x] Создать Godot-проект.
-- [x] Добавить основную сцену `Main.tscn`.
-- [x] Добавить демо-уровень `TemplateLevel.tscn`.
-- [x] Добавить игрока от первого лица.
-- [x] Добавить фонарик.
-- [x] Добавить HUD.
-- [x] Добавить записку.
-- [x] Добавить дверь.
-- [x] Добавить выключатель света.
-- [x] Добавить документацию для человека.
-- [x] Добавить инструкции для ИИ-агента.
+- [x] Iteration 0 — Base Template.
+- [x] Iteration 1 — Game Foundation.
+- [x] Iteration 1.5 — Narrative and Interaction Design.
+- [x] Iteration 2 — First Real Horror Event.
+- [x] Iteration 2.5 — First Sound Pass, кроме локальной проверки громкости.
+- [x] Iteration 2.75 — Room Layout and Asset Transition.
+- [x] Iteration 3 — Smart Speaker.
+- [x] Iteration 3.5 — Door Refusal.
+- [x] Iteration 3.75 — Terminal Device List.
+- [x] Iteration 3.9 — HUD Objective Glitch.
 
-## Iteration 1 — Game Foundation
+Текущий prototype route:
 
-Цель: превратить общий шаблон в начало конкретной игры `AI Routine: Last Commit`.
+```text
+стикер → терминал → лампа → дверь → Smart Speaker → терминал → HUD objective glitch
+```
 
-- [x] Переименовать проект в `project.godot`.
-- [x] Создать `docs/SCENARIO.md`.
-- [x] Создать `docs/GAME_DESIGN.md`.
-- [x] Создать `docs/ASSET_SOURCES.md`.
-- [x] Создать `game/scenes/levels/DeveloperApartment.tscn`.
-- [x] Создать `game/scenes/objects/ComputerTerminal.tscn`.
-- [x] Создать `game/scripts/objects/ComputerTerminal.gd`.
-- [x] Обновить `game/scenes/Main.tscn`, чтобы запускать квартиру разработчика.
-- [x] Обновить стартовую цель в `game/scripts/core/Main.gd`.
-- [x] Обновить `README.md`.
-- [x] Обновить `docs/CONTEXT.md`.
-- [x] Обновить `docs/CHANGELOG.md`.
-- [x] Обновить `docs/DECISIONS.md`.
+Production rebuild не должен удалять этот маршрут до появления эквивалентного regression route.
 
-Definition of Done:
+## P0 — Design Lock
 
-- Основная сцена запускает `DeveloperApartment.tscn`.
-- Игрок может ходить по комнате.
-- Игрок может прочитать стикер.
-- Игрок может взаимодействовать с монитором.
-- Игрок может проверить дверь.
-- HUD показывает текущую задачу.
+Цель: официально зафиксировать переход от короткого greybox prototype к production-игре на 45–60 минут.
 
-## Iteration 1.5 — Narrative and Interaction Design
-
-Цель: до реализации новых сцен подробно описать вайб, сценические beats, микромеханики и звук первого эпизода.
-
-- [x] Создать `docs/NARRATIVE_DESIGN.md`.
-- [x] Создать `docs/INTERACTION_MECHANICS.md`.
-- [x] Создать `docs/SOUND_DESIGN.md`.
-- [x] Создать `docs/SCENE_BEATS.md`.
-- [x] Обновить `README.md` с картой design-документов.
-- [x] Обновить `docs/GAME_DESIGN.md`.
-- [x] Обновить `docs/ASSET_SOURCES.md`.
-- [x] Обновить `docs/CHANGELOG.md`.
+- [x] Провести аудит кода, сцен, визуала, звука, документации и release pipeline.
+- [x] Выбрать масштаб: одна глубоко проработанная квартира, пролог, три акта, четыре финала.
+- [x] Согласовать production-архитектуру.
+- [x] Согласовать планировку и grounded stylized realism.
+- [x] Согласовать player feel, interaction contract, terminal/phone modes и HUD.
+- [x] Согласовать audio architecture и narrative pipeline.
+- [x] Согласовать save/checkpoint, testing, CI и release channels.
+- [x] Создать `docs/superpowers/specs/2026-07-12-production-rebuild-design.md`.
+- [~] Обновить project state, roadmap, decisions, handoff и changelog.
+- [ ] Провести final spec self-review.
+- [ ] Получить подтверждение written spec.
+- [ ] Создать подробный implementation plan для P1.
 
 Definition of Done:
 
-- Перед кодингом следующей сцены понятно, какая цель игрока, какой объект реагирует, какой звук нужен и какой event запускается.
-- Звуки классифицированы по назначению и лицензиям.
-- Есть порядок реализации сцен первого эпизода.
+- production scope не содержит `TBD`;
+- документы не противоречат выбранному масштабу;
+- первый implementation scope ограничен Foundation Rebuild;
+- никакой игровой код не изменён до подтверждения written spec.
 
-## Iteration 2 — First Real Horror Event
+## P1 — Foundation Rebuild
 
-Цель: сделать первый заметный scripted event, который меняет свет или объект в комнате.
+Цель: создать production core, сохранив возможность запускать текущий prototype.
 
-- [x] Прочитать `docs/SCENE_BEATS.md`, Beat 2 и Beat 3.
-- [x] Прочитать `docs/INTERACTION_MECHANICS.md`, раздел про лампу.
-- [x] Создать `ApartmentEventController.gd` или минимальный event-компонент уровня.
-- [x] После первого взаимодействия с монитором мигнуть `DeskLamp`.
-- [x] Событие должно срабатывать один раз.
-- [x] Событие должно иметь `event_id`.
-- [x] Событие должно быть описано в `docs/SCENARIO.md`.
-- [x] Обновить `docs/CHANGELOG.md`.
+### P1.1 — Bootstrap and logging
 
-Definition of Done:
-
-- Игрок открывает монитор.
-- Свет меняется один раз.
-- Повторное взаимодействие не дублирует событие.
-- Проект запускается без ошибок.
-
-Проверка: требуется локально открыть проект в Godot и пройти Beat 2 → Beat 3.
-
-## Iteration 2.5 — First Sound Pass
-
-Цель: добавить первые безопасные звуки под уже описанные события.
-
-- [x] Сгенерировать `ui_notification_soft` процедурно в коде.
-- [x] Сгенерировать `desk_lamp_click` процедурно в коде.
-- [x] Проверить лицензии по `docs/SOUND_DESIGN.md`: внешние ассеты не используются.
-- [x] Добавить записи в `docs/CREDITS.md`.
-- [x] Подключить звук уведомления к терминалу.
-- [x] Подключить щелчок к лампе.
-- [ ] Проверить громкость локально в Godot.
+- [ ] Создать `GameBootstrap`.
+- [ ] Создать production main scene.
+- [ ] Добавить typed logging service с категориями `GAME`, `NARRATIVE`, `SAVE`, `INTERACTION`, `AUDIO`, `UI`, `ASSET`, `PERFORMANCE`.
+- [ ] Загружать текущий playable slice через legacy adapter.
+- [ ] Добавить development/release feature flags.
+- [ ] Обновить документацию.
 
 Definition of Done:
 
-- В игре есть минимум два звука.
-- Оба звука используются в конкретных events.
-- Лицензии записаны в `docs/CREDITS.md`.
+- production main scene запускает текущую квартиру;
+- legacy route не удалён;
+- bootstrap не содержит narrative logic;
+- логи имеют категории и могут отключаться в release mode.
 
-Проверка: требуется локально открыть проект в Godot и оценить громкость procedural sounds.
+### P1.2 — Settings foundation
 
-## Iteration 2.75 — Room Layout and Asset Transition
-
-Цель: исправить базовую бытовую логику комнаты и зафиксировать план перехода к нормальным lo-fi / PSX ассетам.
-
-- [x] Убрать рабочее место от входной двери.
-- [x] Развернуть монитор внутрь комнаты.
-- [x] Опустить стул на пол.
-- [x] Переставить лампу, клавиатуру и стикер в рабочую зону.
-- [x] Вынести Smart Speaker из рабочей зоны на полку.
-- [x] Создать `docs/ASSET_TRANSITION_PLAN.md`.
-- [x] Обновить `docs/PROJECT_STATE.md`.
-- [x] Обновить `docs/CHANGELOG.md`.
+- [ ] Создать `SettingsManager`.
+- [ ] Сохранять и загружать versioned settings file.
+- [ ] Добавить master volume, mouse sensitivity, invert Y, fullscreen и VSync.
+- [ ] Применять настройки при старте.
+- [ ] Добавить unit tests сериализации.
 
 Definition of Done:
 
-- Дверь не конфликтует с рабочим местом.
-- Рабочая зона читается как отдельный угол комнаты.
-- Стул не висит в воздухе.
-- Монитор смотрит внутрь комнаты.
-- Есть понятный план замены greybox-примитивов на стилистически совместимые ассеты.
+- настройки переживают перезапуск;
+- повреждённый settings file восстанавливается значениями по умолчанию;
+- текущий player использует sensitivity/invert из manager.
 
-Проверка: требуется локально открыть проект в Godot и пройти от старта к столу, двери и Smart Speaker.
+### P1.3 — Save foundation
 
-## Iteration 3 — Smart Speaker
-
-Цель: добавить второй бытовой объект, который сначала кажется нормальным, а потом тревожным.
-
-- [x] Прочитать `docs/SCENE_BEATS.md`, Beat 5.
-- [x] Выбрать объект: Smart Speaker.
-- [x] Создать `game/scripts/objects/SmartSpeaker.gd`.
-- [x] Дать объекту 2 состояния: нормальное до `terminal_first_ai_reply` и странное после него.
-- [x] Связать объект с задачами игрока.
-- [x] Подключить объект к текущей сцене через `ApartmentEventController`.
-- [x] Создать `docs/AGENT_HANDOFF.md` для нового чата/агента.
-- [x] Обновить `docs/SCENE_BEATS.md`.
-- [x] Обновить `docs/INTERACTION_MECHANICS.md`.
-- [x] Обновить `docs/PROJECT_STATE.md`.
-- [x] Обновить `docs/CHANGELOG.md`.
+- [ ] Создать versioned save schema.
+- [ ] Создать `SaveGameManager`.
+- [ ] Добавить autosave, backup и checkpoint ID.
+- [ ] Добавить безопасное восстановление повреждённого save.
+- [ ] Добавить unit tests и migration fixture.
 
 Definition of Done:
 
-- До терминального event колонка отвечает обычной фразой.
-- После `terminal_first_ai_reply` колонка показывает странную фразу.
-- Событие `speaker_wrong_name` срабатывает один раз.
-- Повторное взаимодействие показывает repeat-текст.
-- Цель игрока ведёт обратно к терминалу.
-- Новый агент может начать работу с `docs/AGENT_HANDOFF.md`.
+- save round-trip проходит тест;
+- backup не перезаписывается повреждёнными данными;
+- prototype route можно восстановить из минимального checkpoint state.
 
-Проверка: требуется локально открыть проект в Godot и пройти Beat 2 → Beat 3 → Beat 5.
+### P1.4 — Scene flow and menu shell
 
-## Iteration 3.5 — Door Refusal
+- [ ] Создать `SceneFlowManager`.
+- [ ] Создать main menu shell.
+- [ ] Создать pause menu shell.
+- [ ] Добавить Continue/New Game/Settings/Credits/Exit.
+- [ ] Добавить переход в legacy playable slice.
+- [ ] Добавить безопасный возврат в меню.
 
-Цель: сделать дверь полноценным horror object с фазовыми сообщениями.
+### P1.5 — Tests and CI skeleton
 
-- [x] Прочитать `docs/SCENE_BEATS.md`, Beat 4.
-- [x] Добавить `smart_lock_denied` event.
-- [x] Сделать несколько фаз locked_text.
-- [x] После проверки двери вести игрока к Smart Speaker.
-- [x] Запланировать `door_lock_error` sound для Audio Expansion.
-- [x] Исправить objective flow после лампы: лампа ведёт к двери.
-- [x] Обновить документацию.
+- [ ] Создать `tests/unit`, `tests/integration`, `tests/narrative`, `tests/smoke`.
+- [ ] Добавить headless import check.
+- [ ] Добавить GitHub Actions workflow.
+- [ ] Добавить smoke test production main scene.
+- [ ] Добавить проверку отсутствующих localization keys и resource paths.
 
-Definition of Done:
+## P2 — Apartment Vertical Slice
 
-- После `terminal_first_ai_reply` и события лампы цель ведёт к входной двери.
-- При первой проверке запертой двери показывается бытовой отказ смарт-замка.
-- При повторных проверках дверь показывает более странные фразы.
-- Event `smart_lock_denied` срабатывает один раз.
-- После первой проверки двери цель ведёт к Smart Speaker.
-- Новый агент видит актуальную цепочку в `docs/AGENT_HANDOFF.md`.
+Цель: собрать одну production-зону с финальным quality bar.
 
-Проверка: требуется локально открыть проект в Godot и пройти Beat 2 → Beat 3 → Beat 4 → Beat 5.
+- [ ] Создать blockout квартиры 38–45 м²: прихожая, коридор, комната, кухня, санузел.
+- [ ] Создать component-based `InteractiveActor`.
+- [ ] Перевести одну дверь, один выключатель и терминал на новые компоненты.
+- [ ] Переработать player movement и camera feel.
+- [ ] Создать terminal focus mode.
+- [ ] Создать минимальный AudioDirector и buses.
+- [ ] Реализовать один data-driven beat от начала до checkpoint.
+- [ ] Провести performance и accessibility check.
 
-## Iteration 3.75 — Terminal Device List
+## P3 — Environment Production
 
-Цель: после Smart Speaker вернуть игрока к терминалу и показать, что терминал видит объекты квартиры.
+- [ ] Создать production architecture models.
+- [ ] Создать material library.
+- [ ] Заменить рабочее место, дверь и ключевые устройства.
+- [ ] Добавить prop dressing.
+- [ ] Добавить production lighting.
+- [ ] Добавить room tones и spatial SFX.
+- [ ] Настроить occlusion culling, visibility ranges и shadow budgets.
+- [ ] Удалить release-facing `BoxMesh` placeholders.
 
-- [x] Прочитать `docs/SCENE_BEATS.md`, Beat 6.
-- [x] Сделать следующую фазу `ComputerTerminal` после `speaker_wrong_name`.
-- [x] Показать список объектов: `desk_lamp`, `smart_lock`, `speaker`.
-- [x] Добавить event `terminal_device_list`.
-- [x] Запланировать `keyboard_without_hands` для следующего шага.
-- [x] Обновить документацию.
+## P4 — Prologue and Act I
 
-Definition of Done:
+- [ ] Реализовать вечернюю бытовую рутину.
+- [ ] Реализовать первый terminal reply.
+- [ ] Реализовать lamp response и smart-lock failure.
+- [ ] Создать phone foundation.
+- [ ] Создать RU/EN localization pipeline.
+- [ ] Завершить main/pause/settings UI.
+- [ ] Добавить required accessibility settings.
 
-- После `speaker_wrong_name` подсказка терминала меняется на проверку списка объектов.
-- Первое взаимодействие показывает список объектов квартиры.
-- Event `terminal_device_list` срабатывает один раз.
-- Цель игрока меняется на следующее действие у рабочего места.
-- Повторное взаимодействие показывает короткий repeat-список.
+## P5 — Act II: Observation
 
-Проверка: требуется локально открыть проект в Godot и пройти Beat 2 → Beat 3 → Beat 4 → Beat 5 → Beat 6.
+- [ ] Реализовать device list и наблюдение квартиры.
+- [ ] Реализовать изменяющиеся сообщения телефона.
+- [ ] Реализовать speaker pre-response.
+- [ ] Реализовать subtle/confirmed spatial changes.
+- [ ] Добавить secret ending prerequisites.
+- [ ] Провести comprehension playtest.
 
-## Iteration 3.9 — HUD Objective Glitch
+## P6 — Act III and Endings
 
-Цель: после `terminal_device_list` начать ломать доверие к HUD и цели игрока.
+- [ ] Реализовать impossible spatial changes.
+- [ ] Реализовать final terminal sequence.
+- [ ] Реализовать `MERGE`.
+- [ ] Реализовать `REVERT`.
+- [ ] Реализовать `BLACKOUT`.
+- [ ] Реализовать `CLEAN BUILD`.
+- [ ] Добавить ending checkpoint и replay route.
 
-- [x] Прочитать `docs/SCENE_BEATS.md`, Beat 7.
-- [x] Добавить event `hud_objective_corrupt`.
-- [x] Связать HUD с `terminal_device_list`.
-- [x] Сделать краткое искажение текущей цели после закрытия сообщения.
-- [x] Сохранить прохождение понятным.
-- [x] Обновить документацию.
+## P7 — Content Complete
 
-Definition of Done:
+- [ ] Удалить все placeholder assets, texts и sounds.
+- [ ] Завершить voice/subtitles/captions.
+- [ ] Провести RU/EN proofreading.
+- [ ] Завершить credits и license manifest.
+- [ ] Провести accessibility pass.
+- [ ] Проверить все chapters и endings.
 
-- После `terminal_device_list` HUD ждёт закрытия сообщения.
-- Через короткую задержку срабатывает `hud_objective_corrupt`.
-- Цель меняется на тревожную, но понятную формулировку.
-- Событие не повторяется бесконечно.
+## P8 — Release Candidate
 
-Проверка: требуется локально открыть проект в Godot и пройти Beat 2 → Beat 3 → Beat 4 → Beat 5 → Beat 6 → Beat 7.
+- [ ] Добавить `export_presets.cfg`.
+- [ ] Создать Windows playtest и release builds.
+- [ ] Провести compatibility matrix.
+- [ ] Стабилизировать производительность.
+- [ ] Провести финальный license audit.
+- [ ] Подготовить Steam/itch.io metadata и media.
+- [ ] Проверить сборку вне Godot Editor.
 
-## Iteration 4 — Audio Expansion
+## Текущий следующий шаг
 
-Цель: расширить звук после первого sound pass.
+После подтверждения written production spec:
 
-- [ ] Добавить `keyboard_single` или `keyboard_burst`.
-- [ ] Добавить `door_lock_error`.
-- [ ] Добавить `speaker_wake`.
-- [ ] Добавить записи в `docs/CREDITS.md`.
-- [ ] Подключить звук к одному событию.
-- [ ] Проверить громкость в игре.
+```text
+Создать implementation plan для P1 — Foundation Rebuild.
+```
 
-## Iteration 5 — First Ending Prototype
-
-Цель: добавить первый черновой финал эпизода.
-
-- [ ] Прочитать `docs/SCENE_BEATS.md`, Beat 8.
-- [ ] Описать финальный выбор в `docs/SCENARIO.md`.
-- [ ] Добавить финальный интерактивный объект.
-- [ ] Добавить сообщение финала.
-- [ ] Добавить возврат в меню или затемнение экрана.
-
-## Asset Backlog
-
-- [ ] Заменить greybox-стул на простой lo-fi офисный стул.
-- [ ] Заменить greybox-стол и монитор.
-- [ ] Заменить дверь на модель с читаемым smart-lock индикатором.
-- [ ] Добавить кружку, кабели и роутер.
-- [ ] Проверить первый CC0/CC BY prop pack.
-- [ ] Обновить `docs/CREDITS.md` при первом внешнем ассете.
-
-## Backlog
-
-- [ ] Многофазный `ComputerTerminal`.
-- [ ] Самопечатающийся текст в терминале.
-- [ ] Короткий command input: `RUN`, `MERGE`, `REVERT`.
-- [ ] HUD objective glitch variants.
-- [ ] Пространственный звук от двери/колонки.
-- [ ] Роутер как интерактивная деталь.
-- [ ] VHS/PSX post-processing.
-- [ ] Экран главного меню.
-- [ ] Настройки звука.
-- [ ] Сохранение настроек.
-- [ ] Простая система субтитров.
-- [ ] Шаги по разным поверхностям.
-- [ ] Система глав/актов.
-- [ ] Export preset для Windows.
-- [ ] Искажение текста текущей задачи.
-- [ ] Простая система ключей.
-- [ ] Минимальный инвентарь только при реальной необходимости.
+Первый code PR не должен включать новую квартиру, внешние ассеты, финалы или полную миграцию narrative systems.
