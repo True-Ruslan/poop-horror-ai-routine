@@ -1,103 +1,101 @@
 # AI Routine: Last Commit — Production Rebuild Design
 
 Дата: 2026-07-12  
-Статус: согласовано пользователем  
+Статус: разделы согласованы; written spec ожидает финального review  
 Целевая версия: 1.0.0  
-Платформы первого релиза: Windows, itch.io, Steam
+Целевая платформа первого релиза: Windows  
+Целевые storefronts: Steam, itch.io
 
-## 1. Назначение документа
+## 1. Назначение
 
-Этот документ фиксирует переход `AI Routine: Last Commit` от короткого greybox-прототипа к законченной одиночной психологической хоррор-игре продолжительностью 45–60 минут.
+Документ фиксирует переход `AI Routine: Last Commit` от раннего greybox prototype к законченной одиночной psychological horror game продолжительностью 45–60 минут.
 
-Текущий playable slice сохраняется как доказательство концепции и источник уже работающих сценарных идей, но не считается production-архитектурой или финальным визуальным представлением игры.
+Текущий playable slice сохраняется как regression route и источник уже работающих сценарных идей, но не считается production-архитектурой или финальным визуальным представлением.
 
-Документ является основным источником правды для следующих направлений:
+Этот документ является основным источником правды для:
 
-- продуктовый масштаб;
-- структура истории;
-- архитектура игровых систем;
-- планировка квартиры;
-- художественный стиль;
-- управление и взаимодействия;
-- интерфейс и доступность;
-- звуковая архитектура;
-- сохранения и диагностика;
-- тестирование, CI и публикация.
+- масштаба продукта;
+- истории и финалов;
+- core architecture;
+- квартиры и art direction;
+- player experience;
+- interaction/UI/accessibility;
+- audio;
+- saves;
+- testing, CI и release.
 
-## 2. Продуктовая рамка
+## 2. Product definition
 
-### 2.1. Формат
-
-`AI Routine: Last Commit` — законченная одиночная first-person psychological horror game без боевой системы и традиционного преследующего монстра.
+`AI Routine: Last Commit` — first-person psychological horror без боевой системы, традиционного преследующего монстра и сложного инвентаря.
 
 Целевая продолжительность первого прохождения: 45–60 минут.
 
-Целевая аудитория:
-
-- игроки коротких атмосферных хорроров;
-- разработчики и люди, знакомые с цифровой рабочей рутиной;
-- игроки, предпочитающие тревогу, исследование и постановочные события вместо боя.
-
-### 2.2. Главная эмоция
+Главная эмоция:
 
 > Я понимаю, что нужно сделать, но не хочу снова смотреть на монитор.
 
-Страх строится через постепенное нарушение привычной вечерней рутины, реакцию квартиры на цифровые действия игрока, пространственный звук, свет, интерфейс и изменение знакомого пространства.
+Страх строится через нарушение вечерней рабочей рутины, реакцию квартиры на цифровые действия, пространственный звук, свет, интерфейс и изменение знакомого пространства.
 
-### 2.3. Неподвижные ограничения
+### Неподвижные ограничения
 
-- Без боевой системы.
+- Без combat.
 - Без традиционного AI-врага и длительных погонь.
-- Без сложного инвентаря.
+- Без сложного inventory/crafting.
 - Без необходимости писать настоящий код.
-- Без реальных внешних AI API в игровом процессе.
+- Без реальных внешних AI API в gameplay.
 - Без постоянных скримеров.
-- Без копирования интерфейсов, брендов, сюжетов или ассетов существующих продуктов.
+- Без копирования реальных интерфейсов, брендов, сюжетов и ассетов.
 - Игрок почти всегда понимает бытовую цель.
-- Любой внешний ресурс должен иметь проверенные commercial-use права.
+- Любой внешний ресурс имеет проверенные commercial-use права.
 
 ## 3. Структура игры
 
 ### 3.1. Пролог — 5–8 минут
 
-Игрок осваивается в квартире через обычную вечернюю рутину:
+Игрок знакомится с квартирой через обычную вечернюю рутину:
 
-- запускает компьютер;
+- включает компьютер;
 - проверяет рабочие сообщения;
-- ставит чайник или кофеварку;
+- ставит чайник или кофе;
 - закрывает окно;
-- проверяет входную дверь;
+- проверяет дверь;
 - запускает последнюю сборку.
 
-Явный хоррор отсутствует. Главная задача пролога — сделать квартиру знакомой, правдоподобной и безопасной.
+Явный хоррор отсутствует. Квартира должна стать знакомой и безопасной.
 
 ### 3.2. Акт I — Routine — 10–15 минут
 
-- код-агент даёт первый слишком личный ответ;
+- агент даёт слишком личный ответ;
 - лампа реагирует на терминал;
-- уведомление звучит не из ожидаемого источника;
-- смарт-замок выдаёт объяснимую ошибку;
+- уведомление звучит не из ожидаемого устройства;
+- smart lock выдаёт объяснимую ошибку;
+- Smart Speaker нарушает timing;
 - игрок ещё может рационализировать происходящее.
 
-Запрещены невозможные пространственные изменения.
+Impossible spatial changes запрещены.
 
 ### 3.3. Акт II — Observation — 15–20 минут
 
 - терминал перечисляет реальные предметы квартиры;
 - телефон получает невозможные сообщения;
+- история сообщений меняется;
 - колонка отвечает до команды;
 - предметы меняют положение;
 - квартира повторяет действия игрока;
-- цифровая система демонстрирует наблюдение за физическим пространством.
+- появляются clues секретного финала.
+
+Разрешены `subtle` и `confirmed` spatial changes.
 
 ### 3.4. Акт III — Last Commit — 15–20 минут
 
 - коридор меняет длину;
 - двери ведут в неправильные зоны;
 - интерфейс становится ненадёжным;
-- терминал предсказывает действия игрока;
+- терминал предсказывает действия;
 - квартира становится физическим продолжением приложения;
-- игрок получает финальный выбор.
+- игрок получает доступ к финальному выбору.
+
+Разрешены `impossible` spatial changes.
 
 ### 3.5. Финалы
 
@@ -111,25 +109,23 @@
 
 #### BLACKOUT
 
-Игрок отключает питание квартиры. Финал завершается в темноте и почти полной тишине.
+Игрок отключает питание. Финал завершается в темноте и почти полной тишине.
 
 #### CLEAN BUILD
 
-Секретный финал за внимательное исследование и понимание цепочки событий. Игрок должен:
+Секретный финал требует:
 
-- заметить расхождение во времени первого коммита;
+- заметить расхождение времени первого коммита;
 - найти изменившийся локальный файл;
 - сопоставить устройство с записью роутера;
-- не выполнить одну из команд агента;
-- отключить сетевой кабель до финальной последовательности.
+- не выполнить одну команду агента;
+- отключить сетевой кабель до final sequence.
 
-Перед финальной главой создаётся checkpoint, чтобы игрок мог открыть альтернативные финалы без полного повторного прохождения.
+Перед финальным выбором создаётся checkpoint. Игрок может открыть обычные альтернативные финалы без полного replay.
 
-## 4. Архитектура
+## 4. Core architecture
 
-### 4.1. Bootstrap
-
-Целевая структура autoload/core-сервисов:
+Целевая структура сервисов:
 
 ```text
 GameBootstrap
@@ -144,21 +140,43 @@ GameBootstrap
 └── AccessibilityManager
 ```
 
-Сервисы должны иметь узкую ответственность, typed API и независимые тесты.
+Каждый сервис имеет одну ответственность, typed API и отдельные tests.
 
-### 4.2. NarrativeDirector
+### 4.1. GameBootstrap
 
-`NarrativeDirector` хранит и управляет:
+Отвечает только за:
 
-- текущим актом и главой;
-- активным beat;
+- определение build mode;
+- загрузку settings;
+- запуск core services;
+- переход к initial scene;
+- обработку fatal startup errors.
+
+Bootstrap не содержит narrative logic.
+
+### 4.2. SceneFlowManager
+
+Управляет:
+
+- main menu;
+- gameplay scenes;
+- loading transitions;
+- pause/menu return;
+- safe scene replacement;
+- development/playtest/release flow.
+
+### 4.3. NarrativeDirector
+
+Хранит и управляет:
+
+- текущим актом, chapter и beat;
 - narrative flags;
-- обязательными и необязательными действиями;
-- доступными финалами;
+- mandatory/optional actions;
 - состояниями квартиры;
-- восстановлением после checkpoint.
+- ending conditions;
+- checkpoint restore.
 
-Игровые объекты не должны напрямую переводить игрока к другому объекту. Они сообщают факты:
+Объекты сообщают факты, а не переводят progression напрямую:
 
 ```text
 note.read
@@ -170,37 +188,48 @@ router.inspected
 power.disabled
 ```
 
-`NarrativeDirector` определяет последующие изменения.
+### 4.4. ObjectiveSystem
 
-### 4.3. EventSequenceRunner
+Objectives используют stable IDs и localization keys.
 
-Сценарные события описываются последовательностями действий:
+Система поддерживает:
+
+- set/complete/restore;
+- temporary reveal;
+- fallback reminder;
+- save/load;
+- debug inspection.
+
+Объектные скрипты не хранят финальный пользовательский текст objective.
+
+### 4.5. EventSequenceRunner
+
+Event sequence actions:
 
 ```text
 wait
-play_sound
+play_audio_cue
+set_audio_snapshot
 set_light_state
 set_object_state
-show_objective
 move_prop
-set_audio_snapshot
+show_objective
+show_message
 save_checkpoint
 ```
 
-Система должна поддерживать:
+Runner поддерживает:
 
-- последовательные и параллельные действия;
-- ожидание фактического завершения асинхронных операций;
+- последовательные и параллельные actions;
+- ожидание реального завершения async action;
 - отмену;
-- одноразовое выполнение;
-- восстановление после загрузки;
-- debug-пропуск;
-- защиту от несовместимых параллельных последовательностей;
-- логирование причины старта и завершения.
+- одноразовость;
+- восстановление после load;
+- debug skip;
+- concurrency guards;
+- structured logging.
 
-### 4.4. Data-driven definitions
-
-Сценарий и конфигурация выносятся из объектных скриптов в Godot `Resource`:
+### 4.6. Data-driven definitions
 
 ```text
 game/data/
@@ -214,7 +243,7 @@ game/data/
 └── localization/
 ```
 
-Основные типы:
+Основные Godot Resources:
 
 - `EpisodeDefinition`;
 - `ChapterDefinition`;
@@ -224,11 +253,9 @@ game/data/
 - `DialogueLineDefinition`;
 - `EndingDefinition`.
 
-Тексты, objective IDs и narrative conditions не должны быть жёстко записаны в `ComputerTerminal.gd`, `InteractableDoor.gd` или других prefab-скриптах.
+Тексты, conditions и next-object links не хранятся напрямую в `ComputerTerminal.gd`, `InteractableDoor.gd` и других reusable actors.
 
-### 4.5. Компонентные интерактивные объекты
-
-Целевой prefab:
+### 4.7. Component-based interactive actors
 
 ```text
 InteractiveActor
@@ -240,346 +267,303 @@ InteractiveActor
 └── AnimationPlayer
 ```
 
-Компоненты:
+- `InteractionComponent` — Press, Hold, Toggle, Inspect, Focus, Choice.
+- `VisualStateComponent` — normal, active, broken, corrupted.
+- `AudioEmitterComponent` — semantic positional audio cues.
+- `HighlightComponent` — subtle/readable/accessibility modes.
+- `SaveableComponent` — stable object ID и state serialization.
 
-- `InteractionComponent` — press, hold, toggle, inspect, focus, choice;
-- `VisualStateComponent` — normal, active, broken, corrupted;
-- `AudioEmitterComponent` — позиционные звуки объекта;
-- `HighlightComponent` — доступность и мягкая читаемость;
-- `SaveableComponent` — сериализация состояния.
+### 4.8. Migration strategy
 
-### 4.6. Миграция
+1. Добавить production core рядом со старыми managers.
+2. Загружать prototype через legacy adapter.
+3. Сохранить текущий regression route.
+4. Перенести objectives/progression.
+5. Перевести terminal, door и speaker по одному типу.
+6. Перенести events в Resources.
+7. Удалить legacy managers только после regression-equivalent прохождения.
 
-1. Добавить новый bootstrap и core-сервисы рядом со старыми.
-2. Создать адаптеры для существующих event IDs.
-3. Перенести objective и progression state.
-4. Перевести терминал, дверь и колонку на component-based prefab.
-5. Перенести scripted events в данные.
-6. Удалить старые менеджеры только после полного прохождения regression route.
+`main` остаётся запускаемым после каждого PR.
 
-`main` должен оставаться запускаемым после каждого PR.
+## 5. Saves and settings
 
-## 5. Сохранения
-
-### 5.1. Модель
+### 5.1. Save model
 
 Ручное save menu не используется.
 
 Поддерживаются:
 
-- checkpoint после главы;
-- autosave после крупных событий;
-- отдельное сохранение настроек;
-- резервная копия предыдущего autosave.
+- chapter checkpoints;
+- autosave после крупных events;
+- backup предыдущего autosave;
+- отдельный settings file.
 
-Сохраняются:
+Save содержит:
 
-- версия схемы;
-- версия игры;
-- текущая глава и beat;
+- schema version;
+- game version;
+- checkpoint ID;
+- act/chapter/beat;
 - narrative flags;
-- выполненные events;
-- состояния сюжетных объектов;
-- условия финалов;
-- состояние фонарика и ключевых устройств;
-- настройки пользователя.
+- completed events;
+- saveable object states;
+- ending conditions;
+- key device states.
 
-### 5.2. Ошибки сохранения
+### 5.2. Recovery
 
-При повреждении файла:
+При повреждении save:
 
-1. загрузить резервную копию;
-2. при неудаче восстановить минимальное состояние последнего checkpoint;
+1. загрузить backup;
+2. при неудаче восстановить минимальное состояние checkpoint;
 3. показать понятное сообщение;
 4. не перезаписывать повреждённый файл молча.
 
-Нужна поддержка миграций между минорными версиями схемы.
+Поддерживаются migrations между минорными schema versions.
 
-## 6. Локация и пространственная драматургия
+### 5.3. Settings
 
-### 6.1. Планировка
+Обязательные настройки:
+
+- mouse sensitivity;
+- invert Y;
+- key remapping;
+- toggle/hold sprint и crouch;
+- resolution/fullscreen;
+- VSync/FPS limit;
+- shadows/SSAO/glow/post-processing;
+- brightness;
+- film grain и chromatic aberration toggles;
+- master/SFX/ambience/voice/UI volumes;
+- dynamic range preset;
+- accessibility options.
+
+## 6. Apartment and spatial design
 
 Целевая квартира: 38–45 м².
 
 ```text
 прихожая
-├── входная дверь
-├── смарт-замок
-├── электрощит
-└── короткий коридор
+├── entrance door
+├── smart lock
+├── electrical panel
+└── short corridor
 основная комната
-├── рабочее место
-├── зона сна
-└── окно или балконная дверь
+├── workstation
+├── sleeping zone
+└── window/balcony door
 кухня
 санузел
 ```
 
-Игрок должен быстро запомнить нормальную планировку.
+Функции зон:
 
-### 6.2. Функции зон
+- workstation — главный цифровой источник;
+- entrance — потеря безопасности;
+- kitchen — бытовая рутина и off-screen sounds;
+- bathroom — reflections и distinct acoustics;
+- sleeping zone — невозможность закончить день;
+- window — изоляция от внешнего мира.
 
-- Рабочее место — цифровая угроза и центр истории.
-- Прихожая — потеря возможности уйти.
-- Кухня — бытовая рутина и звуки вне поля зрения.
-- Санузел — отражения, вентиляция и акустика.
-- Зона сна — невозможность закончить день.
-- Окно — изоляция от внешнего мира.
+Игрок запоминает normal layout до spatial transformations.
 
-### 6.3. Трансформации
+## 7. Art direction
 
-Изменения пространства делятся на уровни:
+Целевой стиль:
 
-- `subtle` — игрок может сомневаться;
-- `confirmed` — бытовое объяснение перестаёт работать;
-- `impossible` — пространство явно нарушено.
+```text
+grounded stylized realism
+```
 
-Примеры:
+- реалистичные размеры;
+- low/mid-poly production models;
+- PBR materials;
+- 1K textures для большинства props;
+- 2K для крупных surfaces и hero props;
+- жилая слегка неопрятная квартира;
+- generic unbranded technology;
+- отсутствие release-facing `BoxMesh` placeholders.
 
-- предмет оказывается на другом месте;
-- кабель ведёт не к той розетке;
-- появляется дополнительный выключатель;
-- отражение не соответствует комнате;
-- кухня становится дальше;
-- входная дверь возвращает игрока в квартиру.
+PSX/VHS-эффекты появляются только в цифровых events.
 
-## 7. Художественный стиль
+### Palette
 
-### 7.1. Направление
+- холодный серо-бежевый;
+- выцветшее тёмное дерево;
+- чёрный металл и тёмный шпон;
+- зелёно-голубой monitor glow;
+- тёплый янтарный desk light;
+- холодный синий и грязно-оранжевый exterior;
+- красный только как late-game accent.
 
-Целевой стиль: grounded stylized realism.
+### Critical custom/controlled props
 
-- реалистичные пропорции;
-- low/mid-poly модели;
-- PBR-материалы;
-- текстуры преимущественно 1K, 2K только для крупных поверхностей;
-- жилая, слегка неопрятная квартира;
-- техника без реальных брендов;
-- никаких placeholder `BoxMesh` в release-контенте.
+- workstation/monitor;
+- smart lock;
+- Smart Speaker;
+- smartphone;
+- router;
+- electrical panel;
+- desk lamp.
 
-PSX/VHS-эффекты используются только как сюжетные цифровые искажения, а не как постоянный фильтр.
+### Post-processing
 
-### 7.2. Палитра
+Normal state:
 
-- стены — холодный серо-бежевый;
-- пол — выцветшее тёмное дерево;
-- мебель — чёрный металл и тёмный шпон;
-- монитор — зеленовато-голубой glow;
-- рабочая лампа — тёплый янтарный;
-- город — холодный синий и грязно-оранжевый;
-- красный — редкий акцент только поздних событий.
+- light film grain;
+- restrained vignette;
+- SSAO;
+- limited glow;
+- subtle grading.
 
-### 7.3. Приоритет production-моделей
+Narrative events:
 
-1. Архитектура квартиры.
-2. Рабочее место.
-3. Входная дверь и смарт-замок.
-4. Кухонный блок.
-5. Кровать и шкаф.
-6. Телефон, колонка, роутер и электрощит.
-7. Бытовой prop dressing.
-
-Критические сюжетные предметы должны быть собственными моделями или собраны в едином контролируемом стиле.
-
-### 7.4. Постобработка
-
-Начальное состояние:
-
-- лёгкий film grain;
-- умеренная vignette;
-- аккуратный SSAO;
-- ограниченный glow;
-- мягкий color grading.
-
-Сюжетные нарушения:
-
-- краткая chromatic aberration;
-- exposure pulse;
-- временная pixelation;
+- short chromatic aberration;
+- exposure pulses;
+- temporary pixelation;
 - motion trail;
-- дестабилизация терминала;
-- изменение resolution scale.
+- terminal instability.
 
-Все эффекты должны иметь accessibility toggle или intensity control.
+Все motion/flash effects имеют accessibility controls.
 
-## 8. Игрок и взаимодействия
+## 8. Player experience
 
-### 8.1. Player feel
+### 8.1. Movement
 
-- плавное ускорение и торможение;
-- умеренная инерция камеры;
-- настраиваемый head bob;
-- мягкое приседание с проверкой потолка;
-- лёгкий camera lean;
-- step-up для небольших препятствий;
-- отсутствие прыжка;
-- отдельные режимы normal, inspect, terminal, phone, scripted lock.
+- smooth acceleration/deceleration;
+- restrained camera inertia;
+- configurable head bob;
+- crouch ceiling check;
+- slight camera lean;
+- step-up;
+- no jump;
+- states: normal, inspect, terminal, phone, scripted lock.
 
-### 8.2. Шаги
+### 8.2. Footsteps
 
-Поддерживаемые поверхности:
+Surfaces:
 
-- ламинат;
-- кухонная плитка;
-- плитка санузла;
-- ковёр;
-- покрытие прихожей.
+```text
+laminate
+tile_kitchen
+tile_bathroom
+carpet
+hall_floor
+```
 
-Шаги учитывают скорость, приседание и поверхность. Сюжетные events могут повторять или смещать звук шагов.
+Footsteps учитывают speed, crouch и surface. Delayed/duplicated footsteps запускаются только narrative events.
 
-### 8.3. Фонарик
+### 8.3. Flashlight
 
-Числовой процент заряда убирается. Фонарик имеет сюжетные состояния:
+Числовой battery HUD удаляется.
 
 ```text
 normal -> unstable -> emergency -> disabled
 ```
 
-Имеет физический звук, camera sway, мерцание и сохраняемое состояние. Поиск батареек не используется.
+Фонарик имеет physical switch sound, sway, flicker и saveable state. Battery pickups не используются.
 
 ### 8.4. Interaction contract
 
 Объект сообщает:
 
-- доступность;
-- localization key подсказки;
-- тип действия;
-- длительность hold;
-- причину блокировки;
-- приоритет;
+- availability;
+- prompt localization key;
+- action type;
+- hold duration;
+- blocked reason;
+- priority;
 - focus point.
 
-Типы действий:
+Свободный physics grab не входит в 1.0.
 
-- Press;
-- Hold;
-- Toggle;
-- Inspect;
-- Focus;
-- Choice.
+## 9. Terminal, phone and UI
 
-Physics-grab для свободного переноса предметов не реализуется.
+### 9.1. Terminal focus mode
 
-## 9. Терминал, телефон и HUD
+- camera smoothly focuses screen;
+- movement is disabled;
+- terminal UI is separate from generic message panels;
+- controlled typing timing;
+- room events continue behind the player;
+- commands: `RUN`, `RETRY`, `DISCONNECT`, `MERGE`, `REVERT`.
 
-### 9.1. Терминал
+Игрок не вводит настоящий код.
 
-Терминал — отдельный focus mode:
+### 9.2. Phone mode
 
-- камера плавно перемещается к экрану;
-- движение блокируется;
-- появляется стилизованный рабочий UI;
-- сообщения печатаются с контролируемым timing;
-- события в комнате продолжаются за спиной;
-- доступны короткие команды `RUN`, `RETRY`, `REVERT`, `MERGE`, `DISCONNECT`.
+Phone screens:
 
-Игрок не пишет настоящий код.
+- work chat;
+- personal messages;
+- smart-home notifications;
+- time/system state.
 
-### 9.2. Телефон
-
-Минимальные экраны:
-
-- рабочий чат;
-- личные сообщения;
-- уведомления умного дома;
-- время и системное состояние.
-
-История сообщений может изменяться по narrative state.
+Message history может изменяться по narrative state. Phone также используется для in-world fallback hints.
 
 ### 9.3. HUD
 
-Постоянно отображаются только:
+Постоянно:
 
-- маленькая центральная точка;
-- контекстная подсказка.
+- small crosshair;
+- contextual prompt.
 
-Новая цель показывается временно и затем исчезает. Её можно повторно открыть отдельным действием.
+Временно:
 
-Постоянные проценты, большие панели и технические строки исключаются.
+- objective reveal;
+- subtitle;
+- sound caption;
+- hold progress.
 
-### 9.4. Меню
+Постоянные battery percentages, task list и debug state отсутствуют.
 
-Главное меню:
+### 9.4. Menus
 
-- Продолжить;
-- Новая игра;
-- Настройки;
-- Авторы;
-- Выход.
+Main menu:
+
+- Continue;
+- New Game;
+- Settings;
+- Credits;
+- Exit.
 
 После прохождения:
 
-- Главы;
-- Открытые финалы.
+- Chapter Select;
+- Endings.
 
 Pause menu:
 
-- Продолжить;
-- Настройки;
-- Последний checkpoint;
-- Главное меню.
+- Continue;
+- Settings;
+- Last Checkpoint;
+- Main Menu.
 
-Хоррор-искажения меню не должны ломать реальные кнопки.
+Хоррор-искажения не ломают реальные controls.
 
-## 10. Настройки, доступность и локализация
+## 10. Accessibility and localization
 
-### 10.1. Настройки
+Обязательные accessibility options:
 
-Управление:
-
-- mouse sensitivity;
-- invert Y;
-- remapping;
-- toggle/hold sprint и crouch.
-
-Видео:
-
-- разрешение;
-- fullscreen/windowed;
-- VSync;
-- FPS limit;
-- shadows;
-- SSAO;
-- glow;
-- post-processing;
-- brightness;
-- film grain toggle;
-- chromatic aberration toggle.
-
-Звук:
-
-- master;
-- effects;
-- ambience;
-- voice;
-- UI;
-- dynamic range preset.
-
-### 10.2. Доступность
-
-- размер текста;
-- усиленная подсветка объектов;
-- длительность подсказок;
-- снижение camera motion;
-- отключение head bob;
-- снижение вспышек;
-- субтитры;
-- подписи значимых звуков;
+- text size;
+- stronger interaction highlights;
+- prompt duration;
+- reduced camera motion;
+- head bob off;
+- reduced flashes;
+- subtitles;
+- sound captions;
 - hold alternatives;
-- предупреждение о резких звуках и световых эффектах.
+- warnings for loud sounds/flashes.
 
-### 10.3. Локализация
+First release locales:
 
-Первый релиз:
+- Russian;
+- English.
 
-- русский;
-- английский.
+Все пользовательские строки используют localization keys. Технические terminal lines могут оставаться англоязычными, если смысл понятен обеим локализациям.
 
-Все пользовательские строки используют localization keys. Технические терминальные строки могут частично оставаться англоязычными, если смысл понятен обеим локализациям.
-
-## 11. Звуковая архитектура
-
-### 11.1. Audio buses
+## 11. Audio architecture
 
 ```text
 Master
@@ -596,9 +580,7 @@ Master
 └── Horror
 ```
 
-### 11.2. Audio snapshots
-
-`AudioDirector` поддерживает состояния:
+Audio snapshots:
 
 ```text
 normal
@@ -609,22 +591,20 @@ blackout
 ending
 ```
 
-Переходы должны быть плавными и управлять громкостью, фильтрами, room tone и dynamic range.
+Rules:
 
-### 11.3. Правила
+- важные sounds имеют physical source;
+- music редко используется внутри квартиры;
+- voice короткий и редкий;
+- voice lines имеют subtitles;
+- значимые sounds поддерживают captions;
+- постоянный ambience не маскирует narrative cues.
 
-- Важные звуки имеют физический источник.
-- Музыка редко используется внутри квартиры.
-- Голос применяется коротко и редко.
-- Все voice lines имеют субтитры.
-- Важные звуки поддерживают captions.
-- Постоянный ambience не должен маскировать события.
-
-## 12. Narrative pipeline и защита прохождения
+## 12. Narrative safety
 
 Каждый beat содержит:
 
-- ID;
+- stable ID;
 - chapter;
 - prerequisites;
 - mandatory actions;
@@ -635,36 +615,32 @@ ending
 - checkpoint;
 - next beat.
 
-Обязательные beats имеют:
+Mandatory beat имеет:
 
-- восстановимый objective;
+- recoverable objective;
 - fallback trigger;
 - safe load state;
 - debug transition;
-- причины старта и завершения в логах;
-- запрет несовместимых последовательностей.
+- structured start/finish log;
+- incompatible sequence guards.
 
-Если игрок взаимодействует с объектом раньше времени, объект показывает нормальное бытовое состояние и не ломает будущий beat.
+Early interaction показывает normal state и не ломает будущий beat.
 
-Fallback-порядок:
+Fallback order:
 
-1. направляющий позиционный звук;
-2. повтор цели;
-3. слабый visual accent;
-4. естественная подсказка через телефон или терминал.
+1. positional sound;
+2. objective reminder;
+3. subtle visual accent;
+4. phone/terminal hint.
 
-## 13. Тестирование и диагностика
+## 13. Testing and diagnostics
 
-### 13.1. Quality gates
-
-Каждый milestone проходит:
+Quality gates:
 
 1. static validation;
 2. smoke test;
 3. regression route;
 4. exported build check.
-
-### 13.2. Tests
 
 ```text
 tests/
@@ -676,51 +652,41 @@ tests/
 
 Автоматически проверяются:
 
-- save serialization;
-- transitions между beats;
-- prerequisites;
-- одноразовые events;
+- settings/save serialization;
+- beat transitions и prerequisites;
+- one-shot events;
 - objective restore;
 - localization keys;
 - resource paths;
-- definitions validation;
+- definition validity;
 - license manifest;
-- settings persistence;
 - ending conditions.
 
-### 13.3. Narrative validator
+Narrative validator обнаруживает:
 
-Валидатор должен находить:
-
-- beat без перехода;
-- неизвестный event ID;
-- циклическую обязательную зависимость;
+- missing next transition;
+- unknown event ID;
+- mandatory cycles;
 - objective без fallback;
-- невосстановимый checkpoint;
-- недоступный ending;
-- отсутствующий localization key;
-- ссылку на отсутствующий scene actor;
-- конфликтующие event sequences.
+- unrecoverable checkpoint;
+- unreachable ending;
+- missing localization key;
+- missing scene actor;
+- incompatible concurrent sequences.
 
-### 13.4. Debug overlay
+Development-only debug overlay:
 
-Development-only функции:
-
-- переход к chapter/beat;
-- запуск event;
-- просмотр flags;
+- chapter/beat transition;
+- event trigger;
+- flag inspection;
 - save/load checkpoint;
-- переключение света и audio snapshot;
-- FPS, draw calls, memory;
+- lighting/audio snapshots;
+- FPS/draw calls/memory;
 - teleport points;
 - ending conditions;
-- журнал последних событий.
+- recent event log.
 
-Debug overlay не включается в release build.
-
-### 13.5. Logging
-
-Категории:
+Logging categories:
 
 ```text
 GAME
@@ -733,180 +699,193 @@ ASSET
 PERFORMANCE
 ```
 
-Release build оставляет только ошибки, влияющие на загрузку, ресурсы и progression.
+Release build сохраняет только ошибки, влияющие на startup, resources, saves и progression.
 
-## 14. Производительность
+## 14. Performance
 
-Цель:
+Target:
 
-- 1080p/60 FPS на средней дискретной видеокарте;
-- рабочий 30 FPS fallback на слабом оборудовании;
-- отсутствие заметных shader compilation stalls во время событий.
+- 1080p/60 FPS на средней дискретной GPU;
+- functional 30 FPS fallback на слабом оборудовании;
+- no visible shader compilation stalls during events.
 
-Правила:
+Rules:
 
 - ограничить shadow-casting lights;
-- переиспользовать материалы;
-- минимизировать прозрачность;
-- использовать baked/mixed light там, где подходит;
-- контролировать texture sizes;
-- использовать occlusion culling и visibility ranges;
-- не держать тяжёлые fullscreen shaders постоянно активными.
+- reuse materials;
+- minimize transparency;
+- baked/mixed lighting where appropriate;
+- controlled texture memory;
+- occlusion culling и visibility ranges;
+- heavy fullscreen effects активны только кратковременно.
 
-## 15. CI и release channels
+## 15. CI and release channels
 
-### 15.1. CI
-
-GitHub Actions должен выполнять:
+CI:
 
 - headless Godot import;
 - unit/integration tests;
 - narrative validation;
 - localization validation;
 - asset/license manifest validation;
-- Windows development build для release candidates.
+- Windows development build for release candidates.
 
-Публичный релиз требует ручного подтверждения.
+Публичный release требует ручного подтверждения.
 
-### 15.2. Каналы сборок
+Build channels:
 
-Development:
+### Development
 
 - debug overlay;
-- подробные логи;
-- пропуск beats.
+- detailed logs;
+- beat skipping.
 
-Playtest:
+### Playtest
 
 - release-like settings;
 - diagnostic logs;
 - chapter select;
-- watermark версии.
+- version watermark.
 
-Release:
+### Release
 
-- без debug-функций;
-- финальные credits;
-- проверенные сохранения;
+- no debug tools;
+- final credits/licenses;
+- verified saves;
 - store-ready executable.
 
-## 16. Версионирование
+## 16. Production milestones
+
+### P0 — Design Lock
+
+- written spec;
+- ADRs;
+- roadmap/tasks/project state/handoff;
+- final written review.
+
+### P1 — Foundation Rebuild
+
+- bootstrap;
+- scene flow;
+- logging;
+- settings;
+- saves/checkpoints;
+- menu shell;
+- tests/CI skeleton;
+- legacy adapters.
+
+### P2 — Apartment Vertical Slice
+
+- production apartment blockout;
+- component interactions;
+- modern player feel;
+- terminal focus mode;
+- AudioDirector foundation;
+- one data-driven route to checkpoint.
+
+### P3 — Environment Production
+
+- final architecture;
+- material library;
+- critical props;
+- lighting;
+- room tones;
+- dressing;
+- optimization.
+
+### P4 — Prologue and Act I
+
+- normal evening routine;
+- terminal/lamp/lock/speaker escalation;
+- phone foundation;
+- menus/settings polish;
+- RU/EN pipeline;
+- accessibility foundation.
+
+### P5 — Act II
+
+- observation events;
+- message history changes;
+- subtle/confirmed spatial changes;
+- secret ending conditions.
+
+### P6 — Act III and Endings
+
+- impossible spatial changes;
+- final terminal sequence;
+- four endings;
+- final checkpoint.
+
+### P7 — Content Complete
+
+- no placeholders;
+- voice/subtitles/captions;
+- localization proofreading;
+- credits/license manifest;
+- accessibility pass;
+- all chapters playable.
+
+### P8 — Release Candidate
+
+- export presets;
+- compatibility testing;
+- performance stabilization;
+- final license audit;
+- store metadata;
+- release build.
+
+## 17. Versioning
+
+Existing prototype history occupies `0.1.0`–`0.3.6`.
+
+Production line:
 
 ```text
-0.1.x — production architecture foundation
-0.2.x — apartment vertical slice
-0.3.x — Act I
-0.4.x — Act II
-0.5.x — Act III and endings
-0.8.x — content complete
+0.4.x — P1 Foundation Rebuild
+0.5.x — P2 Apartment Vertical Slice
+0.6.x — P3 Environment + P4 Act I
+0.7.x — P5 Act II
+0.8.x — P6 Act III and content complete
 0.9.x — release candidates
 1.0.0 — public release
 ```
 
-Исторические prototype-версии 0.1–0.3 сохраняются в changelog, но следующая архитектурная итерация начинает новую production-линейку с явной пометкой rebuild.
+## 18. Definition of Done 1.0.0
 
-## 17. Production milestones
-
-### Milestone P0 — Design Lock
-
-- production spec;
-- ADR decisions;
-- обновлённые roadmap, project state и tasks;
-- согласованный scope.
-
-### Milestone P1 — Foundation Rebuild
-
-- bootstrap;
-- scene flow;
-- settings;
-- save/load;
-- logging;
-- debug overlay foundation;
-- tests and CI skeleton;
-- legacy adapters.
-
-### Milestone P2 — Apartment Vertical Slice
-
-- production blockout квартиры;
-- component-based interactions;
-- modern player feel;
-- terminal focus mode;
-- one complete narrative route;
-- initial production lighting and audio.
-
-### Milestone P3 — Environment Production
-
-- final architecture models;
-- materials;
-- critical props;
-- lighting;
-- audio room tones;
-- performance pass.
-
-### Milestone P4 — Act I
-
-- full prologue and Routine act;
-- phone foundation;
-- settings/menu polish;
-- RU/EN localization pipeline.
-
-### Milestone P5 — Act II
-
-- Observation act;
-- spatial changes level 1–2;
-- expanded sound and narrative events;
-- secret ending prerequisites.
-
-### Milestone P6 — Act III and Endings
-
-- impossible apartment transformations;
-- final terminal sequence;
-- MERGE, REVERT, BLACKOUT, CLEAN BUILD;
-- ending checkpoint.
-
-### Milestone P7 — Content Complete
-
-- no placeholder assets;
-- all voice/subtitles;
-- credits;
-- accessibility pass;
-- all chapters playable.
-
-### Milestone P8 — Release Candidate
-
-- compatibility testing;
-- performance stabilization;
-- Windows export;
-- store metadata;
-- final license audit;
-- release build.
-
-## 18. Definition of Done для 1.0.0
-
-- Все четыре финала доступны и проверены.
+- Все четыре endings доступны и проверены.
 - Нет известных progression blockers.
-- Каждый checkpoint корректно восстанавливает прохождение.
-- Русская и английская локализации проверены.
-- Все внешние ресурсы внесены в credits и license manifest.
-- Настройки сохраняются после перезапуска.
-- Keyboard/mouse управление полностью работает.
-- Обязательные accessibility-настройки реализованы.
-- Windows build проверен вне редактора.
-- Placeholder-модели, звуки и тексты отсутствуют.
-- Достигнута целевая производительность.
-- Release build не содержит debug-функций.
+- Checkpoints корректно восстанавливают state.
+- RU/EN проверены.
+- Все external assets имеют credits и license manifest.
+- Settings сохраняются после restart.
+- Keyboard/mouse controls полностью работают.
+- Согласованные accessibility options реализованы.
+- Windows build проверен вне Editor.
+- Placeholder models/sounds/texts отсутствуют.
+- Target performance достигнута.
+- Release build не содержит debug tools.
 
-## 19. Первый implementation scope
+## 19. Первый implementation PR
 
-После принятия этого документа первым кодовым этапом должен стать **Milestone P1 — Foundation Rebuild**, разбитый на небольшие PR.
+После финального подтверждения written spec создаётся подробный implementation plan.
 
-Первый PR P1 должен ограничиваться:
+Первый code PR — **P1.1 Bootstrap and Logging** — ограничивается:
 
 - `GameBootstrap`;
-- типизированным logging service;
-- `SettingsManager` с сохранением базовых настроек;
-- новой production main scene, которая пока загружает существующий playable slice через legacy adapter;
-- минимальными unit/smoke checks;
-- обновлением документации.
+- production main scene;
+- typed logging service;
+- development/release mode flags;
+- legacy adapter, загружающим текущий playable slice;
+- минимальным smoke check;
+- документацией.
 
-В первый implementation PR нельзя одновременно добавлять новую квартиру, внешние ассеты, финалы или переписывать все интерактивные объекты.
+В первый code PR не входят:
+
+- `SettingsManager`;
+- save system;
+- новая квартира;
+- external assets;
+- финалы;
+- полная narrative migration;
+- переписывание всех interactive objects;
+- Steam SDK.
