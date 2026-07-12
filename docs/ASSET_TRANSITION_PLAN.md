@@ -1,219 +1,330 @@
 # ASSET_TRANSITION_PLAN.md
 
+Дата обновления: 2026-07-12
+
 ## Назначение
 
-Этот документ описывает, как перейти от текущего greybox-прототипа к нормальным ассетам в едином стиле.
+Документ описывает переход от текущего `BoxMesh` greybox к release-quality окружению в стиле grounded stylized realism.
 
-Цель: сохранить вайб короткого lo-fi / PSX / бытового хоррора и не превратить проект в набор случайных моделей из разных паков.
+Полный production design:
 
-## Текущая проблема
+```text
+docs/superpowers/specs/2026-07-12-production-rebuild-design.md
+```
 
-Сейчас сцена квартиры частично собрана из примитивов Godot. Это нормально для первых итераций, но уже появились проблемы:
+## Текущее состояние
 
-- рабочий стол стоял слишком близко к входной двери;
-- монитор мог восприниматься как развёрнутый к стене;
-- стул был расположен неверно и визуально висел в воздухе;
-- бытовая логика комнаты была слабой;
-- объекты пока не имеют общего художественного языка.
+В prototype:
+
+- квартира представляет собой прямоугольную комнату;
+- архитектура, мебель и устройства собраны из Godot primitives;
+- внешние models/textures отсутствуют;
+- production material library отсутствует;
+- `CREDITS.md` содержит только procedural placeholder audio.
+
+Текущие примитивы являются blockout и не могут оставаться в release-facing контенте.
 
 ## Целевой стиль
 
-Ориентир: короткий first-person lo-fi horror.
+```text
+grounded stylized realism
+```
 
-Не копировать конкретные игры, интерфейсы, сцены или ассеты. Брать только принципы:
+Принципы:
 
-- простая геометрия;
-- низкая детализация;
-- слегка грязные материалы;
-- бытовая узнаваемость;
-- тёмная квартира;
-- сильные световые пятна от монитора, лампы и двери;
-- важные объекты читаются с первого взгляда.
+- реалистичные размеры;
+- low/mid-poly geometry;
+- PBR materials;
+- жилая слегка неопрятная квартира;
+- техника без брендов;
+- умеренная детализация;
+- единая палитра и material response;
+- цифровые PSX/VHS-искажения только во время events.
 
-## Art direction rules
+Не использовать постоянную pixelation или VHS-фильтр для маскировки слабых models/materials.
 
-### Геометрия
+## Целевая планировка
 
-- Низко- и среднеполигональные модели.
-- Простые силуэты.
-- Без фотореалистичных моделей рядом с primitive geometry.
-- Не использовать слишком мультяшные asset packs.
-- Предпочтение моделям, которые легко затемнить и состарить материалами.
+Квартира 38–45 м²:
 
-### Цвет
+- прихожая;
+- smart-lock entrance;
+- электрощит;
+- короткий коридор;
+- основная комната;
+- рабочее место;
+- зона сна;
+- кухня;
+- санузел;
+- окно или балконная дверь.
 
-Основная палитра:
+Production assets нельзя расставлять до утверждения масштаба и blockout route.
 
-- грязный серо-синий для стен;
-- тёмное дерево для стола/полки;
-- почти чёрный пластик для техники;
-- зелёный мониторный glow;
-- тёплый жёлтый свет лампы;
-- маленькие красные/зелёные индикаторы устройств.
+## Asset tiers
 
-### Масштаб
+### Tier A — Architecture
 
-Базовый рост игрока: около 1.7–1.8 м.
+- стены и проёмы;
+- полы;
+- потолки;
+- дверные коробки;
+- окна;
+- кухонная и санитарная архитектура;
+- плинтусы, наличники, розетки, выключатели.
 
-Ориентиры:
+### Tier B — Critical narrative props
 
-| Объект | Примерный размер |
-|---|---:|
-| Стол | 2.0–2.6 м ширина, 0.7–0.8 м высота |
-| Монитор | 0.5–0.7 м ширина |
-| Стул | сиденье около 0.45 м от пола |
-| Дверь | около 2.0 м высота |
-| Кровать | 2.0 м длина |
-| Смарт-колонка | 0.2–0.4 м |
+Лучше собственные models или контролируемая единая серия:
 
-### Текстуры
+- монитор и terminal workstation;
+- keyboard/mouse;
+- desk lamp;
+- smartphone;
+- Smart Speaker;
+- router;
+- smart lock;
+- electrical panel;
+- final network/power interaction objects.
 
-- Не гнаться за HD.
-- Лучше 256–1024 px текстуры с грязью/шумом.
-- Можно позже добавить pixelated/nearest импорт.
-- Важно избегать слишком чистых материалов.
+### Tier C — Major furniture
 
-## Asset categories
+- desk;
+- chair;
+- bed;
+- wardrobe;
+- shelf;
+- kitchen cabinets;
+- table/stools.
 
-### Tier 1 — Must-have room props
+### Tier D — Dressing
 
-Заменить в первую очередь:
+- кружки;
+- кабели;
+- зарядки;
+- упаковки;
+- одежда;
+- бумаги;
+- лекарства;
+- полотенца;
+- посуда;
+- обувь;
+- бытовой мусор;
+- книги без реальных обложек.
 
-1. Рабочий стол.
-2. Стул.
-3. Монитор.
-4. Клавиатура.
-5. Лампа.
-6. Входная дверь.
-7. Кровать.
-8. Полка.
-9. Смарт-колонка или телефон.
+### Tier E — Exterior illusion
 
-### Tier 2 — Atmosphere props
+- city backdrop;
+- emissive windows;
+- simplified balcony/exterior geometry;
+- distant traffic lights;
+- non-interactive skyline.
 
-Добавлять после стабилизации layout:
+## Texture and material budgets
 
-1. Кружка.
-2. Кабели.
-3. Роутер.
-4. Зарядка телефона.
-5. Коробки.
-6. Пакеты/бумаги.
-7. Стикеры.
-8. Маленькие индикаторы.
+- 1K — большинство props;
+- 2K — крупные архитектурные surfaces и hero props;
+- 512 px — небольшие repeated props;
+- trim sheets и atlases предпочтительны для architecture/dressing;
+- normal/roughness/metallic только там, где дают заметную ценность;
+- emissive maps для экранов и индикаторов;
+- material instances вместо множества уникальных materials.
 
-### Tier 3 — Final dressing
+4K textures не использовать без профилирования и отдельной причины.
 
-Только после первого playable episode:
+## Material library
 
-1. Шторы.
-2. Ковёр.
-3. Обои/пятна на стенах.
-4. Мелкий мусор.
-5. Варианты материалов.
-6. VHS/CRT post-process.
+Минимальный набор:
 
-## Preferred sources
+- painted plaster;
+- dirty painted wall;
+- dark laminate;
+- corridor floor covering;
+- kitchen/bathroom tile;
+- dark veneer;
+- black coated metal;
+- generic dark plastic;
+- translucent glass;
+- fabric;
+- paper/cardboard;
+- rubber/cable;
+- screen glass/emissive display.
 
-Использовать только после проверки лицензии и записи в `docs/CREDITS.md`.
+Материалы должны иметь controlled variation, а не случайный mix из разных packs.
 
-1. Собственные модели из Blender.
-2. Kenney assets, если подходят по стилю.
-3. OpenGameArt с CC0/CC BY и понятной атрибуцией.
-4. Godot Asset Library, если пакет подходит по лицензии и не тянет лишние зависимости.
-5. Itch.io asset packs только при явной лицензии и едином стиле.
-6. Сгенерированные ассеты только при понятных условиях сервиса.
+## Palette
 
-## Avoid
+- стены — холодный серо-бежевый;
+- пол — выцветшее тёмное дерево;
+- мебель — чёрный металл и тёмный шпон;
+- monitor glow — зелёно-голубой;
+- desk lamp — тёплый янтарный;
+- exterior — холодный синий и грязно-оранжевый;
+- красный — редкий late-game accent.
 
-Не использовать:
+## Sources
 
-- ассеты без лицензии;
-- ассеты с CC BY-NC;
-- ассеты с CC BY-ND;
-- модели из чужих игр;
-- узнаваемые реальные бренды;
-- UI реальных сервисов;
-- слишком реалистичные модели рядом с PSX окружением;
-- ассеты, которые требуют большого количества зависимостей;
-- случайный mix из разных visual styles.
+Приоритет:
 
-## Replacement process
+1. собственные Blender models;
+2. Poly Haven CC0;
+3. ambientCG CC0;
+4. Kenney CC0, если визуально подходит;
+5. OpenGameArt CC0/CC BY после проверки;
+6. коммерческие asset packs с понятными redistribution terms;
+7. generated assets только при ясных commercial rights.
 
-Каждый asset replacement делать маленьким PR.
+Каждый конкретный ресурс проверяется отдельно. Название платформы не гарантирует лицензию конкретного файла.
 
-Шаблон:
+## Запрещено
 
-1. Выбрать один объект или одну группу объектов.
-2. Проверить лицензию.
-3. Добавить asset в проект.
-4. Обновить сцену.
-5. Обновить `docs/CREDITS.md`.
-6. Обновить `docs/PROJECT_STATE.md`.
-7. Проверить в Godot масштаб, коллизии и читаемость.
+- ripped assets;
+- assets из чужих игр;
+- CC BY-NC;
+- CC BY-ND;
+- unknown license;
+- editorial-only;
+- реальные логотипы и UI брендов;
+- случайный mix photorealistic, cartoon и low-poly packs;
+- model с готовой collision, которая мешает movement;
+- использование render preview как game texture;
+- распространение third-party source files, если license это запрещает.
 
-## First replacement candidates
+## Import pipeline
 
-### 1. Chair
+Для каждого 3D asset:
 
-Причина: игрок сразу видит рабочее место, а плохой стул быстро разрушает доверие к комнате.
+1. зафиксировать source, author, license и дату;
+2. сохранить source package отдельно, если license разрешает;
+3. проверить scale и orientation;
+4. удалить неиспользуемые materials/animations;
+5. нормализовать naming;
+6. экспортировать GLB/glTF;
+7. настроить Godot import;
+8. создать reusable scene prefab;
+9. создать simplified collision;
+10. назначить material instances;
+11. проверить shadows, visibility ranges и light response;
+12. обновить `docs/CREDITS.md` и license manifest;
+13. проверить в exported build.
 
-Требования:
+## Collision rules
 
-- простой офисный стул;
-- не слишком современный;
-- тёмный материал;
-- корректная высота относительно пола.
+- декоративные мелкие props не создают сложную physical collision;
+- movement collision отделяется от interaction target;
+- двери используют отдельный frame, leaf, handle и interaction shape;
+- мебель получает simplified boxes/convex shapes;
+- critical small object может иметь enlarged invisible interaction shape;
+- collision не должна следовать каждому полигону модели;
+- static clutter объединяется только после проверки interaction needs.
 
-### 2. Desk + monitor
+## Hero prop requirements
 
-Причина: это главный центр игры.
+### Workstation
 
-Требования:
+- правдоподобная высота;
+- монитор смотрит в игровое пространство;
+- screen surface отделена от body;
+- есть camera focus point;
+- есть audio emitter positions;
+- terminal UI не baked в texture;
+- cables имеют логичную трассировку.
 
-- монитор должен явно смотреть в сторону игрока/комнаты;
-- клавиатура должна лежать на столе;
-- стол должен стоять не у входной двери;
-- вокруг должно быть место для лампы, стикера и кружки.
+### Entrance door
 
-### 3. Door
+- frame и leaf разделены;
+- корректный pivot;
+- handle/lock читаются;
+- smart-lock indicator имеет visual states;
+- collision не блокирует проём после открытия;
+- есть sound points и saveable state.
 
-Причина: дверь — граница безопасности и будущий horror object.
+### Smart Speaker
 
-Требования:
+- normal/active/corrupted visual states;
+- indicator readable without brand logo;
+- отдельный audio emitter;
+- interaction shape не зависит от точной геометрии.
 
-- читаемый силуэт;
-- маленький smart-lock indicator;
-- отдельная точка для звука/света.
+### Router
 
-## Layout rules before asset polish
+- generic design;
+- readable LEDs;
+- cable/network clue states;
+- inspect focus mode;
+- secret ending state.
 
-До добавления красивых ассетов комната должна работать как план:
+### Electrical panel
 
-- дверь не должна конфликтовать с рабочим местом;
-- игрок должен видеть рабочую зону после старта;
-- путь от стола к двери должен быть свободен;
-- путь от стола к колонке/телефону должен быть свободен;
-- стул не должен висеть в воздухе;
-- монитор должен смотреть внутрь комнаты;
-- важные scripted objects не должны находиться в одной куче.
+- normal and opened states;
+- hold interaction;
+- breaker animation;
+- power sequence hooks;
+- safe collision and camera focus.
 
-## Near-term plan
+## Lighting compatibility
 
-1. Исправить greybox layout.
-2. Добавить отдельный телефон или колонку как второй бытовой объект.
-3. Подобрать первый CC0/CC BY asset pack или сделать собственные простые модели.
-4. Заменить стул.
-5. Заменить монитор/стол.
-6. Заменить дверь.
-7. Добавить 3–5 мелких atmospheric props.
+Assets проверяются минимум в состояниях:
 
-## Definition of Done for asset transition
+- normal night;
+- desk lamp only;
+- kitchen light;
+- emergency/blackout;
+- monitor glow;
+- corrupted exposure.
 
-Переход к нормальным ассетам считается начатым, когда:
+Материал, который выглядит хорошо только в preview HDRI, не считается готовым.
 
-- есть стабильная планировка комнаты;
-- есть список обязательных prop replacements;
-- первый внешний или собственный asset добавлен с записью в `docs/CREDITS.md`;
-- объект проверен в Godot по масштабу и коллизии;
-- стиль не конфликтует с lo-fi horror направлением.
+## Optimization budgets
+
+- ограничить количество unique materials;
+- использовать static shadows только там, где нужно;
+- мелкие props группировать по room section;
+- применять visibility ranges;
+- не использовать прозрачность для непрозрачных материалов;
+- city backdrop делать simplified;
+- учитывать texture memory;
+- измерять draw calls после каждого environment pass.
+
+## Replacement order
+
+### P2 — Vertical Slice
+
+1. production blockout architecture;
+2. entrance door;
+3. workstation;
+4. desk lamp;
+5. one room material set;
+6. critical interaction shapes.
+
+### P3 — Environment Production
+
+1. full architecture;
+2. kitchen and bathroom modules;
+3. major furniture;
+4. router, phone, speaker, electrical panel;
+5. dressing;
+6. exterior illusion;
+7. optimization.
+
+## Definition of Done для asset
+
+- source и license записаны;
+- scale проверен относительно игрока;
+- pivot и orientation корректны;
+- prefab имеет понятную структуру;
+- collision не мешает navigation;
+- materials соответствуют art direction;
+- interaction point читается;
+- asset проверен в нескольких lighting states;
+- отсутствуют реальные logos;
+- asset не вызывает заметного performance regression;
+- `docs/CREDITS.md` обновлён.
+
+## Definition of Done для environment production
+
+- release route не показывает `BoxMesh` placeholders;
+- квартира узнаваема и бытово правдоподобна;
+- normal layout запоминается до transformations;
+- critical props имеют visual/audio/save states;
+- все third-party assets имеют provenance;
+- performance соответствует roadmap quality gate.
