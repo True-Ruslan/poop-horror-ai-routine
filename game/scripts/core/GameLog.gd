@@ -17,12 +17,12 @@ const CATEGORY_UI: StringName = &"UI"
 const CATEGORY_ASSET: StringName = &"ASSET"
 const CATEGORY_PERFORMANCE: StringName = &"PERFORMANCE"
 
-var _min_level: Level = Level.DEBUG if OS.is_debug_build() else Level.WARNING
+var _min_level: int = Level.DEBUG if OS.is_debug_build() else Level.WARNING
 
-func set_min_level(level: Level) -> void:
+func set_min_level(level: int) -> void:
     _min_level = level
 
-func should_emit(level: Level) -> bool:
+func should_emit(level: int) -> bool:
     return level >= _min_level
 
 func debug(category: StringName, message: String) -> void:
@@ -37,7 +37,7 @@ func warning(category: StringName, message: String) -> void:
 func error(category: StringName, message: String) -> void:
     _emit(Level.ERROR, category, message)
 
-func _emit(level: Level, category: StringName, message: String) -> void:
+func _emit(level: int, category: StringName, message: String) -> void:
     if not should_emit(level):
         return
 
@@ -50,7 +50,7 @@ func _emit(level: Level, category: StringName, message: String) -> void:
         _:
             print(line)
 
-func _level_name(level: Level) -> String:
+func _level_name(level: int) -> String:
     match level:
         Level.DEBUG:
             return "DEBUG"
