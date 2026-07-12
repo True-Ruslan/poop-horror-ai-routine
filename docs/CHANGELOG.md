@@ -7,6 +7,7 @@
 ### Added
 
 - Добавлен согласованный production design spec `docs/superpowers/specs/2026-07-12-production-rebuild-design.md`.
+- Добавлен implementation plan `docs/superpowers/plans/2026-07-12-p1-foundation-rebuild.md` для этапа P1.
 - Зафиксирован целевой масштаб: 45–60 минут, одна квартира, пролог, три акта и четыре финала.
 - Описаны production architecture, data-driven narrative, component-based interactions, checkpoint saves, settings, localization и accessibility.
 - Описаны audio architecture, testing strategy, narrative validation, CI и release channels.
@@ -18,12 +19,13 @@
 - `docs/TASKS.md` заменяет prototype backlog на production milestones P0–P8, сохраняя историю завершённых prototype-итераций.
 - `docs/ROADMAP.md` обновлён для версии 1.0.0.
 - `docs/AGENT_HANDOFF.md` больше не отправляет нового агента к уже завершённому Beat 6 и указывает Foundation Rebuild как следующий этап.
+- Первый implementation PR ограничен P1.1: bootstrap, structured logging, legacy adapter и smoke checks.
 
 ### Notes
 
 - Игровой код и сцены в этой итерации не изменялись.
 - Godot не запускался в среде чата.
-- Implementation запрещён до review и подтверждения written spec.
+- Implementation начинается только после review и подтверждения written spec и P1 plan.
 
 ## [0.3.6] — 2026-07-07
 
