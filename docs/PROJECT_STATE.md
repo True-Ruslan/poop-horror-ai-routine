@@ -18,11 +18,13 @@
 - обязательные accessibility-настройки;
 - без боевой системы и традиционного AI-врага.
 
-Полный согласованный дизайн:
+Written production spec создан и прошёл self-review:
 
 ```text
 docs/superpowers/specs/2026-07-12-production-rebuild-design.md
 ```
+
+Текущий gate: финальное подтверждение written spec пользователем.
 
 ## Что существует в main
 
@@ -85,7 +87,7 @@ game/scenes/ui/HUD.tscn
 
 - квартира и большинство предметов собраны из `BoxMesh`;
 - отсутствуют финальные модели, PBR-материалы, texture pipeline и prop dressing;
-- progression зависит от строк, встроенных в объектные скрипты;
+- progression зависит от строк, встроенных в object scripts;
 - нет save/load, chapter state и checkpoint recovery;
 - нет settings manager, localization pipeline и accessibility system;
 - нет production main menu и pause menu;
@@ -128,7 +130,7 @@ AccessibilityManager
 - отдельные зоны: прихожая, коридор, комната, кухня, санузел;
 - PSX/VHS-эффекты только во время цифровых нарушений;
 - никаких placeholder `BoxMesh` в release-контенте;
-- только коммерчески безопасные ассеты с записью в `docs/CREDITS.md`.
+- только коммерчески безопасные assets с записью в `docs/CREDITS.md`.
 
 ## Текущий milestone
 
@@ -136,12 +138,20 @@ AccessibilityManager
 P0 — Design Lock
 ```
 
-В работе:
+Завершено:
 
-- зафиксировать production design spec;
-- обновить roadmap, tasks, decisions и handoff;
-- провести self-review документа;
-- получить финальное подтверждение spec перед implementation planning.
+- полный аудит;
+- согласование scope и разделов дизайна;
+- written production spec;
+- versioning correction: production line начинается с `0.4.x`;
+- согласование первого code scope: P1.1 Bootstrap and Logging;
+- обновление основных sources of truth;
+- spec self-review.
+
+Ожидается:
+
+- подтверждение written spec пользователем;
+- implementation plan для P1.
 
 ## Следующий milestone
 
@@ -149,23 +159,28 @@ P0 — Design Lock
 P1 — Foundation Rebuild
 ```
 
-Первый implementation scope:
+Первый code PR:
+
+```text
+P1.1 — Bootstrap and Logging
+```
+
+Scope:
 
 - `GameBootstrap`;
 - production main scene;
 - typed logging service;
-- `SettingsManager` с базовым persistence;
-- legacy adapter для загрузки текущего playable slice;
-- tests/CI skeleton;
-- документация и manual test route.
+- development/release flags;
+- legacy adapter для текущей квартиры;
+- minimal smoke check;
+- documentation.
 
-В первый P1 PR нельзя одновременно добавлять новую квартиру, внешние ассеты, финалы или переписывать все объекты.
+В первый P1.1 PR не входят settings, saves, новая квартира, external assets, endings или полная narrative migration.
 
 ## Основные риски
 
 - В среде чата Godot не запускался; все scene/runtime изменения требуют локальной проверки.
 - Production rebuild нельзя выполнять одним большим переписыванием.
-- Внешние ассеты нельзя добавлять до проверки лицензии и оформления credits.
+- Внешние assets нельзя добавлять до проверки лицензии и оформления credits.
 - Current prototype event flow должен оставаться проходимым во время миграции.
-- Старые документы про 15–25-минутный MVP необходимо последовательно синхронизировать с production spec.
 - Target Godot version 4.7+ нужно подтвердить локальной установленной сборкой перед началом CI/export work.
