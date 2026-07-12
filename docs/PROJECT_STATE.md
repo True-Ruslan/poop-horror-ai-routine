@@ -1,40 +1,34 @@
 # PROJECT_STATE.md
 
-Дата обновления: 2026-07-07
+Дата обновления: 2026-07-12
 
 ## Текущий статус
 
-Проект находится на стадии первого playable slice по сценарию.
+Проект завершил этап раннего playable prototype и переходит к production rebuild.
 
-Это ранний playable slice:
+Согласован целевой продукт:
 
-- есть Godot-проект;
-- есть игрок от первого лица;
-- есть первая квартира разработчика;
-- есть базовые интерактивные объекты;
-- есть сценарий и план развития;
-- есть первый реальный scripted event со светом;
-- есть первые procedural sounds для терминала и лампы;
-- рабочая зона перенесена от двери в отдельный угол комнаты;
-- есть фазовый Door Refusal для входной двери;
-- есть интерактивный Smart Speaker;
-- есть post-speaker фаза терминала;
-- есть HUD objective glitch после post-speaker фазы;
-- есть handoff-документ для нового чата/агента;
-- есть план перехода от greybox к lo-fi / PSX ассетам;
-- нет полноценного финала.
+- одиночный first-person psychological horror;
+- продолжительность 45–60 минут;
+- одна глубоко проработанная квартира площадью примерно 38–45 м²;
+- пролог и три акта;
+- четыре финала: `MERGE`, `REVERT`, `BLACKOUT`, `CLEAN BUILD`;
+- релиз на Windows с подготовкой для Steam и itch.io;
+- русский и английский языки;
+- обязательные accessibility-настройки;
+- без боевой системы и традиционного AI-врага.
 
-## Рабочее название
+Полный согласованный дизайн:
 
 ```text
-AI Routine: Last Commit
+docs/superpowers/specs/2026-07-12-production-rebuild-design.md
 ```
 
-## Главная идея
+## Что существует в main
 
-Короткий хоррор про разработчика, который пытается закрыть вечернюю задачу. Рабочий стол, монитор, стикер, лампа, дверь и умная колонка постепенно становятся источниками тревоги.
+### Playable prototype
 
-## Текущая основная сцена
+Основная сцена:
 
 ```text
 game/scenes/Main.tscn
@@ -47,130 +41,131 @@ game/scenes/levels/DeveloperApartment.tscn
 game/scenes/ui/HUD.tscn
 ```
 
-## Что уже реализовано
-
-### Системы
-
-- Игрок от первого лица.
-- Движение, бег, приседание.
-- Фонарик.
-- Interaction raycast.
-- HUD.
-- ObjectiveManager.
-- HorrorEventManager.
-- GameState.
-- ApartmentEventController.
-- Runtime procedural SFX внутри `ApartmentEventController`.
-- Runtime-подключение `SmartSpeaker.gd` к объекту `SmartSpeaker` в сцене.
-- HUD reaction на `terminal_device_list`.
-
-### Объекты
-
-- `InteractableDoor` с фазовыми locked-сообщениями.
-- `InteractableNote`.
-- `LightSwitch`.
-- `ComputerTerminal` с post-speaker фазой.
-- `SmartSpeaker`.
-
-### Локации
-
-- `TemplateLevel.tscn` — старый шаблонный уровень.
-- `DeveloperApartment.tscn` — первая основная локация игры.
-
-### Сценарные events
-
-- `task_sticker_read` — чтение стикера.
-- `terminal_first_ai_reply` — первый странный ответ терминала.
-- `terminal_first_ai_reply` запускает procedural notification sound и мигание `DeskLamp` через `ApartmentEventController`.
-- Перед миганием лампы проигрывается procedural `desk_lamp_click`.
-- `smart_lock_denied` — входная дверь отказывает и переводит игрока к Smart Speaker.
-- `speaker_wrong_name` — Smart Speaker странно отвечает после первого терминального event.
-- `terminal_device_list` — терминал после Smart Speaker показывает список объектов квартиры.
-- `hud_objective_corrupt` — HUD меняет формулировку цели после post-speaker фазы терминала.
-
-### Objective flow
-
-Текущая цепочка первого playable slice:
+Текущий prototype route:
 
 ```text
 стикер → терминал → лампа → дверь → Smart Speaker → терминал → HUD objective glitch
 ```
 
-После события лампы цель ведёт к входной двери. После первой проверки запертой двери цель ведёт к Smart Speaker. После Smart Speaker терминал показывает список объектов, а HUD затем меняет формулировку цели.
+### Системы прототипа
 
-### Layout
+- first-person movement;
+- sprint и crouch;
+- flashlight;
+- interaction raycast;
+- `GameState`;
+- `ObjectiveManager`;
+- `HorrorEventManager`;
+- `ApartmentEventController`;
+- HUD;
+- procedural placeholder sounds.
 
-- Рабочий стол перенесён к правой стене, а не к входной двери.
-- Монитор развёрнут внутрь комнаты.
-- Стул опущен на пол.
-- Лампа, клавиатура и стикер находятся в рабочей зоне.
-- Smart Speaker вынесен на полку в другой части комнаты.
+### Объекты прототипа
 
-### Handoff-документация
+- `InteractableNote`;
+- `InteractableDoor`;
+- `LightSwitch`;
+- `ComputerTerminal`;
+- `SmartSpeaker`.
 
-Для нового пустого чата или код-агента создан документ:
+### Реализованные prototype events
 
-```text
-docs/AGENT_HANDOFF.md
-```
+- `task_sticker_read`;
+- `terminal_first_ai_reply`;
+- `smart_lock_denied`;
+- `speaker_wrong_name`;
+- `terminal_device_list`;
+- `hud_objective_corrupt`.
 
-С него можно начать работу, чтобы понять проект, статус, ближайшие задачи и правила документации.
+## Результаты аудита
 
-## Что ещё не реализовано
+Текущий проект является функциональным prototype, но не production-ready игрой.
 
-- Локальная проверка новой планировки в Godot.
-- Локальная проверка громкости procedural sounds в Godot.
-- Локальная проверка Door Refusal в Godot.
-- Локальная проверка Smart Speaker в Godot.
-- Локальная проверка post-speaker фазы терминала в Godot.
-- Локальная проверка HUD objective glitch в Godot.
-- Звуки `door_lock_error`, `speaker_wake` и `keyboard_burst`.
-- Финальный prompt первого эпизода.
-- Нормальные внешние/собственные lo-fi ассеты вместо greybox-примитивов.
-- Главное меню.
-- Export preset для Windows.
+Критические ограничения:
 
-## Ближайшая задача
+- квартира и большинство предметов собраны из `BoxMesh`;
+- отсутствуют финальные модели, PBR-материалы, texture pipeline и prop dressing;
+- progression зависит от строк, встроенных в объектные скрипты;
+- нет save/load, chapter state и checkpoint recovery;
+- нет settings manager, localization pipeline и accessibility system;
+- нет production main menu и pause menu;
+- нет полноценного terminal/phone focus mode;
+- звук генерируется внутри контроллера уровня;
+- нет audio buses и dynamic snapshots;
+- нет tests, narrative validation и CI;
+- нет `export_presets.cfg` и release pipeline;
+- большинство prototype beats не проверялись локально в Godot после merge.
 
-Следующий PR:
+## Согласованная production-архитектура
 
-```text
-Добавить Final Prompt первого эпизода.
-```
-
-Минимальные файлы для следующей задачи:
-
-- `docs/AGENT_HANDOFF.md`;
-- `docs/SCENE_BEATS.md`;
-- `docs/INTERACTION_MECHANICS.md`;
-- `game/scripts/objects/ComputerTerminal.gd`;
-- `docs/TASKS.md`;
-- `docs/CHANGELOG.md`;
-- `docs/PROJECT_STATE.md`.
-
-## Asset transition
-
-План перехода к нормальным ассетам описан в:
+Целевые core-сервисы:
 
 ```text
-docs/ASSET_TRANSITION_PLAN.md
+GameBootstrap
+SceneFlowManager
+SaveGameManager
+SettingsManager
+NarrativeDirector
+ObjectiveSystem
+EventSequenceRunner
+AudioDirector
+LocalizationManager
+AccessibilityManager
 ```
 
-Первый приоритет:
+Сценарий переносится в data-driven Godot Resources. Интерактивные объекты переходят на component-based prefab с отдельными interaction, visual, audio, highlight и saveable components.
 
-1. Стул.
-2. Стол + монитор.
-3. Дверь со smart-lock индикатором.
-4. Кабели, кружка, роутер и мелкие бытовые props.
+Старые системы удаляются только после миграции и regression-проверки существующего playable route.
 
-## Риски
+## Согласованное художественное направление
 
-- Текущие сцены нужно проверить в Godot локально.
-- Procedural sounds могут потребовать настройки громкости.
-- Door Refusal нужно проверить в Godot: фазы, objective flow и одноразовый `smart_lock_denied`.
-- Smart Speaker подключается к существующему node через `ApartmentEventController`, это нужно проверить в Godot.
-- Post-speaker фаза терминала зависит от `speaker_wrong_name`.
-- HUD objective glitch зависит от `terminal_device_list` и закрытия сообщения.
-- Внешние ассеты пока не добавлялись.
-- Новые asset packs нельзя добавлять без проверки лицензии и записи в `docs/CREDITS.md`.
-- Документация не должна расходиться с фактической реализацией.
+Целевой стиль: grounded stylized realism.
+
+- реалистичные размеры и планировка;
+- low/mid-poly production models;
+- PBR-материалы 1K–2K;
+- жилая и слегка неопрятная квартира;
+- отдельные зоны: прихожая, коридор, комната, кухня, санузел;
+- PSX/VHS-эффекты только во время цифровых нарушений;
+- никаких placeholder `BoxMesh` в release-контенте;
+- только коммерчески безопасные ассеты с записью в `docs/CREDITS.md`.
+
+## Текущий milestone
+
+```text
+P0 — Design Lock
+```
+
+В работе:
+
+- зафиксировать production design spec;
+- обновить roadmap, tasks, decisions и handoff;
+- провести self-review документа;
+- получить финальное подтверждение spec перед implementation planning.
+
+## Следующий milestone
+
+```text
+P1 — Foundation Rebuild
+```
+
+Первый implementation scope:
+
+- `GameBootstrap`;
+- production main scene;
+- typed logging service;
+- `SettingsManager` с базовым persistence;
+- legacy adapter для загрузки текущего playable slice;
+- tests/CI skeleton;
+- документация и manual test route.
+
+В первый P1 PR нельзя одновременно добавлять новую квартиру, внешние ассеты, финалы или переписывать все объекты.
+
+## Основные риски
+
+- В среде чата Godot не запускался; все scene/runtime изменения требуют локальной проверки.
+- Production rebuild нельзя выполнять одним большим переписыванием.
+- Внешние ассеты нельзя добавлять до проверки лицензии и оформления credits.
+- Current prototype event flow должен оставаться проходимым во время миграции.
+- Старые документы про 15–25-минутный MVP необходимо последовательно синхронизировать с production spec.
+- Target Godot version 4.7+ нужно подтвердить локальной установленной сборкой перед началом CI/export work.
