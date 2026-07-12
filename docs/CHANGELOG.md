@@ -2,6 +2,29 @@
 
 Формат основан на Keep a Changelog.
 
+## [0.4.0-design] — 2026-07-12
+
+### Added
+
+- Добавлен согласованный production design spec `docs/superpowers/specs/2026-07-12-production-rebuild-design.md`.
+- Зафиксирован целевой масштаб: 45–60 минут, одна квартира, пролог, три акта и четыре финала.
+- Описаны production architecture, data-driven narrative, component-based interactions, checkpoint saves, settings, localization и accessibility.
+- Описаны audio architecture, testing strategy, narrative validation, CI и release channels.
+- Добавлены ADR-0008 — ADR-0018 для production rebuild.
+
+### Changed
+
+- `docs/PROJECT_STATE.md` переведён со статуса раннего playable slice на `P0 — Design Lock`.
+- `docs/TASKS.md` заменяет prototype backlog на production milestones P0–P8, сохраняя историю завершённых prototype-итераций.
+- `docs/ROADMAP.md` обновлён для версии 1.0.0.
+- `docs/AGENT_HANDOFF.md` больше не отправляет нового агента к уже завершённому Beat 6 и указывает Foundation Rebuild как следующий этап.
+
+### Notes
+
+- Игровой код и сцены в этой итерации не изменялись.
+- Godot не запускался в среде чата.
+- Implementation запрещён до review и подтверждения written spec.
+
 ## [0.3.6] — 2026-07-07
 
 ### Added
