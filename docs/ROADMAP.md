@@ -1,121 +1,236 @@
 # ROADMAP.md
 
+Дата обновления: 2026-07-12
+
 ## Цель roadmap
 
-Этот документ показывает направление разработки. Детальные задачи живут в `docs/TASKS.md`.
+Проект переходит от раннего 15–25-минутного prototype к законченной production-игре продолжительностью 45–60 минут.
 
-## Milestone 0.1 — Базовый шаблон
+Полный дизайн:
 
-Статус: завершено.
+```text
+docs/superpowers/specs/2026-07-12-production-rebuild-design.md
+```
+
+## Исторический prototype
+
+Завершено:
+
+- Godot template foundation;
+- first-person movement и flashlight;
+- interaction raycast и HUD;
+- greybox `DeveloperApartment`;
+- task sticker;
+- first terminal reply;
+- lamp response;
+- door refusal;
+- Smart Speaker;
+- terminal device list;
+- HUD objective glitch;
+- procedural placeholder sounds;
+- базовая design-документация.
+
+Prototype остаётся regression route во время production rebuild.
+
+## Целевой продукт 1.0
+
+- Windows release;
+- Steam и itch.io preparation;
+- 45–60 минут;
+- пролог и три акта;
+- одна квартира 38–45 м²;
+- grounded stylized realism;
+- четыре финала;
+- RU/EN;
+- accessibility settings;
+- checkpoint/autosave;
+- без combat и традиционного AI-врага.
+
+## P0 — Design Lock
+
+Статус: в работе.
 
 Результат:
 
-- Godot-проект;
-- игрок от первого лица;
-- фонарик;
-- HUD;
-- базовые интерактивные объекты;
-- шаблонный уровень.
+- согласован production scope;
+- создан единый production design spec;
+- обновлены sources of truth;
+- определён безопасный первый implementation scope.
 
-## Milestone 0.2 — Фундамент игры
+Quality gate:
 
-Статус: завершено.
+- письменный spec подтверждён;
+- нет `TBD`, противоречий и скрытого расширения scope;
+- implementation ещё не начат.
+
+## P1 — Foundation Rebuild
+
+Статус: следующий milestone.
 
 Результат:
 
-- рабочее название `AI Routine: Last Commit`;
-- первая квартира разработчика;
-- интерактивный монитор;
-- сценарий;
-- документация проекта;
-- правила для задач и изменений.
+- `GameBootstrap`;
+- production main scene;
+- `SceneFlowManager`;
+- `SettingsManager`;
+- `SaveGameManager`;
+- typed logging;
+- development/release modes;
+- test skeleton;
+- CI skeleton;
+- legacy adapter для текущего playable slice.
 
-## Milestone 0.25 — Narrative and interaction design
+Quality gate:
 
-Статус: в PR.
+- текущая квартира запускается через production bootstrap;
+- настройки сохраняются;
+- save round-trip проходит tests;
+- smoke test запускается headless;
+- main остаётся играбельным.
 
-Цель: подробно описать вайб, микромеханики, сцены первого эпизода и звук до активной реализации.
+## P2 — Apartment Vertical Slice
 
-Ожидаемый результат:
+Результат:
 
-- есть beat map первого эпизода;
-- есть каталог interaction mechanics;
-- есть sound design и sound backlog;
-- есть правила выбора и генерации звуков;
-- следующую механику можно кодить без дополнительных догадок.
+- production blockout квартиры;
+- прихожая, коридор, комната, кухня, санузел;
+- modern player feel;
+- component-based interactions;
+- terminal focus mode;
+- AudioDirector foundation;
+- один data-driven beat от начала до checkpoint;
+- initial accessibility support.
 
-## Milestone 0.3 — Первый настоящий horror event
+Quality gate:
 
-Статус: следующий этап.
+- один маршрут демонстрирует целевой quality bar;
+- no progression blockers;
+- 1080p performance измерена;
+- нет зависимости от legacy objective chaining внутри новых объектов.
 
-Цель: игрок взаимодействует с монитором, после чего лампа или свет комнаты меняется один раз.
+## P3 — Environment Production
 
-Ожидаемый результат:
+Результат:
 
-- есть событие со светом;
-- событие не повторяется бесконечно;
-- игрок получает новую цель;
-- документы обновлены.
+- финальная архитектурная геометрия;
+- PBR material library;
+- production critical props;
+- lighting pass;
+- room tones и spatial SFX;
+- prop dressing;
+- optimization pass;
+- отсутствие release-facing greybox placeholders.
 
-## Milestone 0.35 — First sound pass
+Quality gate:
 
-Статус: запланировано.
+- квартира выглядит жилой и стилистически цельной;
+- все новые ассеты имеют подтверждённые лицензии;
+- важные объекты читаются без агрессивного outline;
+- производительность соответствует budget.
 
-Цель: добавить первые 1–2 звука: уведомление и щелчок лампы.
+## P4 — Prologue and Act I: Routine
 
-Ожидаемый результат:
+Результат:
 
-- звук уведомления терминала;
-- звук щелчка лампы;
-- записи в `docs/CREDITS.md`;
-- громкость проверена в сцене.
+- вечерняя бытовая рутина;
+- первый personal terminal reply;
+- lamp response;
+- smart-lock failure;
+- phone foundation;
+- full menu/settings shell;
+- RU/EN localization pipeline;
+- required accessibility options.
 
-## Milestone 0.4 — Второй бытовой объект
+Quality gate:
 
-Статус: запланировано.
+- игрок понимает квартиру и цели без объяснений разработчика;
+- невозможные spatial events ещё не появляются;
+- Act I восстанавливается из checkpoint.
 
-Цель: добавить телефон или колонку как интерактивный объект.
+## P5 — Act II: Observation
 
-Ожидаемый результат:
+Результат:
 
-- объект имеет нормальное и странное состояние;
-- объект связан с текущей задачей;
-- объект усиливает тему квартиры и контроля.
+- terminal device observation;
+- phone history changes;
+- speaker pre-response;
+- subtle и confirmed spatial changes;
+- secret ending prerequisites;
+- expanded narrative and audio events.
 
-## Milestone 0.5 — Audio expansion
+Quality gate:
 
-Статус: запланировано.
+- игрок замечает escalation;
+- обязательный путь не зависит от optional clues;
+- `CLEAN BUILD` conditions корректно сохраняются.
 
-Цель: добавить звуки клавиатуры, двери и/или колонки.
+## P6 — Act III and Endings
 
-Ожидаемый результат:
+Результат:
 
-- звук привязан к конкретному event;
-- звук не играет сам по себе;
-- запись в `docs/CREDITS.md`;
-- проверенная громкость.
+- impossible spatial transformations;
+- final terminal sequence;
+- `MERGE`;
+- `REVERT`;
+- `BLACKOUT`;
+- `CLEAN BUILD`;
+- checkpoint перед финальным выбором.
 
-## Milestone 0.6 — Черновой финал эпизода
+Quality gate:
 
-Статус: запланировано.
+- все финалы достижимы;
+- checkpoint позволяет повторить выбор;
+- ending conditions покрыты tests;
+- ни один финал не требует полного повторного прохождения.
 
-Цель: игрок доходит до короткого финального выбора или финального сообщения.
+## P7 — Content Complete
 
-Ожидаемый результат:
+Результат:
 
-- первый эпизод можно пройти от начала до конца;
-- есть простая развязка;
-- можно тестировать темп игры.
+- все главы играбельны;
+- placeholder assets/sounds/texts удалены;
+- subtitles и sound captions завершены;
+- RU/EN proofreading;
+- credits и license manifest;
+- accessibility pass;
+- полный audio mix.
 
-## После первого эпизода
+Quality gate:
 
-Рассмотреть:
+- content lock;
+- отсутствуют известные progression blockers;
+- все обязательные assets имеют provenance.
 
-- главное меню;
-- настройки звука;
-- VHS/CRT эффект;
-- сохранение настроек;
-- экспорт Windows;
-- публикационный build;
-- расширение квартиры;
-- полировку сценария.
+## P8 — Release Candidate
+
+Результат:
+
+- `export_presets.cfg`;
+- Windows development/playtest/release builds;
+- compatibility testing;
+- performance stabilization;
+- final license audit;
+- store metadata и media;
+- release checklist.
+
+Quality gate:
+
+- сборка проверена вне Godot Editor;
+- release build не содержит debug overlay;
+- save migration и backup recovery проверены;
+- достигнут Definition of Done 1.0.
+
+## Версионирование production-линейки
+
+```text
+0.1.x — production architecture foundation
+0.2.x — apartment vertical slice
+0.3.x — Act I
+0.4.x — Act II
+0.5.x — Act III and endings
+0.8.x — content complete
+0.9.x — release candidates
+1.0.0 — public release
+```
+
+Исторические prototype-версии остаются в `docs/CHANGELOG.md`.
