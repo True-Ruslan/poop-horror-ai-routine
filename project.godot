@@ -20,7 +20,10 @@ config/icon="res://icon.svg"
 
 GameState="*res://game/scripts/core/GameState.gd"
 ObjectiveManager="*res://game/scripts/core/ObjectiveManager.gd"
+GameLog="*res://game/scripts/core/GameLog.gd"
 HorrorEventManager="*res://game/scripts/core/HorrorEventManager.gd"
+LegacyProgressionAdapter="*res://game/scripts/core/LegacyProgressionAdapter.gd"
+GameBootstrap="*res://game/scripts/core/GameBootstrap.gd"
 
 [display]
 
