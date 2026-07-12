@@ -1,17 +1,6 @@
 # AGENT_HANDOFF.md
 
-## Назначение
-
-Этот документ нужен для нового пустого чата с ChatGPT или другим код-агентом.
-
-Если агент ничего не знает о проекте, начинать нужно отсюда. Документ кратко объясняет:
-
-- что мы разрабатываем;
-- какой сейчас статус;
-- какие документы читать дальше;
-- что уже сделано;
-- какие правила нельзя нарушать;
-- какой следующий шаг.
+Дата обновления: 2026-07-12
 
 ## Проект
 
@@ -19,65 +8,82 @@
 AI Routine: Last Commit
 ```
 
-Короткий first-person psychological horror на Godot 4.7+.
-
-Игрок — уставший разработчик, который поздно вечером пытается закрыть рабочую задачу. В квартире начинают странно реагировать монитор, лампа, дверь, умная колонка, HUD и другие бытовые объекты.
-
-Главный вайб:
-
-```text
-я просто хотел закрыть задачу, но теперь боюсь нажимать Enter
-```
-
-## Репозиторий
+Repository:
 
 ```text
 True-Ruslan/poop-horror-ai-routine
 ```
 
-Базовая ветка:
+Base branch:
 
 ```text
 main
 ```
 
-Проект основан на upstream-шаблоне:
+Godot 4.7+, GDScript.
+
+## Текущий этап
+
+Проект завершил ранний playable prototype и находится на этапе:
 
 ```text
-True-Ruslan/godot-simple-tamplate
+P0 — Design Lock
 ```
 
-Сверка с шаблоном описана в `docs/UPSTREAM_TEMPLATE_SYNC.md`.
+Согласованный целевой продукт:
 
-## Что читать в новом чате
+- psychological horror от первого лица;
+- 45–60 минут;
+- одна квартира 38–45 м²;
+- пролог и три акта;
+- четыре финала: `MERGE`, `REVERT`, `BLACKOUT`, `CLEAN BUILD`;
+- Windows release;
+- Steam/itch.io preparation;
+- RU/EN;
+- accessibility settings;
+- без combat и традиционного AI-врага.
 
-Минимальный порядок:
+Главный production spec:
+
+```text
+docs/superpowers/specs/2026-07-12-production-rebuild-design.md
+```
+
+Перед любыми production-изменениями этот документ обязателен к прочтению.
+
+## Порядок чтения
 
 1. `docs/AGENT_HANDOFF.md`.
-2. `docs/PROJECT_STATE.md`.
-3. `docs/TASKS.md`.
-4. `docs/SCENE_BEATS.md`.
-5. `docs/INTERACTION_MECHANICS.md`.
-6. `docs/SOUND_DESIGN.md`.
-7. `docs/ASSET_TRANSITION_PLAN.md`.
-8. `docs/DOCUMENTATION_RULES.md`.
-9. `README.md`.
+2. `docs/superpowers/specs/2026-07-12-production-rebuild-design.md`.
+3. `docs/PROJECT_STATE.md`.
+4. `docs/TASKS.md`.
+5. `docs/ROADMAP.md`.
+6. `docs/DECISIONS.md`.
+7. `docs/DOCUMENTATION_RULES.md`.
+8. `README.md`.
 
-Если задача про ассеты, обязательно читать:
-
-- `docs/ASSET_SOURCES.md`;
-- `docs/ASSET_TRANSITION_PLAN.md`;
-- `docs/CREDITS.md`.
-
-Если задача про сюжет, обязательно читать:
+Для narrative work дополнительно:
 
 - `docs/SCENARIO.md`;
 - `docs/NARRATIVE_DESIGN.md`;
-- `docs/SCENE_BEATS.md`.
+- `docs/SCENE_BEATS.md`;
+- `docs/INTERACTION_MECHANICS.md`.
 
-## Текущий playable slice
+Для assets:
 
-Основная сцена:
+- `docs/ASSET_SOURCES.md`;
+- `docs/ASSET_TRANSITION_PLAN.md`;
+- `docs/CREDITS.md`;
+- `docs/LICENSE_CHECKLIST.md`.
+
+Для audio:
+
+- `docs/SOUND_DESIGN.md`;
+- `docs/CREDITS.md`.
+
+## Что находится в main
+
+Основная prototype scene:
 
 ```text
 game/scenes/Main.tscn
@@ -90,280 +96,152 @@ game/scenes/levels/DeveloperApartment.tscn
 game/scenes/ui/HUD.tscn
 ```
 
-Текущая локация — квартира разработчика.
-
-В ней есть:
-
-- рабочий стол;
-- монитор / терминал;
-- клавиатура;
-- стикер с задачами;
-- лампа;
-- входная дверь;
-- кровать;
-- полка;
-- Smart Speaker;
-- HUD с текущей задачей.
-
-## Уже реализовано
-
-### Foundation
-
-- Godot-проект.
-- First-person player controller.
-- Mouse look.
-- Movement / sprint / crouch.
-- Flashlight.
-- Interaction raycast.
-- HUD.
-- GameState.
-- ObjectiveManager.
-- HorrorEventManager.
-
-### Scenario objects
-
-- `InteractableNote`.
-- `InteractableDoor`.
-- `LightSwitch`.
-- `ComputerTerminal`.
-- `SmartSpeaker`.
-
-### Implemented beats
-
-#### Beat 1 — Task sticker
-
-Игрок читает стикер на рабочем столе.
-
-Стикер ведёт к терминалу.
-
-#### Beat 2 — First terminal reply
-
-Игрок открывает терминал.
-
-Терминал показывает странный текст от код-агента и запускает event:
+Prototype route:
 
 ```text
-terminal_first_ai_reply
+стикер → терминал → лампа → дверь → Smart Speaker → терминал → HUD objective glitch
 ```
 
-#### Beat 3 — Lamp answers terminal
-
-`ApartmentEventController` слушает `terminal_first_ai_reply`.
-
-После короткой задержки:
-
-- играет procedural terminal notification;
-- играет procedural lamp click;
-- `DeskLamp` мигает;
-- цель обновляется на проверку входной двери.
-
-#### Beat 4 — Door refuses
-
-`InteractableDoor` в locked-состоянии теперь работает как фазовый horror object.
-
-Первое взаимодействие:
-
-- показывает бытовой отказ смарт-замка;
-- запускает event `smart_lock_denied`;
-- переводит цель на Smart Speaker.
-
-Повторные взаимодействия показывают более странные фразы:
-
-```text
-Ошибка: пользователь находится внутри.
-Выход не требуется до завершения сборки.
-```
-
-#### Beat 5 — Smart Speaker wakes up
-
-`SmartSpeaker` становится интерактивным объектом.
-
-До `terminal_first_ai_reply` он отвечает обычной фразой.
-
-После `terminal_first_ai_reply` он показывает странный текст:
-
-```text
-Распознана команда: продолжать.
-Режим сна отклонён.
-```
-
-И запускает event:
-
-```text
-speaker_wrong_name
-```
-
-## Текущая архитектура events
-
-`HorrorEventManager` хранит одноразовые события.
-
-Пример:
-
-```gdscript
-HorrorEventManager.play_once("terminal_first_ai_reply", callback)
-```
-
-Если event уже был сыгран, повтор не запускается.
-
-`ApartmentEventController` — контроллер событий текущей квартиры. Он сейчас отвечает за:
-
-- procedural notification sound;
-- procedural lamp click;
-- мигание лампы;
-- normalization objective flow после лампы;
-- runtime-подключение `SmartSpeaker.gd` к объекту SmartSpeaker в сцене.
-
-## Текущие event IDs
+Implemented event IDs:
 
 ```text
 task_sticker_read
 terminal_first_ai_reply
 smart_lock_denied
 speaker_wrong_name
-```
-
-Планируемые:
-
-```text
-keyboard_without_hands
+terminal_device_list
 hud_objective_corrupt
-final_power_drop
 ```
 
-## Текущая цепочка первого slice
+Prototype systems:
+
+- `GameState`;
+- `ObjectiveManager`;
+- `HorrorEventManager`;
+- `ApartmentEventController`;
+- `PlayerController`;
+- `InteractionRaycast`;
+- `FlashlightController`;
+- `HUD`.
+
+Prototype objects:
+
+- `InteractableNote`;
+- `InteractableDoor`;
+- `LightSwitch`;
+- `ComputerTerminal`;
+- `SmartSpeaker`.
+
+## Что нельзя считать production-ready
+
+- `DeveloperApartment.tscn` — rectangular greybox с `BoxMesh`.
+- Дверь, записка, выключатель, монитор, мебель и колонка — placeholders.
+- Narrative progression встроен в object scripts и строковые event IDs.
+- `HorrorEventManager` не выполняет полноценные async sequences.
+- Сохранения, checkpoints и migrations отсутствуют.
+- Меню, settings, localization и accessibility отсутствуют.
+- Audio buses и production SFX отсутствуют.
+- Tests, CI и export presets отсутствуют.
+- Большинство prototype changes не были локально проверены в Godot после merge.
+
+## Согласованная production-архитектура
+
+Core services:
 
 ```text
-стикер → терминал → лампа → дверь → Smart Speaker → терминал
+GameBootstrap
+SceneFlowManager
+SaveGameManager
+SettingsManager
+NarrativeDirector
+ObjectiveSystem
+EventSequenceRunner
+AudioDirector
+LocalizationManager
+AccessibilityManager
 ```
 
-Следующий логичный gameplay step:
+Narrative и objectives переносятся в Godot Resources.
+
+Новые интерактивные объекты строятся как component-based actors:
 
 ```text
-после Smart Speaker терминал показывает список устройств квартиры
+InteractiveActor
+InteractionComponent
+VisualStateComponent
+AudioEmitterComponent
+HighlightComponent
+SaveableComponent
 ```
 
-## Стиль разработки
+## Правила миграции
 
-Игра развивается маленькими PR.
+1. Не переписывать всю игру одним PR.
+2. Не удалять legacy route до regression-equivalent реализации.
+3. Сначала добавить production core рядом со старыми managers.
+4. Использовать legacy adapters.
+5. Переносить объекты по одному типу.
+6. Сохранять запускаемый `main`.
+7. Любое новое состояние должно быть восстанавливаемым из checkpoint.
+8. Любой внешний asset должен иметь provenance и license record.
 
-Каждый PR должен:
+## Текущая задача
 
-- делать небольшой законченный шаг;
-- не ломать playable slice;
-- обновлять документацию;
-- содержать manual check;
-- не добавлять внешние ассеты без лицензии;
-- не подключать реальные AI API в MVP.
+Written production spec создан и проходит review.
 
-## Документация обязательна
+До его подтверждения нельзя начинать реализацию.
 
-Если меняется код, сцена, сценарий, механика, ассет или архитектура, обновлять минимум:
+После подтверждения следующий обязательный шаг:
+
+```text
+Создать implementation plan для P1 — Foundation Rebuild.
+```
+
+Первый implementation PR должен ограничиваться:
+
+- `GameBootstrap`;
+- production main scene;
+- typed logging;
+- `SettingsManager` foundation;
+- legacy adapter для текущей квартиры;
+- минимальным tests/CI skeleton;
+- документацией.
+
+В него нельзя одновременно включать:
+
+- новую production-квартиру;
+- внешние models/textures/audio;
+- финалы;
+- полную narrative migration;
+- переписывание всех objects;
+- Steam SDK.
+
+## Документационный минимум PR
+
+Каждый code/scene/content PR обновляет:
 
 - `docs/TASKS.md`;
-- `docs/PROJECT_STATE.md`;
-- `docs/CHANGELOG.md`.
+- `docs/CHANGELOG.md`;
+- `docs/PROJECT_STATE.md`.
 
 Дополнительно:
 
-- сюжетный beat → `docs/SCENE_BEATS.md`;
-- механика → `docs/INTERACTION_MECHANICS.md`;
-- звук → `docs/SOUND_DESIGN.md`;
-- ассеты → `docs/ASSET_TRANSITION_PLAN.md`, `docs/ASSET_SOURCES.md`, `docs/CREDITS.md`;
-- новый процесс → `docs/DOCUMENTATION_RULES.md`.
+- architecture → `docs/DECISIONS.md`;
+- roadmap/scope → `docs/ROADMAP.md`;
+- narrative → `docs/SCENARIO.md` или `docs/SCENE_BEATS.md`;
+- mechanics → `docs/INTERACTION_MECHANICS.md`;
+- audio → `docs/SOUND_DESIGN.md`;
+- assets → `docs/CREDITS.md` и asset/license documents;
+- major handoff change → `docs/AGENT_HANDOFF.md`.
 
-## Asset rules
+## Definition of Done для production PR
 
-Текущий проект пока в greybox.
-
-Переход к нормальным ассетам описан в:
-
-```text
-docs/ASSET_TRANSITION_PLAN.md
-```
-
-Целевой стиль:
-
-- lo-fi;
-- PSX-inspired;
-- бытовой хоррор;
-- простые силуэты;
-- тёмные материалы;
-- грязноватая квартира;
-- без фотореалистичного микса;
-- без реальных брендов.
-
-Нельзя добавлять:
-
-- ассеты без лицензии;
-- CC BY-NC;
-- CC BY-ND;
-- модели из чужих игр;
-- реальные логотипы;
-- UI реальных сервисов.
-
-## Sound rules
-
-Первые звуки процедурные и генерируются кодом.
-
-Файл:
-
-```text
-game/scripts/core/ApartmentEventController.gd
-```
-
-Текущие sounds:
-
-```text
-ui_notification_soft
-desk_lamp_click
-```
-
-Внешние звуки можно добавлять только после проверки лицензии и записи в `docs/CREDITS.md`.
-
-Следующие звуки-кандидаты:
-
-```text
-door_lock_error
-speaker_wake
-keyboard_burst
-```
-
-## Что не делать
-
-- Не добавлять реальные AI API в MVP.
-- Не делать сложный programming simulator.
-- Не добавлять monster/combat без отдельного решения.
-- Не расширять локацию, пока текущая квартира не стала читаемой.
-- Не добавлять случайные ассеты из разных visual styles.
-- Не использовать реальные бренды и логотипы.
-- Не пропускать обновление документации.
-
-## Ближайшие задачи
-
-Текущий следующий шаг после Door Refusal:
-
-```text
-Beat 6 — Terminal sees the apartment
-```
-
-Приоритеты:
-
-1. Проверить Door Refusal и Smart Speaker в Godot.
-2. Сделать следующую фазу `ComputerTerminal` после `speaker_wrong_name`.
-3. Показать список устройств: `desk_lamp`, `smart_lock`, `speaker`.
-4. Запланировать или добавить `keyboard_burst`.
-5. Начать замену первого greybox prop: стул или стол/монитор.
-
-## Manual check после текущей итерации
-
-1. Запустить `game/scenes/Main.tscn`.
-2. Прочитать стикер.
-3. Открыть терминал.
-4. Убедиться, что лампа мигает.
-5. Проверить, что цель ведёт к входной двери.
-6. Подойти к двери и нажать `E`.
-7. Проверить, что появляется первый locked-текст и цель ведёт к Smart Speaker.
-8. Нажать `E` на двери повторно и проверить следующую locked-фазу.
-9. Подойти к Smart Speaker на полке.
-10. Нажать `E` и проверить strange-текст.
-11. Проверить, что objective ведёт обратно к терминалу.
+- scope соответствует milestone;
+- main scene запускается;
+- regression route не сломан;
+- relevant automated checks добавлены или пройдены;
+- manual test route описан;
+- документация обновлена;
+- новые assets имеют лицензии;
+- известные ограничения перечислены;
+- агент не утверждает, что Godot проверен локально, если он не запускался.

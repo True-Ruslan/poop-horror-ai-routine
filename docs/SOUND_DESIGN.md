@@ -1,228 +1,464 @@
 # SOUND_DESIGN.md
 
+Дата обновления: 2026-07-12
+
 ## Назначение
 
-Звук — один из главных инструментов страха в `AI Routine: Last Commit`.
+Звук — главный инструмент напряжения в `AI Routine: Last Commit`.
 
-Игра должна пугать не громкостью, а тем, что звук появляется не вовремя, не там, не так и не от того объекта, от которого игрок его ждёт.
+Production audio должен создавать страх через:
 
-## Основная звуковая формула
+- тишину;
+- позиционный бытовой звук;
+- неправильный источник;
+- задержку;
+- изменение знакомого room tone;
+- редкий синтетический голос;
+- обрыв ожидаемого звукового слоя.
 
-```text
-тишина → маленький бытовой звук → задержка → неправильный источник → новая цель
-```
-
-## Принципы
-
-1. Не делать постоянный шумовой ковёр слишком громким.
-2. Каждый важный звук должен иметь смысл в сцене.
-3. Лучше один точный щелчок, чем длинный scary ambience.
-4. Уведомления, щелчки, клавиши и электрический гул важнее музыки.
-5. Если звук повторяется, он должен чуть меняться.
-6. Звук должен помогать игроку понять, куда идти.
-7. Все внешние звуки должны иметь понятную лицензию и запись в `docs/CREDITS.md`.
-
-## Звуковые слои
-
-| Слой | Назначение | Примеры |
-|---|---|---|
-| Room tone | тишина квартиры | слабый гул, вентиляция, дальний город |
-| Device sounds | реакция техники | монитор, лампа, смарт-замок, роутер |
-| Work sounds | рабочая рутина | клавиатура, уведомление, сборка, error beep |
-| Spatial fear | звук не там | щелчок у двери, уведомление из угла |
-| Event accent | короткий удар сцены | всплеск монитора, низкий импульс |
-| Voice / TTS | редкая угроза | колонка, синтетическая фраза |
-
-## Библиотека нужных звуков
-
-### MVP pack
-
-| ID | Назначение | Длина | Приоритет | Статус |
-|---|---|---:|---|---|
-| ui_notification_soft | обычное уведомление | 0.2–0.8 сек | high | procedural placeholder |
-| ui_notification_wrong | странное уведомление | 0.2–0.8 сек | high | planned |
-| desk_lamp_click | щелчок лампы | 0.1–0.4 сек | high | procedural placeholder |
-| keyboard_single | одиночная клавиша | 0.05–0.2 сек | high | planned |
-| keyboard_burst | короткий набор | 0.5–1.5 сек | medium | planned |
-| monitor_electric_hum | слабый гул монитора | loop | medium | planned |
-| door_lock_error | смарт-замок отказ | 0.3–1.0 сек | medium | planned |
-| speaker_wake | колонка проснулась | 0.3–1.0 сек | medium | planned |
-| power_drop | просадка питания | 0.5–2.0 сек | medium | planned |
-
-### Later pack
-
-| ID | Назначение |
-|---|---|
-| phone_vibration_table | телефон вибрирует на столе |
-| router_led_tick | едва слышный цифровой tick |
-| distant_neighbor_hit | бытовой дальний удар за стеной |
-| corrupted_tts_short | короткая TTS-фраза |
-| crt_glitch_short | короткий экранный глитч |
-| silence_cut | резкое обрезание room tone |
-
-## Sound events первого эпизода
-
-| Event ID | Trigger | Sound | Поведение |
-|---|---|---|---|
-| terminal_first_ai_reply | первое открытие терминала | ui_notification_soft | procedural sound near monitor |
-| terminal_first_ai_reply | лампа отвечает на терминал | desk_lamp_click | procedural sound near lamp before blink |
-| keyboard_without_hands | текст печатается сам | keyboard_single / keyboard_burst | звук рядом с клавиатурой |
-| smart_lock_denied | игрок проверяет дверь | door_lock_error | звук у двери, не в HUD |
-| speaker_wrong_name | игрок подходит к колонке | speaker_wake + TTS | колонка отвечает слишком поздно |
-| hud_objective_corrupt | цель меняется странно | ui_notification_wrong | звук ниже обычного |
-| final_power_drop | финальный force close | power_drop | room tone обрывается |
-
-## Procedural placeholders
-
-Первый sound pass использует runtime-generated звуки в `ApartmentEventController.gd`.
-
-Причина:
-
-- нет внешних файлов;
-- нет лицензионного риска;
-- можно быстро проверить timing и громкость;
-- позже procedural placeholders можно заменить на CC0/CC BY ассеты.
-
-Текущие procedural sounds:
-
-| ID | Генерация | Где играет |
-|---|---|---|
-| ui_notification_soft | короткий sine tone с envelope | рядом с `ComputerTerminal` |
-| desk_lamp_click | короткий dry pulse/noise-like click | рядом с `DeskLamp` |
-
-## Источники звуков
-
-### Preferred
-
-1. Собственная запись.
-2. Procedural runtime generation in project code.
-3. Сгенерированный звук с понятными правами.
-4. Freesound с лицензией CC0.
-5. Freesound с лицензией CC BY, если корректно указать автора.
-6. OpenGameArt с CC0/CC BY, если лицензия подходит.
-7. Pixabay, если конкретный файл подходит под Content License и не содержит рисков торговых марок/людей.
-
-### Avoid by default
-
-- CC BY-NC.
-- Sampling+.
-- GPL/LGPL/AGPL для аудио без отдельного решения.
-- Звуки из игр, фильмов, YouTube, TikTok, трейлеров.
-- Звуки с непонятной лицензией.
-- Звуки, которые могут вызвать Content ID, если они используются без обработки.
-
-## Правила лицензий
-
-### CC0
-
-Лучший вариант.
-
-Можно использовать, менять и распространять. Атрибуция не обязательна, но в проекте всё равно лучше записывать источник в `docs/CREDITS.md`.
-
-### CC BY
-
-Можно использовать, но нужна атрибуция.
-
-В `docs/CREDITS.md` указать:
-
-- название;
-- автора;
-- ссылку;
-- лицензию;
-- что изменено;
-- где используется.
-
-### CC BY-NC
-
-Не использовать в проекте по умолчанию.
-
-Причина: игра может быть опубликована, монетизирована или использоваться в коммерческом контексте.
-
-### Pixabay Content License
-
-Можно рассматривать для отдельных звуков, но это не CC0. Нужно проверить ограничения конкретного файла и не распространять звук standalone.
-
-## Генерация звуков
-
-Генерация допустима, если у сервиса есть понятные условия, разрешающие использование результата в игре.
-
-Перед добавлением такого звука нужно записать в `docs/CREDITS.md`:
-
-- сервис;
-- дата генерации;
-- prompt;
-- условия использования сервиса;
-- была ли постобработка;
-- где звук используется.
-
-Пример записи:
-
-```md
-| Generated lamp click | Generated with <tool> | prompt: `short dry desk lamp relay click` | Tool terms checked 2026-07-07 | Normalized, trimmed | DeskLamp |
-```
-
-Если условия сервиса не ясны, звук не добавлять.
-
-## Постобработка
-
-Разрешённые безопасные изменения:
-
-- обрезать тишину;
-- нормализовать громкость;
-- сделать fade in/out;
-- понизить pitch на 1–3 semitones;
-- добавить лёгкий low-pass;
-- сконвертировать WAV/FLAC в OGG;
-- сделать mono для точечных источников.
-
-Не злоупотреблять реверберацией. Квартира маленькая, звук должен быть близким и сухим.
-
-## Технические правила
-
-### Форматы
-
-- Для коротких эффектов: `.ogg` или `.wav`.
-- Для procedural placeholders: `AudioStreamWAV`, созданный из кода.
-- Для loop ambience: `.ogg`.
-- Для исходников: можно хранить отдельно позже, если нужен pipeline.
-
-### Имена файлов
+Полный production design:
 
 ```text
-asset_type_object_action_variant.ogg
+docs/superpowers/specs/2026-07-12-production-rebuild-design.md
 ```
 
-Примеры:
+## Главная формула
 
 ```text
-sfx_ui_notification_soft_01.ogg
-sfx_lamp_click_dry_01.ogg
-sfx_keyboard_single_01.ogg
-amb_room_tone_night_01.ogg
+нормальная акустика
+→ маленький знакомый звук
+→ неправильный timing или source
+→ короткая пауза
+→ физическая реакция квартиры
 ```
 
-### Громкость
+## Audio buses
 
-Стартовые ориентиры:
+```text
+Master
+├── Music
+├── Ambience
+│   ├── Interior
+│   └── Exterior
+├── SFX
+│   ├── Player
+│   ├── Environment
+│   └── Devices
+├── Voice
+├── UI
+└── Horror
+```
 
-| Тип | Громкость |
-|---|---:|
-| room tone | очень тихо |
-| UI notification | тихо/средне |
-| lamp click | средне |
-| glitch accent | коротко, но не слишком громко |
-| TTS/voice | тихо, близко |
+Каждая шина должна поддерживать пользовательскую громкость. `Master`, `Ambience`, `SFX`, `Voice`, `UI` обязательны в settings 1.0.
 
-## Проверка перед merge
+## Audio snapshots
 
-Перед merge PR со звуком проверить:
+`AudioDirector` управляет состояниями:
 
-- звук не слишком громкий;
-- звук не зацикливается случайно;
-- звук играет из правильного объекта;
-- лицензия указана в `docs/CREDITS.md`;
-- если звук CC BY, автор указан явно;
-- если звук сгенерирован, указан сервис и условия;
-- если звук procedural, указан файл генерации;
-- если звук из Pixabay, проверены ограничения Content License;
-- если звук из Freesound, проверена конкретная лицензия конкретного файла.
+```text
+normal
+uneasy
+observed
+corrupted
+blackout
+ending
+```
+
+Snapshot может менять:
+
+- bus volumes;
+- low-pass/high-pass;
+- room tone layers;
+- exterior presence;
+- reverb send;
+- stereo width;
+- device hum;
+- dynamic range.
+
+Переходы должны быть плавными, кроме осознанных событий `silence_cut` и `power_drop`.
+
+## Звуковая идентичность зон
+
+### Рабочее место
+
+- PC fans;
+- keyboard;
+- mouse clicks;
+- monitor electric hum;
+- coil-like high-frequency detail;
+- notification sounds.
+
+### Прихожая
+
+- сухой smart-lock relay;
+- distant building ambience;
+- elevator or stairwell noise;
+- короткие отражения звука.
+
+### Коридор
+
+- directionality важнее громкости;
+- шаги и щелчки должны помогать ориентироваться;
+- late-game reflections могут становиться неправильными.
+
+### Кухня
+
+- refrigerator;
+- pipes;
+- kettle;
+- water;
+- dishes;
+- соседские бытовые шумы.
+
+### Санузел
+
+- ventilation;
+- drops;
+- tile reflections;
+- water and pipe resonance;
+- short reverb distinct from the room.
+
+### Зона сна
+
+- приглушённый exterior city tone;
+- fabric movement;
+- distant phone vibration;
+- quieter PC presence.
+
+## Production sound categories
+
+### Ambience
+
+- `amb_room_main_night`;
+- `amb_kitchen_refrigerator`;
+- `amb_bathroom_vent`;
+- `amb_hall_building`;
+- `amb_city_window`;
+- `amb_blackout_silence`.
+
+### Player
+
+- footsteps per surface;
+- crouch movement;
+- cloth movement;
+- flashlight switch;
+- focus enter/exit;
+- interaction hold progress.
+
+### Devices
+
+- monitor hum;
+- PC fans;
+- keyboard single/burst;
+- smart-lock relay/error;
+- speaker wake;
+- router ticks;
+- phone vibration;
+- electrical panel;
+- breaker switch;
+- power drop.
+
+### UI
+
+- menu navigation;
+- confirm/cancel;
+- objective reveal;
+- terminal command;
+- phone notification.
+
+UI sounds должны отличаться от diegetic device sounds. Сюжет может намеренно перепутать их только в конкретном event.
+
+### Voice
+
+- normal personal messages;
+- neutral smart-speaker TTS;
+- corrupted speaker variant.
+
+Голос используется редко. Все voice lines имеют subtitles.
+
+### Horror
+
+- low-frequency event accents;
+- wrong notification;
+- spatial duplication;
+- reversed or delayed household sound;
+- silence cut;
+- corrupted terminal pulse.
+
+`Horror` bus не должен использоваться как постоянная громкая музыка.
+
+## Footstep system
+
+Поверхности:
+
+```text
+laminate
+tile_kitchen
+tile_bathroom
+carpet
+hall_floor
+```
+
+Система учитывает:
+
+- speed;
+- crouch;
+- stride timing;
+- start/stop;
+- surface;
+- optional narrative modifier.
+
+В normal state шаги всегда физически достоверны. Нарушенные delayed/duplicated footsteps запускаются только через narrative event, а не случайно.
+
+## Diegetic source rule
+
+Каждый важный звук должен иметь объяснимый source node:
+
+- дверь;
+- колонка;
+- телефон;
+- keyboard;
+- monitor;
+- router;
+- electrical panel;
+- вентиляция.
+
+Fullscreen/non-positional sound допускается для:
+
+- menu UI;
+- objective UI;
+- controlled final accent;
+- accessibility captions.
+
+Нельзя запускать door/speaker/keyboard sound из HUD.
+
+## Music
+
+Постоянный soundtrack во время исследования не используется.
+
+Музыка допустима:
+
+- main menu;
+- opening title;
+- act transition;
+- ending;
+- credits.
+
+В квартире музыкальный ритм создают бытовые layers: fans, hum, keyboard, relay, refrigerator и pipes.
+
+## Voice and TTS
+
+Типы:
+
+1. короткие normal voice messages;
+2. neutral synthetic smart-speaker voice;
+3. corrupted variant в поздней игре.
+
+Примеры допустимой длины:
+
+```text
+Команда не распознана.
+Команда уже выполнена.
+Пользователь подтверждён.
+```
+
+Не использовать длинные монологи, объясняющие природу угрозы.
+
+## Subtitles and sound captions
+
+Обязательные настройки:
+
+- subtitles on/off;
+- text size;
+- speaker label;
+- sound captions on/off;
+- caption background opacity.
+
+Примеры captions:
+
+```text
+[щелчок замка у входной двери]
+[клавиатура печатает за спиной]
+[гул холодильника обрывается]
+```
+
+Caption должен описывать сюжетно значимый звук, но не раскрывать невидимый источник раньше игрока без необходимости.
+
+## Dynamic range
+
+Presets:
+
+- Full;
+- Night;
+- Reduced.
+
+`Night` уменьшает пики и сохраняет читаемость тихих событий. `Reduced` предназначен для небольших speakers и accessibility.
+
+Нельзя делать progression зависимым от ультратихого звука без visual/fallback alternative.
+
+## Prototype sounds
+
+Текущий `ApartmentEventController.gd` генерирует:
+
+- `ui_notification_soft`;
+- `desk_lamp_click`.
+
+Это procedural placeholders для regression route. Они должны быть удалены из production content после подключения AudioDirector и финальных assets.
+
+До удаления требуется сохранить эквивалентный event timing.
+
+## Required production sound list
+
+### P1/P2 foundation
+
+- menu confirm/cancel;
+- interaction press/hold;
+- one laminate footstep set;
+- flashlight switch;
+- terminal focus enter/exit;
+- monitor hum;
+- one room tone;
+- smart-lock click/error.
+
+### P3 environment
+
+- room tones всех зон;
+- exterior city;
+- refrigerator;
+- ventilation;
+- pipes;
+- doors and handles;
+- light switches;
+- PC fans;
+- chair movement;
+- prop interactions.
+
+### P4–P6 narrative
+
+- normal/wrong notifications;
+- keyboard single/burst;
+- phone vibration;
+- speaker wake;
+- TTS lines;
+- router ticks;
+- delayed footsteps;
+- spatial duplicates;
+- electrical panel;
+- breaker;
+- power drop;
+- ending-specific layers.
+
+## File formats
+
+- short one-shots: WAV или OGG;
+- loops: OGG с проверенным loop point;
+- 3D point sources: mono;
+- ambience beds: stereo при необходимости;
+- source masters могут храниться вне game import folder, если license позволяет.
+
+Naming:
+
+```text
+sfx_<object>_<action>_<variant>.ogg
+amb_<zone>_<state>_<variant>.ogg
+vo_<speaker>_<line_id>_<locale>.ogg
+ui_<context>_<action>.ogg
+```
+
+## Asset sources
+
+Приоритет:
+
+1. собственная запись;
+2. собственная обработка;
+3. CC0 libraries;
+4. CC BY с корректной attribution;
+5. generated audio при ясных commercial rights;
+6. коммерческие libraries с разрешением использования в игре.
+
+Не использовать:
+
+- звуки из игр, фильмов и роликов;
+- YouTube/TikTok extraction;
+- unknown license;
+- CC BY-NC;
+- assets с Content ID risk без проверки;
+- голос реального человека без согласия.
+
+Каждый external sound записывается в `docs/CREDITS.md` и license manifest.
+
+## Processing rules
+
+Разрешено:
+
+- trim;
+- normalize;
+- fades;
+- pitch shift;
+- EQ;
+- low/high-pass;
+- light compression;
+- layering;
+- mono conversion;
+- noise cleanup.
+
+Не злоупотреблять длинной cinematic reverb. Маленькая квартира должна звучать близко и сухо.
+
+## Event integration
+
+Narrative event не хранит raw audio path в object script. Он вызывает semantic action или AudioDirector cue.
+
+Пример:
+
+```text
+play_audio_cue("device.smart_lock.error")
+set_audio_snapshot("uneasy")
+```
+
+Audio cue определяет:
+
+- stream variations;
+- bus;
+- spatial mode;
+- volume range;
+- pitch range;
+- concurrency;
+- captions;
+- cooldown.
+
+## Concurrency rules
+
+- не проигрывать несколько одинаковых device clicks одновременно;
+- room tone имеет один owner на zone;
+- voice не перекрывается без отдельной постановочной причины;
+- notification variants имеют cooldown;
+- ending snapshot может duck ambience, но не subtitles/UI feedback.
+
+## Testing
+
+Каждый sound PR проверяет:
+
+- source position;
+- perceived loudness;
+- loop seams;
+- duplicate prevention;
+- captions;
+- settings bus;
+- snapshot transition;
+- exported build import;
+- license record.
+
+Manual test выполняется минимум в headphones и ordinary speakers.
+
+## Definition of Done для audio cue
+
+- semantic ID определён;
+- asset provenance записан;
+- stream import корректен;
+- bus назначен;
+- 2D/3D mode обоснован;
+- volume/pitch variation настроены;
+- concurrency определена;
+- caption добавлен, если звук сюжетно значим;
+- cue проверен в нужном narrative event;
+- release build не использует procedural placeholder вместо финального cue.
