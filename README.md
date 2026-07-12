@@ -1,33 +1,59 @@
 # AI Routine: Last Commit
 
-Короткий атмосферный хоррор на **Godot 4.7+** про разработчика, вечернюю рабочую рутину и странные события в квартире.
+Психологический хоррор от первого лица на **Godot 4.7+** про разработчика, вечернюю рабочую рутину, код-агента и квартиру, которая постепенно начинает выполнять цифровые изменения в физическом пространстве.
 
-Проект основан на шаблоне **Godot Atmospheric Horror Template** и развивается маленькими безопасными итерациями: после каждого изменения игра должна запускаться, а документация должна оставаться актуальной.
+## Текущий статус
+
+В `main` находится ранний playable prototype:
+
+```text
+стикер → терминал → лампа → дверь → Smart Speaker → терминал → HUD objective glitch
+```
+
+Проект переходит к production rebuild.
+
+Целевая версия 1.0:
+
+- 45–60 минут;
+- одна детализированная квартира;
+- пролог и три акта;
+- четыре финала;
+- Windows;
+- Steam/itch.io preparation;
+- RU/EN;
+- accessibility settings;
+- без combat и традиционного AI-врага.
+
+Главный production design:
+
+```text
+docs/superpowers/specs/2026-07-12-production-rebuild-design.md
+```
 
 ## Что уже есть
 
-- Godot-проект.
-- Игрок от первого лица.
-- Ходьба, бег, приседание.
-- Фонарик.
+- Godot project.
+- First-person movement, sprint и crouch.
+- Flashlight.
 - Interaction raycast.
-- Интерактивные двери, записки и выключатель света.
-- Objective system.
-- Horror event manager.
 - HUD.
-- Первая локация `DeveloperApartment.tscn`.
-- Интерактивный объект `ComputerTerminal.tscn`.
-- Интерактивный объект `SmartSpeaker`.
-- Сценарий `docs/SCENARIO.md`.
-- Документы для разработки человеком и код-агентом.
+- Objective и one-shot horror event managers.
+- Greybox `DeveloperApartment.tscn`.
+- Interactable note, door, switch, terminal и Smart Speaker.
+- Prototype event route до HUD objective glitch.
+- Procedural placeholder notification и lamp click.
+- Scenario, narrative, interaction, audio и asset documentation.
 
-## Быстрый старт
+Текущие models, materials, UI и audio являются prototype placeholders и не отражают release quality.
 
-1. Установи Godot 4.7 или новее.
-2. Открой папку проекта в Godot.
-3. Запусти сцену `game/scenes/Main.tscn`.
+## Быстрый старт prototype
 
-## Управление
+1. Установить Godot 4.7 или совместимую более новую версию.
+2. Открыть корень проекта в Godot.
+3. Запустить `game/scenes/Main.tscn`.
+4. Проверить Output на ошибки.
+
+## Управление prototype
 
 | Действие | Клавиша |
 |---|---|
@@ -36,60 +62,81 @@
 | Присесть | Ctrl |
 | Взаимодействие | E |
 | Фонарик | F |
-| Выйти/освободить мышь | Esc |
+| Закрыть сообщение / пауза | Esc |
 
-## Карта документации
+Управление и HUD будут заменяться в production milestones, но regression route должен сохраняться во время миграции.
 
-Начинать чтение проекта лучше в таком порядке:
+## Порядок чтения
 
-1. `docs/AGENT_HANDOFF.md` — краткий вход для нового агента.
-2. `README.md` — краткий вход.
+1. `docs/AGENT_HANDOFF.md` — актуальный вход для нового агента.
+2. `docs/superpowers/specs/2026-07-12-production-rebuild-design.md` — согласованный production design.
 3. `docs/PROJECT_STATE.md` — текущее состояние.
-4. `docs/TASKS.md` — план итераций.
-5. `docs/CONTEXT.md` — технический контекст.
-6. `docs/SCENARIO.md` — сюжет и события.
-7. `docs/GAME_DESIGN.md` — дизайн-правила.
-8. `AGENTS.md` — правила для код-агента.
+4. `docs/TASKS.md` — executable backlog.
+5. `docs/ROADMAP.md` — milestones P0–P8.
+6. `docs/DECISIONS.md` — ADR.
+7. `docs/DOCUMENTATION_RULES.md` — правила синхронизации документов.
+8. `AGENTS.md` — правила code agents.
 
-Дизайн-документы:
+Narrative:
 
-- `docs/NARRATIVE_DESIGN.md` — вайб, темп, классы хоррор-моментов.
-- `docs/INTERACTION_MECHANICS.md` — механики компьютера, комнаты, HUD и звука.
-- `docs/SOUND_DESIGN.md` — звук, лицензии, источники и sound backlog.
-- `docs/SCENE_BEATS.md` — сцены первого эпизода по beat-структуре.
-- `docs/ASSET_TRANSITION_PLAN.md` — переход от greybox к lo-fi / PSX ассетам.
+- `docs/SCENARIO.md`;
+- `docs/GAME_DESIGN.md`;
+- `docs/NARRATIVE_DESIGN.md`;
+- `docs/SCENE_BEATS.md`;
+- `docs/INTERACTION_MECHANICS.md`.
 
-Дополнительные документы:
+Art/assets:
 
-- `docs/DOCUMENTATION_RULES.md` — правила ведения документации.
-- `docs/ROADMAP.md` — дорожная карта.
-- `docs/ITERATION_REPORT_TEMPLATE.md` — шаблон отчёта по задаче.
-- `docs/UPSTREAM_TEMPLATE_SYNC.md` — сверка с исходным шаблоном.
-- `docs/ASSET_SOURCES.md` — источники ассетов и лицензии.
-- `docs/DECISIONS.md` — журнал решений.
-- `docs/CHANGELOG.md` — история изменений.
-- `docs/CREDITS.md` — ассеты, авторы и лицензии.
+- `docs/ASSET_TRANSITION_PLAN.md`;
+- `docs/ASSET_SOURCES.md`;
+- `docs/LICENSE_CHECKLIST.md`;
+- `docs/CREDITS.md`.
 
-## Upstream-шаблон
+Audio:
 
-Проект периодически нужно сверять с `True-Ruslan/godot-simple-tamplate`. Правила сверки описаны в `docs/UPSTREAM_TEMPLATE_SYNC.md`.
+- `docs/SOUND_DESIGN.md`;
+- `docs/CREDITS.md`.
 
-## Правило для каждой итерации
+Release:
 
-Если меняется код, сцена, сценарий, ассет или архитектура, нужно обновить документы. Минимум для PR: `docs/TASKS.md`, `docs/CHANGELOG.md`, `docs/PROJECT_STATE.md`.
+- `docs/EXPORT_GUIDE.md`;
+- `docs/ROADMAP.md`.
 
-## Рекомендуемый путь разработки
+## Текущий следующий шаг
 
-1. Запустить текущую сцену квартиры.
-2. Проверить взаимодействие со стикером, монитором, лампой и дверью.
-3. Проверить, что рабочая зона, дверь и Smart Speaker расположены логично.
-4. Проверить Smart Speaker после терминального события.
-5. Добавить door refusal phases.
-6. Добавить 1–2 безопасных звука с понятной лицензией.
-7. Начать замену greybox-примитивов на стилистически совместимые ассеты.
-8. Добавить финальный выбор первого эпизода.
-9. Только потом расширять квартиру и визуальные эффекты.
+После финального review production spec:
 
-## Лицензия
+```text
+создать implementation plan для P1 — Foundation Rebuild
+```
 
-Код проекта распространяется под MIT License. Сторонние ассеты можно добавлять только с фиксацией источника и лицензии в `docs/CREDITS.md`.
+Первый code PR:
+
+```text
+P1.1 — Bootstrap and Logging
+```
+
+Он должен добавить production bootstrap и legacy adapter, не переписывая сразу всю игру.
+
+## Правило каждой итерации
+
+Code/scene/content PR обновляет минимум:
+
+- `docs/TASKS.md`;
+- `docs/CHANGELOG.md`;
+- `docs/PROJECT_STATE.md`.
+
+Architecture, narrative, audio и assets требуют обновления соответствующих source-of-truth документов.
+
+## Ассеты и лицензии
+
+- Код проекта: MIT.
+- Внешний ресурс добавляется только после проверки commercial-use rights.
+- CC0 предпочтителен.
+- CC BY требует attribution.
+- CC BY-NC, CC BY-ND, unknown и ripped assets запрещены без отдельного решения.
+- Каждый внешний ресурс фиксируется в `docs/CREDITS.md` и будущем license manifest.
+
+## Важное ограничение проверки
+
+Изменения, созданные через GitHub-агента без локального Godot runtime, нельзя считать проверенными в Editor или exported build. Manual test route и локальная проверка обязательны.
