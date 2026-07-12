@@ -41,29 +41,31 @@ Production rebuild не должен удалять этот маршрут до
 - [x] Согласовать audio architecture и narrative pipeline.
 - [x] Согласовать save/checkpoint, testing, CI и release channels.
 - [x] Создать `docs/superpowers/specs/2026-07-12-production-rebuild-design.md`.
-- [~] Обновить project state, roadmap, decisions, handoff и changelog.
-- [ ] Провести final spec self-review.
-- [ ] Получить подтверждение written spec.
+- [x] Обновить project state, roadmap, decisions, scenario, art/audio plans, handoff и changelog.
+- [x] Провести final spec self-review.
+- [~] Получить подтверждение written spec.
 - [ ] Создать подробный implementation plan для P1.
 
 Definition of Done:
 
 - production scope не содержит `TBD`;
 - документы не противоречат выбранному масштабу;
-- первый implementation scope ограничен Foundation Rebuild;
+- versioning продолжает prototype history с `0.4.x`;
+- первый implementation PR ограничен P1.1 Bootstrap and Logging;
 - никакой игровой код не изменён до подтверждения written spec.
 
 ## P1 — Foundation Rebuild
 
 Цель: создать production core, сохранив возможность запускать текущий prototype.
 
-### P1.1 — Bootstrap and logging
+### P1.1 — Bootstrap and Logging
 
 - [ ] Создать `GameBootstrap`.
 - [ ] Создать production main scene.
 - [ ] Добавить typed logging service с категориями `GAME`, `NARRATIVE`, `SAVE`, `INTERACTION`, `AUDIO`, `UI`, `ASSET`, `PERFORMANCE`.
 - [ ] Загружать текущий playable slice через legacy adapter.
 - [ ] Добавить development/release feature flags.
+- [ ] Добавить minimal smoke check.
 - [ ] Обновить документацию.
 
 Definition of Done:
@@ -71,7 +73,8 @@ Definition of Done:
 - production main scene запускает текущую квартиру;
 - legacy route не удалён;
 - bootstrap не содержит narrative logic;
-- логи имеют категории и могут отключаться в release mode.
+- логи имеют категории и могут отключаться в release mode;
+- smoke check подтверждает загрузку initial scene.
 
 ### P1.2 — Settings foundation
 
@@ -97,7 +100,7 @@ Definition of Done:
 
 Definition of Done:
 
-- save round-trip проходит тест;
+- save round-trip проходит test;
 - backup не перезаписывается повреждёнными данными;
 - prototype route можно восстановить из минимального checkpoint state.
 
@@ -192,10 +195,14 @@ Definition of Done:
 
 ## Текущий следующий шаг
 
-После подтверждения written production spec:
+```text
+Получить подтверждение written production spec.
+```
+
+После подтверждения:
 
 ```text
 Создать implementation plan для P1 — Foundation Rebuild.
 ```
 
-Первый code PR не должен включать новую квартиру, внешние ассеты, финалы или полную миграцию narrative systems.
+Первый code PR — P1.1 — не включает settings, saves, новую квартиру, external assets, endings или полную narrative migration.
